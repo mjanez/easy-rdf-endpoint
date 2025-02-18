@@ -1,0 +1,21 @@
+services:
+  rdf-endpoint:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    env_file:
+      - .env
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "5"
+    ports:
+      - "${SV_PORT_HOST}:5000"
+    volumes:
+      - ./data/${CATALOG_FILE}:/app/catalog.rdf
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/catalog.rdf"]
+      interval: 30s
+      timeout: 10s
+      retries: 3

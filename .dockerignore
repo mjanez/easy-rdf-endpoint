@@ -1,0 +1,7 @@
+# .dockerignore
+.git
+.env
+.vscode
+__pycache__
+*.pyc
+.pytest_cache
