@@ -16,13 +16,16 @@
             <div class="header-container">
                 <h1 class="text-primary">SPARQL Search</h1>
                 <div class="badges-container">
-                    <a href="/catalog" target="_blank" class="badge badge-rdf">
-                        <img src="/img/format/rdf.svg" alt="RDF icon" class="badge-icon">
-                        Download RDF Catalog
+                    <a href="/" target="_self" class="badge badge-home" data-title="Return to homepage">
+                        <img src="/img/home.svg" alt="Home icon" class="badge-icon home-icon">
                     </a>
-                    <a href="/sparql" target="_blank" class="badge badge-sparql">
+                    <a href="/sparql" target="_blank" class="badge badge-sparql" data-title="Access the machine-readable SPARQL endpoint">
                         <img src="/img/sparql.svg" alt="SPARQL icon" class="badge-icon">
                         SPARQL Endpoint
+                    </a>
+                    <a href="/catalog" target="_blank" class="badge badge-rdf" data-title="Download the complete RDF catalog file">
+                        <img src="/img/format/rdf.svg" alt="RDF icon" class="badge-icon">
+                        RDF Catalog
                     </a>
                 </div>
             </div>
@@ -38,6 +41,7 @@
                         <code id="endpoint-url" title="Click to copy"></code>
                     </li>
                 </ul>
+                <br>
                 <p>
                     To assist users in constructing useful SPARQL queries, the <a href="https://dataeuropa.gitlab.io/data-provider-manual/">European Data Portal (EDP)</a> provide featured 
                     <a href="https://data.europa.eu/about/sparql">sample SPARQL queries </a> that can be executed via our endpoint.
