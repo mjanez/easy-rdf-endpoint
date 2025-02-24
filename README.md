@@ -3,7 +3,26 @@
 ## Overview
 This project provides a simple **Dockerized RDF endpoint** that serves an `.rdf` file an provides an SPARQL Endpoint based on [`vemonet/rdflib-endpoint`](https://github.com/vemonet/rdflib-endpoint)
 
-The RDF file using the correct `Content-Type: application/rdf+xml`, ensuring compatibility with **DCAT-AP federators** and **RDF parsers** like `rdflib`.
+* **SPARQL Features**: 
+  - Integrated YASGUI editor with multi-tab support
+  - Pre-configured example queries
+  - Machine-readable SPARQL endpoint
+
+* **Easy Deployment**:
+  - Docker and Kubernetes ready
+  - Environment-based configuration
+
+* **Security & Performance**:
+  - NGINX reverse proxy
+  - SSL/TLS support
+  - Configurable CORS
+
+* **RDF Catalog Serving**:
+  - Serves Catalog `.rdf` files with proper `Content-Type: application/rdf+xml`
+  - Compatible with DCAT-AP federators and RDF parsers
+
+![Landing Page](doc/img/easy-rdf-endpoint_landing-page.png)
+![SPARQL Editor](doc/img/easy-rdf-endpoint_sparql-editor.png)
 
 ## Quick Start
 Use [Codespaces](https://github.com/features/codespaces) to test `easy-rdf-endpoint` in your browser
@@ -30,13 +49,26 @@ Before starting the deployment, you'll need to set up a `.env` file. This file i
     cp .env.example .env
     ```
 
-    Adjust the vars as necessary, example:
+    Adjust the vars as necessary, example the server name if not use `localhost`:
     ```ini
     # Server Configuration
     PROXY_SERVER_NAME=my-example-sparql-server.org
 
     # RDF of filename in folder ./data 
     CATALOG_FILE=my-custom-catalog.rdf
+
+    # Edit your custom SPARQL queries that load as tabs at startup
+    EXAMPLE_SPARQL_QUERIES='{
+        "HVD info": {
+            "query": "prefix dct: <http://purl.org/dc/terms/>\nprefix dcatap: <http://data.europa.eu/r5r/>\nprefix dcat: <http://www.w3.org/ns/dcat#>\n\nselect distinct ?title ?hvdCategory ?applicableLegislation ?accessService ?accessURL ?license\nwhere {\n  ?catalogo ?cp ?d.\n\n    # Dataset y su categoría HVD\n    ?d dcatap:applicableLegislation <http://data.europa.eu/eli/reg_impl/2023/138/oj>.\n    ?d a dcat:Dataset.\n    optional { ?d dcatap:hvdCategory ?hvdCategory. }\n    \n    # Distribution and its props\n    ?d dcat:distribution ?dist.\n    ?dist dcatap:applicableLegislation <http://data.europa.eu/eli/reg_impl/2023/138/oj>.\n    \n    optional { \n        ?dist dct:title ?title.\n        FILTER(langMatches(lang(?title), \"en\"))\n    } \n    optional { ?dist dcatap:applicableLegislation ?applicableLegislation. } \n    optional { ?dist dcat:accessURL ?accessURL. } \n    optional { ?dist dcat:accessService ?accessService. } \n    optional { ?dist dct:license ?license. } \n}\nORDER BY ?dist"
+        },
+        "Count stats": {
+            "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX dcat: <http://www.w3.org/ns/dcat#>\nPREFIX dct: <http://purl.org/dc/terms/>\n\nSELECT \n  (COUNT(DISTINCT ?dataset) AS ?totalDatasets)\n  (COUNT(DISTINCT ?distribution) AS ?totalDistributions)\n  (COUNT(DISTINCT ?dataservice) AS ?totalDataservices)\n  (COUNT(DISTINCT ?publisher) AS ?totalPublishers)\nWHERE {\n  {\n    ?dataset a dcat:Dataset .\n    OPTIONAL { ?dataset dct:publisher ?publisher }\n    OPTIONAL { ?dataset dcat:distribution ?distribution }\n  }\n  UNION\n  {\n    ?dataservice a dcat:DataService ;\n                 dcat:servesDataset ?dataset .\n  }\n}"
+        },
+        "Query types": {
+            "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX dct: <http://purl.org/dc/terms/>\nSELECT DISTINCT ?type ?label (COUNT(?s) as ?count) ?comment WHERE {\n    ?s rdf:type ?type .\n    OPTIONAL { ?type rdfs:label ?label }\n    OPTIONAL { ?type rdfs:comment ?comment }\n} \nGROUP BY ?type ?label ?comment\nORDER BY DESC(?count)\nLIMIT 10"
+        }
+    }' 
     ```
 
 4. Build & up the container.
@@ -141,5 +173,14 @@ Once inside the container you can:
 - Execute SPARQL queries: `http://localhost:5000/sparql`
 - Debug with VS Code's integrated debugger
 
+## Image Credits
+Some icons used in this project are from:
+- [SVG Repo](https://www.svgrepo.com/) under CC Attribution License
+- [ckanext-schemingdcat](https://github.com/mjanez/ckanext-schemingdcat) repository
+
 ## License
-This project is licensed under the **MIT License**. 
+This work is a developed inspired by [rdflib-endpoint](https://github.com/vemonet/rdflib-endpoint) by [Vincent Emonet](https://github.com/vemonet), licensed under [MIT License](https://github.com/vemonet/rdflib-endpoint?tab=MIT-1-ov-file#readme).
+
+This derivative work is licensed under [Creative Commons Attribution 4.0 International License](http://creativecommons.org/licenses/by/4.0/).
+
+![CC BY 4.0](https://i.creativecommons.org/l/by/4.0/88x31.png)
