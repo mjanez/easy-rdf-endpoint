@@ -1,4 +1,4 @@
-# README - Serving RDF with Docker & Flask
+# `easy-rdf-endpoint` - Use Docker to deploy and use a RDF Catalog
 
 ## Overview
 This project provides a simple **Dockerized RDF endpoint** that serves an `.rdf` file an provides an SPARQL Endpoint based on [`vemonet/rdflib-endpoint`](https://github.com/vemonet/rdflib-endpoint)
@@ -17,14 +17,16 @@ Use [Codespaces](https://github.com/features/codespaces) to test `easy-rdf-endpo
 Before starting the deployment, you'll need to set up a `.env` file. This file is crucial as it contains environment variables that the application needs to run properly.
 
 1. Clone project
-    ```shell
+    ```sh
     cd /path/to/my/project
     git clone https://github.com/mjanez/easy-rdf-endpoint.git & cd easy-rdf-endpoint
     ```
 
-2. Copy the [`.env.example`](.env.example) template and modify the resulting `.env` to suit your needs.
+2. Push your RDF catalog in folder: ./data 
 
-    ```shell
+3. Copy the [`.env.example`](.env.example) template and modify the resulting `.env` to suit your needs.
+
+    ```sh
     cp .env.example .env
     ```
 
@@ -37,7 +39,7 @@ Before starting the deployment, you'll need to set up a `.env` file. This file i
     CATALOG_FILE=my-custom-catalog.rdf
     ```
 
-3. Build & up the container.
+4. Build & up the container.
 
 ```sh
 docker compose up -d
