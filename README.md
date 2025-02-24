@@ -101,7 +101,7 @@ The endpoints will be available at:
 │── README.md                  # Documentation
 ```
 
-[!NOTE]
+> [!TIP]  
 > - Replace `catalog.rdf` with your actual RDF file.  
 > - Works with **Codespaces, Docker, Kubernetes, and any containerized environment**.
 
