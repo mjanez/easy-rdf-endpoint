@@ -10,7 +10,7 @@ on:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
-  DOCKERFILE_PATH: docker/Dockerfile
+  DOCKERFILE_PATH: easy-rdf-endpoint/Dockerfile.sparql
 
 jobs:
   build:
@@ -50,7 +50,7 @@ jobs:
             type=semver,pattern={{major}}.{{minor}}
           labels: |
             org.opencontainers.image.title=Easy RDF Endpoint
-            org.opencontainers.image.description=A simple RDF endpoint server
+            org.opencontainers.image.description=This project provides a simple **Dockerized RDF endpoint** that serves an `.rdf` file an provides an SPARQL Endpoint based on [`vemonet/rdflib-endpoint`](https://github.com/vemonet/rdflib-endpoint)
             org.opencontainers.image.version={{version}}
 
       - name: Build and push Docker image
