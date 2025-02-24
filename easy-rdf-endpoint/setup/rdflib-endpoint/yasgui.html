@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>$TITLE</title>
+        <meta name="description" content="$DESCRIPTION" />
+        <link rel="icon" type="image/png" href="$FAVICON">
+        <link href="https://unpkg.com/@triply/yasgui@4/build/yasgui.min.css" rel="stylesheet" type="text/css" />
+        <script src="https://unpkg.com/@triply/yasgui@4/build/yasgui.min.js"></script>
+        <link rel="stylesheet" href="/css/yasgui.css">
+    </head>
+
+    <body>
+        <div class="content">
+            <div class="header-container">
+                <h1 class="text-primary">SPARQL Search</h1>
+                <div class="badges-container">
+                    <a href="/catalog" target="_blank" class="badge badge-rdf">
+                        <img src="/img/format/rdf.svg" alt="RDF icon" class="badge-icon">
+                        Download RDF Catalog
+                    </a>
+                    <a href="/sparql" target="_blank" class="badge badge-sparql">
+                        <img src="/img/sparql.svg" alt="SPARQL icon" class="badge-icon">
+                        SPARQL Endpoint
+                    </a>
+                </div>
+            </div>
+            <div class="description">
+                <p>
+                    All metadata is stored as RDF triples (<a href="https://www.w3.org/RDF/">RDF</a>) 
+                    and can be queried using SPARQL query language at this endpoint. Queries can be executed via:
+                </p>
+                <ul>
+                    <li>The query editor<a href="https://github.com/TriplyDB/Yasgui"> (YASGUI)</a> (below)</li>
+                    <li>The machine-readable endpoint:
+                        <br>
+                        <code id="endpoint-url" title="Click to copy"></code>
+                    </li>
+                </ul>
+                <p>
+                    To assist users in constructing useful SPARQL queries, the <a href="https://dataeuropa.gitlab.io/data-provider-manual/">European Data Portal (EDP)</a> provide featured 
+                    <a href="https://data.europa.eu/about/sparql">sample SPARQL queries </a> that can be executed via our endpoint.
+                </p>
+        
+                <div id="yasgui"></div>
+        </div>
+        
+        <footer>
+            <a href="https://github.com/mjanez/easy-rdf-endpoint" class="icon-button">
+                <img src="/img/github.svg" alt="GitHub icon">
+        </footer>
+        <script src="/js/copy-url.js"></script>
+        <script>
+            Yasqe.defaults.value = `$EXAMPLE_QUERY`
+            const queries_obj = $EXAMPLE_QUERIES || []
+
+            const url = window.location.href.endsWith('/') ? window.location.href.slice(0, -1) : window.location.href;
+            // Make sure the endpoints list is unique
+            const endpointsList = [...new Set([url, ...Object.keys(queries_obj).map((label) => {if (queries_obj[label]["endpoint"]) return queries_obj[label]["endpoint"]})])]
+            const yasguiEndpoints = endpointsList.map((endpoint) => {return {endpoint: endpoint}})
+
+            const yasgui = new Yasgui(document.getElementById("yasgui"), {
+                requestConfig: { endpoint: url, copyEndpointOnNewTab: true, },
+                endpointCatalogueOptions: {
+                    getData: function () {
+                        return yasguiEndpoints
+                    },
+                    keys: [],
+                },
+            });
+
+            // Add tab to yasgui for each query
+            Object.keys(queries_obj).map((label) => {
+                const tabsLabel = Object.keys(yasgui._tabs).map(tab => yasgui._tabs[tab].persistentJson.name)
+                if (!tabsLabel.includes(label)) {
+                    yasgui.addTab(
+                        false, // set as active tab not really working
+                        {
+                            ...Yasgui.Tab.getDefaults(),
+                            name: label,
+                            requestConfig: { endpoint: queries_obj[label]['endpoint'] },
+                            yasqe: { value: queries_obj[label]['query'] }
+                        }
+                    );
+                }
+            })
+        </script>
+    </body>
+</html>

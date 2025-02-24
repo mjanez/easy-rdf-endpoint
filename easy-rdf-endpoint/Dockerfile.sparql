@@ -1,0 +1,36 @@
+FROM python:3.11-slim
+
+LABEL maintainer="mjanez"
+LABEL version="1.0"
+LABEL description="SPARQL Endpoint using rdflib-endpoint"
+
+ENV CATALOG_FILE=catalog.rdf \
+    WORKERS=2 \
+    PYTHONUNBUFFERED=1 \
+    SPARQL_ENDPOINT_TITLE="SPARQL endpoint from RDF file" \
+    SPARQL_ENDPOINT_DESCRIPTION="SPARQL endpoint for querying a RDF data catalog" \
+    SPARQL_ENDPOINT_VERSION="1.0.0" \
+    DEFAULT_SPARQL_QUERY="PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nSELECT * WHERE {\n    ?s ?p ?o .\n} LIMIT 100" \
+    EXAMPLE_SPARQL_QUERIES='{"Query types": {"query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nSELECT DISTINCT ?type WHERE {\n    ?s rdf:type ?type\n} LIMIT 10"}, "Count triples": {"query": "SELECT (COUNT(*) AS ?count) WHERE {\n    ?s ?p ?o .\n}"}}'
+
+RUN mkdir -p /app/data
+
+# Instalar dependencias
+RUN pip install --no-cache-dir "rdflib-endpoint[web,cli,oxigraph]>=0.5.1"
+
+# Copiar archivos de override
+COPY ./easy-rdf-endpoint/setup/rdflib-endpoint/yasgui.html /usr/local/lib/python3.11/site-packages/rdflib_endpoint/
+
+# Copiar archivos de la aplicación
+COPY ./data/${CATALOG_FILE} /app/data/
+COPY ./easy-rdf-endpoint/setup/rdflib-endpoint/sparql_override.py /app/sparql_override.py
+
+# Configurar usuario
+RUN groupadd -r appuser && useradd -r -g appuser appuser \
+    && chown -R appuser:appuser /app
+USER appuser
+
+EXPOSE 8000
+
+# Usar Python para ejecutar nuestro script personalizado
+CMD ["python", "/app/sparql_override.py"]

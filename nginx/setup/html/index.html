@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <link rel="stylesheet" href="/css/index.css">
+        <title>Easy RDF Endpoint landing page</title>
+    </head>
+    <body>
+        <header>
+            <h2>Easy RDF Endpoint landing page</h2>
+        </header>
+        <div class="content">
+            <ul>
+                <li>
+                    <a href="/catalog" class="card-content">
+                        <img src="/img/graph.svg" alt="RDF Catalog file">
+                        <p>RDF Catalog file</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="/sparql-editor" class="card-content">
+                        <img src="/img/editor.svg" alt="SPARQL Query editor">
+                        <p>SPARQL Query editor</p>
+                    </a>
+                </li>
+                <li>
+                    <div class="card-content">
+                        <a href="/sparql">
+                            <img src="/img/sparql.svg" alt="SPARQL Endpoint">
+                            <p>SPARQL Endpoint</p>
+                        </a>
+                        <code id="endpoint-url" title="Click to copy"></code>
+                    </div>
+                </li>
+            </ul>
+
+            <div class="info-section">
+                <h3>What is an RDF Endpoint?</h3>
+                <p>An RDF endpoint is a web service that provides access to structured data in Resource Description Framework (RDF) format. This endpoint provides access to data catalogs that follow the W3C Data Catalog Vocabulary (DCAT) standards.</p>
+                <br>
+                <h3>SPARQL and YASGUI</h3>
+                <p>Our endpoint includes YASGUI (Yet Another SPARQL GUI), a user-friendly interface for querying RDF data. YASGUI offers:</p>
+                <ul>
+                    <li>Syntax highlighting for SPARQL queries</li>
+                    <li>Auto-completion of SPARQL keywords and prefixes</li>
+                    <li>Multiple output formats (JSON, XML, CSV)</li>
+                    <li>Query result visualization options</li>
+                    <li>Share and permalink queries</li>
+                </ul>
+                <br>
+                <h3>Available Features</h3>
+                <ul>
+                    <li><a href="/catalog"><strong>RDF Catalog:</strong></a> Access the complete data catalog in RDF/XML format</li>
+                    <li><a href="/sparql-editor"><strong>SPARQL Editor:</strong></a> Interactive YASGUI interface for writing and testing queries</li>
+                    <li><a href="/sparql"><strong>SPARQL Endpoint:</strong></a> Machine-readable endpoint for programmatic access</li>
+                    <li>DCAT specifications compliance</li>
+                    <li>Support for complex SPARQL 1.1 queries</li>
+                </ul>
+                <br>
+                <h3>References</h3>
+                <ul>
+                    <li><a href="https://www.w3.org/TR/sparql11-overview/" target="_blank">SPARQL 1.1 Overview (W3C)</a></li>
+                    <li><a href="https://github.com/TriplyDB/Yasgui" target="_blank">YASGUI repository</a></li>
+                    <li><a href="https://www.w3.org/TR/rdf11-concepts/" target="_blank">RDF specification (W3C)</a></li>
+                    <li><a href="https://www.w3.org/TR/vocab-dcat-3/" target="_blank">Data Catalog Vocabulary (DCAT) v3 (W3C)</a></li>
+                    <li><a href="https://joinup.ec.europa.eu/collection/semantic-interoperability-community-semic/solution/dcat-application-profile-data-portals-europe" target="_blank">DCAT-AP (EU)</a></li>
+                </ul>
+            </div>
+        </div>
+        <footer>
+            <a href="https://github.com/mjanez/easy-rdf-endpoint" class="icon-button">
+                <img src="/img/github.svg" alt="GitHub icon">
+            </a>
+        </footer>
+        <script src="/js/copy-url.js"></script>
+    </body>
+</html>

@@ -17,3 +17,5 @@ User-agent: *
 
 # Paths (clean URLs)
 Disallow: /
+Disallow: /catalog/
+Disallow: /sparql/

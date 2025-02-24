@@ -1,0 +1,151 @@
+/* Reset y estilos base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+/* Common colors */
+:root {
+    --primary-color: #003164;
+    --hover-color: #004b96;
+    --text-color: #333;
+    --border-color: #e9ecef;
+    --shadow-color: rgba(0, 0, 0, 0.1);
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Contenedor principal */
+.content {
+    flex: 1;
+    max-width: 1200px;
+    width: 90%;
+    margin: 0 auto;
+    padding-bottom: 60px;
+}
+
+/* Footer común */
+footer {
+    background-color: #003164;
+    color: white;
+    padding: 5px 0;
+    width: 100%;
+    position: fixed; 
+    bottom: 0;
+    left: 0; 
+    text-align: center; 
+    z-index: 1000; 
+}
+
+/* Style for the icon button */
+.icon-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: white;
+    border-radius: 50%;
+    padding: 0.4rem;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+/* Hover effect */
+.icon-button:hover {
+    background-color: rgb(47 136 163 / 40%);
+    color: white;
+    text-decoration: none;
+}
+
+/* Style for the icon */
+.icon-button svg,
+.icon-button img {
+    width: 20px;
+    height: 20px;
+    fill: white;
+    filter: brightness(0) invert(1); 
+}
+
+/* Endpoint URL */
+code#endpoint-url {
+    font-family: 'Monaco', 'Consolas', monospace;
+    background-color: #f8f9fa;
+    color: #003164;
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-size: 12px;
+    margin: 0 auto;
+    border: 1px solid #e9ecef;
+    max-width: 90%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    display: flex;
+    align-items: center;
+    justify-content: left;
+}
+code#endpoint-url:hover {
+    background-color: #e9ecef;
+    cursor: pointer;
+}
+
+code#endpoint-url .copy-icon {
+    width: 25px;
+    height: 25px;
+    margin: 0 auto;
+}
+
+.badges-container {
+    display: flex;
+    gap: 1rem;
+    margin: 1.5rem 0;
+}
+
+.badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    border-radius: 2rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.badge:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-decoration: none;
+    color: var(--primary-color);
+}
+
+.badge-icon {
+    width: 20px;
+    height: 20px;
+    margin-right: 0.5rem;
+}
+
+/* URLs */
+a {
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+a:hover {
+    text-decoration: underline;
+    color: var(--hover-color);
+}
+
+.badge:hover,
+.icon-button:hover {
+    text-decoration: none;
+}

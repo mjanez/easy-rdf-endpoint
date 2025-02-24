@@ -1,8 +1,28 @@
 services:
-  rdf-endpoint:
+  nginx:
     build:
       context: .
-      dockerfile: docker/Dockerfile
+      dockerfile: nginx/Dockerfile
+    env_file:
+      - .env
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100m"
+        max-file: "10"
+    depends_on:
+      - sparql-endpoint
+    volumes:
+      - ./data/${CATALOG_FILE}:/usr/share/nginx/html/catalog.rdf
+    ports:
+      - "0.0.0.0:${NGINX_PORT_HOST}:80"
+      - "0.0.0.0:${NGINX_SSLPORT_HOST}:443"
+    restart: on-failure:3
+
+  sparql-endpoint:
+    build:
+      context: .
+      dockerfile: easy-rdf-endpoint/Dockerfile.sparql
     env_file:
       - .env
     logging:
@@ -10,12 +30,7 @@ services:
       options:
         max-size: "10m"
         max-file: "5"
-    ports:
-      - "${SV_PORT_HOST}:5000"
     volumes:
-      - ./data/${CATALOG_FILE}:/app/catalog.rdf
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:5000/catalog.rdf"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
+      - ./data/${CATALOG_FILE}:/app/data/catalog.rdf
+    restart: on-failure:3
+

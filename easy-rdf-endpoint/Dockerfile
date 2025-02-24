@@ -1,30 +1,30 @@
 FROM python:3.11-slim
+
 LABEL maintainer="mjanez"
 LABEL version="1.0"
 LABEL description="Easy RDF Endpoint"
 
-ENV CATALOG_FILE=catalog.rdf
-ENV WORKERS=2
-ENV ENABLE_CORS=false
-ENV ALLOWED_ORIGINS="*"
+ENV CATALOG_FILE=catalog.rdf \
+    WORKERS=2 \
+    ENABLE_CORS=false \
+    ALLOWED_ORIGINS="*"
 
 WORKDIR /app
 
 # Create non-root user
 RUN groupadd -r appuser && useradd -r -g appuser appuser
 
-COPY ./src /app/
+COPY ./src/requirements.txt /app/
 RUN pip install --no-cache-dir -r requirements.txt
-COPY ./docker/docker-entrypoint.d/start_server.sh /app/start_server.sh
-COPY ./docker/setup/index.html /app/static/index.html
-COPY ./docker/setup/robots.txt /app/static/robots.txt
-RUN chmod +x /app/start_server.sh
 
-RUN pip install --no-cache-dir --upgrade pip && \
+COPY ./src /app/
+COPY ./easy-rdf-endpoint/docker-entrypoint.d/start_server.sh /app/start_server.sh
+
+RUN chmod +x /app/start_server.sh && \
     mkdir -p /app/static && \
     chown -R appuser:appuser /app
 
-    # Change to non-root user
+# Change to non-root user
 USER appuser
 
 # Copy non-root files
