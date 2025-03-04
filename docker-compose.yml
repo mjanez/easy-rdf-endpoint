@@ -31,6 +31,6 @@ services:
         max-size: "10m"
         max-file: "5"
     volumes:
-      - ./data/${CATALOG_FILE}:/app/data/catalog.rdf
+      - ./data/${CATALOG_FILE}:/app/data/${CATALOG_FILE}
     restart: on-failure:3
 
