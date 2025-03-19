@@ -40,8 +40,8 @@ ul {
 li {
     display: flex;
     margin: 20px;
-    width: 350px;
-    height: 320px;
+    width: 260px;
+    height: 340px;
     background-color: white;
     border: 1px solid #00316426;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
