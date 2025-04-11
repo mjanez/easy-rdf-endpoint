@@ -9,11 +9,10 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}
-  DOCKERFILE_PATH: easy-rdf-endpoint/Dockerfile.sparql
+  REPOSITORY: ${{ github.repository }}
 
 jobs:
-  build:
+  build-sparql-endpoint:
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -38,32 +37,154 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Extract metadata for Docker
-        id: meta
+      - name: Extract metadata for SPARQL Endpoint image
+        id: meta-sparql
         uses: docker/metadata-action@v5
         with:
-          images: ${{ env.REGISTRY }}/${{ github.repository }}
+          images: ${{ env.REGISTRY }}/${{ env.REPOSITORY }}
+          flavor: |
+            latest=true
+            prefix=sparql-
+            suffix=
           tags: |
             type=ref,event=branch
             type=ref,event=pr
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
           labels: |
-            org.opencontainers.image.title=Easy RDF Endpoint
-            org.opencontainers.image.description=This project provides a simple **Dockerized RDF endpoint** that serves an `.rdf` file an provides an SPARQL Endpoint based on [`vemonet/rdflib-endpoint`](https://github.com/vemonet/rdflib-endpoint)
+            org.opencontainers.image.title=Easy RDF SPARQL Endpoint
+            org.opencontainers.image.description=SPARQL Endpoint based on rdflib-endpoint to query RDF data
             org.opencontainers.image.version={{version}}
 
-      - name: Build and push Docker image
+      - name: Build and push SPARQL Endpoint image
         uses: docker/build-push-action@v5
         with:
           context: .
-          file: ${{ env.DOCKERFILE_PATH }}
+          file: easy-rdf-endpoint/Dockerfile.sparql
           push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+          tags: ${{ steps.meta-sparql.outputs.tags }}
+          labels: ${{ steps.meta-sparql.outputs.labels }}
 
-      - name: Run Hadolint
+      - name: Run Hadolint on SPARQL Endpoint Dockerfile
         uses: hadolint/hadolint-action@v3.1.0
         with:
-          dockerfile: ${{ env.DOCKERFILE_PATH }}
+          dockerfile: easy-rdf-endpoint/Dockerfile.sparql
+          no-fail: true
+
+  build-validator:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+      security-events: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to GitHub Container Registry
+        if: github.event_name != 'pull_request'
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata for Validator image
+        id: meta-validator
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.REPOSITORY }}
+          flavor: |
+            latest=true
+            prefix=validator-
+            suffix=
+          tags: |
+            type=ref,event=branch
+            type=ref,event=pr
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+          labels: |
+            org.opencontainers.image.title=RDF Validator
+            org.opencontainers.image.description=RDF Validator with RIOT and SHACL validation for DCAT-AP and DCAT-AP-ES
+            org.opencontainers.image.version={{version}}
+
+      - name: Build and push Validator image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: easy-rdf-endpoint/Dockerfile.validator
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ steps.meta-validator.outputs.tags }}
+          labels: ${{ steps.meta-validator.outputs.labels }}
+
+      - name: Run Hadolint on Validator Dockerfile
+        uses: hadolint/hadolint-action@v3.1.0
+        with:
+          dockerfile: easy-rdf-endpoint/Dockerfile.validator
+          no-fail: true
+
+  build-nginx:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+      security-events: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to GitHub Container Registry
+        if: github.event_name != 'pull_request'
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata for NGINX image
+        id: meta-nginx
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.REPOSITORY }}
+          flavor: |
+            latest=true
+            prefix=nginx-
+            suffix=
+          tags: |
+            type=ref,event=branch
+            type=ref,event=pr
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+          labels: |
+            org.opencontainers.image.title=Easy RDF NGINX Frontend
+            org.opencontainers.image.description=NGINX frontend for serving RDF and proxying SPARQL and Validator services
+            org.opencontainers.image.version={{version}}
+
+      - name: Build and push NGINX image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: nginx/Dockerfile
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ steps.meta-nginx.outputs.tags }}
+          labels: ${{ steps.meta-nginx.outputs.labels }}
+
+      - name: Run Hadolint on NGINX Dockerfile
+        uses: hadolint/hadolint-action@v3.1.0
+        with:
+          dockerfile: nginx/Dockerfile
           no-fail: true

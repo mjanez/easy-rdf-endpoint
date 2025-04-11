@@ -1,0 +1,43 @@
+services:
+  nginx:
+    image: ghcr.io/mjanez/easy-rdf-endpoint:nginx-main
+    env_file:
+      - .env
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100m"
+        max-file: "10"
+    depends_on:
+      - sparql-endpoint
+    volumes:
+      - ./data/${CATALOG_FILE}:/usr/share/nginx/html/catalog.rdf
+    ports:
+      - "0.0.0.0:${NGINX_PORT_HOST}:80"
+      - "0.0.0.0:${NGINX_SSLPORT_HOST}:443"
+    restart: on-failure:3
+
+  sparql-endpoint:
+    image: ghcr.io/mjanez/easy-rdf-endpoint:sparql-main
+    env_file:
+      - .env
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "5"
+    volumes:
+      - ./data/${CATALOG_FILE}:/app/data/${CATALOG_FILE}
+    restart: on-failure:3
+
+  rdf-validator:
+    image: ghcr.io/mjanez/easy-rdf-endpoint:validator-main
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "5"
+    volumes:
+      - ./data:/app/data
+      - ./logs:/app/logs
+    restart: on-failure:3
