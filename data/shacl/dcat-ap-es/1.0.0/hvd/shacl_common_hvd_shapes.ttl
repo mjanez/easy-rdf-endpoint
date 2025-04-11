@@ -1,0 +1,36 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix : <http://datos.gob.es/dcat-ap-es#> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix vcard: <http://www.w3.org/2006/vcard/ns#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix dcatapes: <http://datos.gob.es/dcat-ap-es/> .
+
+<http://datos.gob.es/dcat-ap-es/shacl_common_hvd_shapes>
+#<https://semiceu.github.io/DCAT-AP/releases/2.2.0-hvd#SHACL> 
+  rdf:type owl:Ontology ;
+  owl:imports <http://data.europa.eu/bna/asd487ae75>.
+#-------------------------------------------------------------------------
+# The shapes in this file cover common classes in DCAT-AP-ES-hvd 1.0.0.
+# It covers all constraints that must be satisfied.
+# 
+#-------------------------------------------------------------------------
+
+:HVDCategoryRestriction
+    a sh:NodeShape ;
+    rdfs:comment "HVD Category Restriction" ;
+    rdfs:label "HVD Category Restriction" ;
+
+    # Pattern validation: it must be an IRI following the EU vocabulary format
+    sh:nodeKind sh:IRI ;
+    #sh:hasValue <> ;
+    sh:pattern "^http://data.europa.eu/bna/.+$" ;
+    sh:message "The value must be an IRI from the European distribution status vocabulary http://data.europa.eu/bna/asd487ae75."@en ;
+    sh:severity sh:Violation
+    .

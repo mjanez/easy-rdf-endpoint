@@ -1,3 +1,7 @@
 .env
 .vscode
 data/draft_*.md
+logs
+*.log
+data/*.rdf
+!data/catalog.rdf

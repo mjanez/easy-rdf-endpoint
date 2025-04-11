@@ -1,0 +1,63 @@
+FROM python:3.11-slim
+
+LABEL maintainer="mjanez"
+LABEL version="1.0"
+LABEL description="RDF Validator with Streamlit UI"
+
+WORKDIR /app
+
+# Install Java and other dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    openjdk-17-jre-headless \
+    wget \
+    unzip \
+    git \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/* \
+    # Install Apache Jena
+    && wget -q --show-progress --progress=dot:giga https://dlcdn.apache.org/jena/binaries/apache-jena-5.3.0.tar.gz \
+    && tar -xf apache-jena-5.3.0.tar.gz \
+    && mv apache-jena-5.3.0 /opt/jena \
+    && rm apache-jena-5.3.0.tar.gz \
+    # Install TopBraid SHACL
+    && wget -q --show-progress --progress=dot:giga -O shacl.zip https://repo1.maven.org/maven2/org/topbraid/shacl/1.4.4/shacl-1.4.4-bin.zip \
+    && unzip shacl.zip \
+    && mv shacl-1.4.4 /opt/shacl \
+    && rm shacl.zip
+
+ENV PATH="/opt/jena/bin:/opt/shacl/bin:${PATH}"
+
+# Create a non-root user
+RUN groupadd -r appuser && useradd -r -g appuser appuser
+
+# Install Python dependencies
+COPY ./src/rdf-validator/requirements.txt /app/
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy application code
+COPY ./src/rdf-validator/ /app/
+
+# Create necessary directories and set permissions
+RUN mkdir -p /app/logs /app/data /app/temp /app/ontologies \
+    && chown -R appuser:appuser /app \
+    && chmod -R 755 /app \
+    && chmod -R 755 /opt/shacl/bin
+
+# Add scripts for downloading ontologies and entrypoint
+COPY easy-rdf-endpoint/docker-entrypoint.d/rdf-validator/download-ontologies.sh \
+     easy-rdf-endpoint/docker-entrypoint.d/rdf-validator/entrypoint.sh \
+     /app/
+
+# Add ontology policy file
+COPY easy-rdf-endpoint/docker-entrypoint.d/rdf-validator/ont-policy.ttl /app/ontologies/
+
+RUN chmod +x /app/entrypoint.sh \
+    && chmod +x /app/download-ontologies.sh
+
+# Switch to non-root user
+USER appuser
+
+EXPOSE 8501
+
+ENTRYPOINT ["/app/entrypoint.sh"]
+CMD ["streamlit", "run", "/app/app.py", "--server.port=8501", "--server.address=0.0.0.0", "--server.baseUrlPath=/validator"]

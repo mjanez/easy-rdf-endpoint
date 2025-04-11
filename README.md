@@ -23,6 +23,9 @@ This project provides a simple **Dockerized RDF endpoint** that serves an `.rdf`
 
 ![Landing Page](doc/img/easy-rdf-endpoint_landing-page.png)
 ![SPARQL Editor](doc/img/easy-rdf-endpoint_sparql-editor.png)
+![Semantic Validator](doc/img/easy-rdf-endpoint_rdf-validator-shacl.png)
+![Semantic Validator 2](doc/img/easy-rdf-endpoint_rdf-validator-shacl-2.png)
+![Sinctatic Validator](doc/img/easy-rdf-endpoint_rdf-validator-riot.png)
 
 ## Quick Start
 Use [Codespaces](https://github.com/features/codespaces) to test `easy-rdf-endpoint` in your browser
@@ -104,6 +107,19 @@ The endpoints will be available at:
 > [!TIP]  
 > - Replace `catalog.rdf` with your actual RDF file.  
 > - Works with **Codespaces, Docker, Kubernetes, and any containerized environment**.
+
+### Translation
+After updating the translation file (`messages.po`), don't forget to compile it to generate the `.mo` file, e.g english:
+
+```sh
+cd easy-rdf-endpoint/src/rdf-validator
+
+# Extract i18n texts and update POT
+xgettext -d messages --from-code=UTF-8 -o locales/messages.pot app.py
+
+# Compile MO files (english)
+msgfmt -o locales/en/LC_MESSAGES/messages.mo locales/en/LC_MESSAGES/messages.po
+``` 
 
 ## Update SSL Certificate
 To update the local SSL certificate, follow these steps:

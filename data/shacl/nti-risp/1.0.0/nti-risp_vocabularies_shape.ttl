@@ -1,0 +1,146 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix : <http://datos.gob.es/nti-risp#> .
+@prefix adms: <http://www.w3.org/ns/adms#> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix org: <http://www.w3.org/ns/org#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix schema: <http://schema.org/> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix time: <http://www.w3.org/2006/time#> .
+@prefix vcard: <http://www.w3.org/2006/vcard/ns#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<http://datos.gob.es/nti-risp/mdr_shapes>
+    dct:format <http://publications.europa.eu/resource/authority/file-type/RDF_TURTLE> ;
+    dct:conformsTo <https://www.w3.org/TR/shacl> ;
+    dct:description "Este documento especifica las restricciones en propiedades y clases expresadas por el modelo de metadatos NTI-RISP (2013) en SHACL para los vocabularios controlados utilizados."@es ;
+    owl:versionInfo "1.0.0" ;
+    rdfs:comment "Este archivo combina las restricciones SHACL con definiciones de las taxonomías NTI-RISP."@es .
+
+#----------------------------------------------------------------------------------------------------
+# Las formas en este archivo cubren vocabularios comunes y otras restricciones comunes en NTI-RISP.
+# Cubre todas las restricciones que deben cumplirse.
+#----------------------------------------------------------------------------------------------------
+
+#-------------------------------
+# Restricciones de vocabulario comunes
+#-------------------------------
+
+# Taxonomía de territorios NTI-RISP
+:TerritoryRestriction
+    a sh:NodeShape ;
+    rdfs:comment "Validación mediante lista explícita de /skos/sector.ttl (Identificadores de territorios NTI-RISP)P"@es ;
+    rdfs:label "Restricción de territorio"@es ;
+    sh:nodeKind sh:IRI ;
+    sh:in (
+        <http://datos.gob.es/recurso/sector-publico/territorio/Pais/España>
+        <http://datos.gob.es/recurso/sector-publico/territorio/Autonomia/Andalucia>
+        <http://datos.gob.es/recurso/sector-publico/territorio/Autonomia/Aragon>
+        <http://datos.gob.es/recurso/sector-publico/territorio/Autonomia/Principado-Asturias>
+        <http://datos.gob.es/recurso/sector-publico/territorio/Autonomia/Illes-Balears>
+        <http://datos.gob.es/recurso/sector-publico/territorio/Autonomia/Canarias>
+        <http://datos.gob.es/recurso/sector-publico/territorio/Autonomia/Cantabria>
+        <http://datos.gob.es/recurso/sector-publico/territorio/Autonomia/Castilla-Leon>
+        <http://datos.gob.es/recurso/sector-publico/territorio/Autonomia/Castilla-La-Mancha>
+        <http://datos.gob.es/recurso/sector-publico/territorio/Autonomia/Cataluna>
+        <http://datos.gob.es/recurso/sector-publico/territorio/Autonomia/Comunitat-Valenciana>
+        <http://datos.gob.es/recurso/sector-publico/territorio/Autonomia/Extremadura>
+        <http://datos.gob.es/recurso/sector-publico/territorio/Autonomia/Galicia>
+        <http://datos.gob.es/recurso/sector-publico/territorio/Autonomia/Comunidad-Madrid>
+        <http://datos.gob.es/recurso/sector-publico/territorio/Autonomia/Region-Murcia>
+        <http://datos.gob.es/recurso/sector-publico/territorio/Autonomia/Comunidad-Foral-Navarra>
+        <http://datos.gob.es/recurso/sector-publico/territorio/Autonomia/Pais-Vasco>
+        <http://datos.gob.es/recurso/sector-publico/territorio/Autonomia/La-Rioja>
+        <http://datos.gob.es/recurso/sector-publico/territorio/Autonomia/Ceuta>
+        <http://datos.gob.es/recurso/sector-publico/territorio/Autonomia/Melilla>
+        <http://datos.gob.es/recurso/sector-publico/territorio/Provincia/Almeria>
+        <http://datos.gob.es/recurso/sector-publico/territorio/Provincia/Cadiz>
+        <http://datos.gob.es/recurso/sector-publico/territorio/Provincia/Cordoba>
+        <http://datos.gob.es/recurso/sector-publico/territorio/Provincia/Granada>
+        <http://datos.gob.es/recurso/sector-publico/territorio/Provincia/Huelva>
+        <http://datos.gob.es/recurso/sector-publico/territorio/Provincia/Jaen>
+        <http://datos.gob.es/recurso/sector-publico/territorio/Provincia/Malaga>
+        <http://datos.gob.es/recurso/sector-publico/territorio/Provincia/Sevilla>
+        <http://datos.gob.es/recurso/sector-publico/territorio/Provincia/Huesca>
+        <http://datos.gob.es/recurso/sector-publico/territorio/Provincia/Teruel>
+        <http://datos.gob.es/recurso/sector-publico/territorio/Provincia/Zaragoza>
+        <http://datos.gob.es/recurso/sector-publico/territorio/Provincia/Asturias>
+        <http://datos.gob.es/recurso/sector-publico/territorio/Provincia/Illes-Balears>
+        <http://datos.gob.es/recurso/sector-publico/territorio/Provincia/Las-Palmas>
+        <http://datos.gob.es/recurso/sector-publico/territorio/Provincia/Santa-Cruz-Tenerife>
+        <http://datos.gob.es/recurso/sector-publico/territorio/Provincia/Cantabria>
+        <http://datos.gob.es/recurso/sector-publico/territorio/Provincia/Avila>
+        <http://datos.gob.es/recurso/sector-publico/territorio/Provincia/Burgos>
+        <http://datos.gob.es/recurso/sector-publico/territorio/Provincia/Leon>
+        <http://datos.gob.es/recurso/sector-publico/territorio/Provincia/Palencia>
+        <http://datos.gob.es/recurso/sector-publico/territorio/Provincia/Salamanca>
+        <http://datos.gob.es/recurso/sector-publico/territorio/Provincia/Segovia>
+        <http://datos.gob.es/recurso/sector-publico/territorio/Provincia/Soria>
+        <http://datos.gob.es/recurso/sector-publico/territorio/Provincia/Valladolid>
+        <http://datos.gob.es/recurso/sector-publico/territorio/Provincia/Zamora>
+        <http://datos.gob.es/recurso/sector-publico/territorio/Provincia/Albacete>
+        <http://datos.gob.es/recurso/sector-publico/territorio/Provincia/Ciudad-Real>
+        <http://datos.gob.es/recurso/sector-publico/territorio/Provincia/Cuenca>
+        <http://datos.gob.es/recurso/sector-publico/territorio/Provincia/Guadalajara>
+        <http://datos.gob.es/recurso/sector-publico/territorio/Provincia/Toledo>
+        <http://datos.gob.es/recurso/sector-publico/territorio/Provincia/Barcelona>
+        <http://datos.gob.es/recurso/sector-publico/territorio/Provincia/Girona>
+        <http://datos.gob.es/recurso/sector-publico/territorio/Provincia/Lleida>
+        <http://datos.gob.es/recurso/sector-publico/territorio/Provincia/Tarragona>
+        <http://datos.gob.es/recurso/sector-publico/territorio/Provincia/Alicante>
+        <http://datos.gob.es/recurso/sector-publico/territorio/Provincia/Castellon>
+        <http://datos.gob.es/recurso/sector-publico/territorio/Provincia/Valencia>
+        <http://datos.gob.es/recurso/sector-publico/territorio/Provincia/Badajoz>
+        <http://datos.gob.es/recurso/sector-publico/territorio/Provincia/Caceres>
+        <http://datos.gob.es/recurso/sector-publico/territorio/Provincia/A-Coruna>
+        <http://datos.gob.es/recurso/sector-publico/territorio/Provincia/Lugo>
+        <http://datos.gob.es/recurso/sector-publico/territorio/Provincia/Ourense>
+        <http://datos.gob.es/recurso/sector-publico/territorio/Provincia/Pontevedra>
+        <http://datos.gob.es/recurso/sector-publico/territorio/Provincia/Madrid>
+        <http://datos.gob.es/recurso/sector-publico/territorio/Provincia/Murcia>
+        <http://datos.gob.es/recurso/sector-publico/territorio/Provincia/Navarra>
+        <http://datos.gob.es/recurso/sector-publico/territorio/Provincia/Alava>
+        <http://datos.gob.es/recurso/sector-publico/territorio/Provincia/Guipuzcoa>
+        <http://datos.gob.es/recurso/sector-publico/territorio/Provincia/Vizcaya>
+        <http://datos.gob.es/recurso/sector-publico/territorio/Provincia/La-Rioja>
+        <http://datos.gob.es/recurso/sector-publico/territorio/Provincia/Ceuta>
+        <http://datos.gob.es/recurso/sector-publico/territorio/Provincia/Melilla>
+    ) ;
+    sh:message "El valor debe ser un IRI del vocabulario de territorio NTI-RISP http://datos.gob.es/recurso/sector-publico/territorio."@es .
+
+# Sectores primarios NTI-RISP
+:NTISectorThemeRestriction
+    a sh:NodeShape ;
+    rdfs:comment "Validación mediante lista explícita de ./skos/sector.ttl (Sectores primarios NTI-RISP)"@es ;
+    rdfs:label "Restricción de sector primario"@es ;
+    sh:nodeKind sh:IRI ;
+    sh:in (
+        <http://datos.gob.es/kos/sector-publico/sector/ciencia-tecnologia>
+        <http://datos.gob.es/kos/sector-publico/sector/comercio>
+        <http://datos.gob.es/kos/sector-publico/sector/cultura-ocio>
+        <http://datos.gob.es/kos/sector-publico/sector/demografia>
+        <http://datos.gob.es/kos/sector-publico/sector/deporte>
+        <http://datos.gob.es/kos/sector-publico/sector/economia>
+        <http://datos.gob.es/kos/sector-publico/sector/educacion>
+        <http://datos.gob.es/kos/sector-publico/sector/empleo>
+        <http://datos.gob.es/kos/sector-publico/sector/energia>
+        <http://datos.gob.es/kos/sector-publico/sector/hacienda>
+        <http://datos.gob.es/kos/sector-publico/sector/industria>
+        <http://datos.gob.es/kos/sector-publico/sector/legislacion-justicia>
+        <http://datos.gob.es/kos/sector-publico/sector/medio-ambiente>
+        <http://datos.gob.es/kos/sector-publico/sector/medio-rural-pesca>
+        <http://datos.gob.es/kos/sector-publico/sector/salud>
+        <http://datos.gob.es/kos/sector-publico/sector/sector-publico>
+        <http://datos.gob.es/kos/sector-publico/sector/seguridad>
+        <http://datos.gob.es/kos/sector-publico/sector/sociedad-bienestar>
+        <http://datos.gob.es/kos/sector-publico/sector/transporte>
+        <http://datos.gob.es/kos/sector-publico/sector/turismo>
+        <http://datos.gob.es/kos/sector-publico/sector/urbanismo-infraestructuras>
+        <http://datos.gob.es/kos/sector-publico/sector/vivienda>
+    ) ;
+    sh:message "El valor debe ser un IRI que pertenezca a los sectores primarios definidos en NTI-RISP."@es ;

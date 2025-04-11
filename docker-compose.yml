@@ -34,3 +34,16 @@ services:
       - ./data/${CATALOG_FILE}:/app/data/${CATALOG_FILE}
     restart: on-failure:3
 
+  rdf-validator:
+    build:
+      context: .
+      dockerfile: easy-rdf-endpoint/Dockerfile.validator
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "5"
+    volumes:
+      - ./data:/app/data
+      - ./logs:/app/logs
+    restart: on-failure:3

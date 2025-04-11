@@ -1,0 +1,681 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix : <http://datos.gob.es/dcat-ap-es#> .
+@prefix adms: <http://www.w3.org/ns/adms#> .
+@prefix cc: <http://creativecommons.org/ns#> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix locn: <http://www.w3.org/ns/locn#> .
+@prefix org: <http://www.w3.org/ns/org#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix schema: <http://schema.org/> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix spdx: <http://spdx.org/rdf/terms#> .
+@prefix time: <http://www.w3.org/2006/time#> .
+@prefix vcard: <http://www.w3.org/2006/vcard/ns#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix dcatap: <http://data.europa.eu/r5r/> .
+
+<http://datos.gob.es/dcat-ap-es/shacl_common_shape>
+    #dcat:accessURL <>;
+    #dcat:downloadURL <> ;
+    #dcatap:availability <http://data.europa.eu/r5r/stable> ;
+    dct:format <http://publications.europa.eu/resource/authority/file-type/RDF_TURTLE> ;
+    dct:conformsTo <https://www.w3.org/TR/shacl> ;
+    #dct:creator [
+    #    rdfs:seeAlso <> ;
+    #    org:memberOf <> ;
+    #    foaf:homepage <> ;
+    #    foaf:name ""
+    #], [
+    #    rdfs:seeAlso <> ;
+    #    org:memberOf <> ;
+    #    foaf:homepage <> ;
+    #    foaf:name ""
+    #] ;
+    #dct:license <https://creativecommons.org/licenses/by/4.0> ;
+    #cc:attributionURL <> ;
+    #dct:modified "2021-12-01"^^xsd:date ;
+    #dct:publisher <> ;
+    #dct:relation <h> ;
+    dct:description "This document specifies the constraints on properties and classes expressed by DCAT-AP-ES in SHACL."@en ;
+    #dct:title "The constraints of DCAT Application Profile for Data Portals in Spain"@en ;
+    owl:versionInfo "1.0.0" ;
+    #foaf:homepage <> ;
+    #foaf:maker [
+    #    foaf:mbox <> ;
+    #    foaf:name "DCAT-AP Working Group" ;
+    #    foaf:page <>
+    #]
+    .
+
+
+#-------------------------------------------------------------------------
+# The shapes in this file cover all common classes in DCAT-AP-ES 1.0.0.
+# It covers all constraints that must be satisfied .
+# 
+#-------------------------------------------------------------------------
+
+:Agent_Shape
+    a sh:NodeShape ;
+    sh:name "AgentOrganizationPerson_Shape"@en ;
+    sh:property 
+    # foaf:name
+    [
+        sh:path foaf:name ;
+        sh:nodeKind sh:Literal ;
+        sh:severity sh:Violation
+    ],
+    [
+        sh:path foaf:name ;
+        sh:node :LiteralMultilingual_Shape ;
+        sh:severity sh:Violation
+    ],
+    [
+        sh:path foaf:name ;
+        sh:node :NonEmptyLiteral_Shape ;
+        sh:severity sh:Violation
+    ],
+    [
+        sh:path foaf:name ;
+        sh:uniqueLang true;
+        sh:severity sh:Violation ;
+        sh:message "More than one values share the same language tag."@en
+    ],
+    [
+        sh:path foaf:name ;
+        #sh:node :SpanishVersionAgentFoafName ;
+        sh:sparql [
+                sh:message "The agent's name value must be at least in Spanish."@en ;
+                sh:select """
+                    PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+                    SELECT $this
+                    WHERE {
+                    FILTER EXISTS { $this foaf:name ?value }
+
+                    FILTER NOT EXISTS {
+                        $this foaf:name ?value .
+                        FILTER(isLiteral(?value) && LANG(?value) = "es")
+                    }
+                }
+                """ ;
+            ] ;
+        sh:severity sh:Violation ;
+        sh:message "At least in Spanish."@en
+    ],
+    [
+        sh:path foaf:name ;
+        sh:minCount 1 ;
+        sh:severity sh:Violation
+    ],
+    #dct:identifier
+    [
+        sh:path dct:identifier ;
+        sh:nodeKind sh:Literal ;
+        #sh:minCount 0; # only applies if there are values
+        sh:severity sh:Violation
+    ],
+    [
+        sh:path dct:identifier ;
+        sh:node :NonEmptyLiteral_Shape ;
+        #sh:minCount 0; # only applies if there are values
+        sh:severity sh:Violation
+    ],
+    [
+        sh:path dct:identifier ;
+        sh:maxCount 1 ;
+        sh:nodeKind sh:Literal ;
+        sh:severity sh:Violation
+    ],
+    #dct:type
+    [
+        sh:path dct:type ;
+        sh:maxCount 1 ;
+        sh:severity sh:Violation
+    ],
+    [
+        sh:path dct:type ;
+        #sh:class skos:Concept
+        sh:nodeKind sh:IRI;
+        sh:node :PublisherTypeRestriction ;
+        sh:description "A non EU managed concept is used to indicate the type of the publisher. If no corresponding can be found inform the maintainer of the adms:publishertype codelist."@en ; 
+        sh:severity sh:Violation; 
+        #sh:minCount 0 # only applies if there are values
+    ].
+
+:Agent_Shape2
+    a sh:NodeShape ;
+    sh:name "Agent_Shape2"@en ;
+    sh:property
+    #dct:identifier
+    [
+        sh:path dct:identifier ;
+        sh:minCount 1;
+        sh:severity sh:Warning
+    ],
+    #dct:type
+    [
+        sh:path dct:type ;
+        sh:minCount 1 ;
+        sh:severity sh:Warning
+    ];
+    sh:severity sh:Warning;
+    sh:message "An identifier and a type are recommended".
+
+:PublisherAgent_Shape
+    a sh:NodeShape ;
+    sh:name "AgentPublisher Shape"@en ;
+    sh:or ( 
+        [ sh:class foaf:Agent; ] 
+        [ sh:class foaf:Organization; ]
+    ) ;
+    sh:message "The node type must be foaf:Agent or foaf:Organization.";
+    sh:severity sh:Violation .
+
+:CreatorAgent_Shape
+    a sh:NodeShape ;
+    sh:name "Creator_Shape"@en ;
+    # If only these classes are allowed
+    sh:or ( 
+        [ sh:class foaf:Agent; sh:nodeKind sh:IRI ] 
+        [ sh:class foaf:Organization; sh:nodeKind sh:IRI ]
+        [ sh:class foaf:Person; sh:nodeKind sh:IRI ]
+        [
+            #multiple types
+            sh:property [
+                sh:path rdf:type ;
+                sh:minCount 1 ; 
+                sh:in ( foaf:Agent foaf:Organization foaf:Person ) ;
+            ]
+        ]
+    ) ;
+    sh:message "The node type must be foaf:Agent or foaf:Organization or foaf:Person.";
+    sh:severity sh:Violation .
+
+:DateOrDateTimeDataType_Shape
+    a sh:NodeShape ;
+    rdfs:comment "Date time date disjunction shape checks that a datatype property receives a temporal value: dateTime, date, gYearMonth or gYear literal that follows the ISO-8601 format (YYYY-MM-DDThh:mm:ssTZD, YYYY-MM-DD, YYYY-MM, YYYY) respectively"@en ;
+    rdfs:label "Date time date disjunction"@en ;
+    sh:message "The values must be data typed as either xsd:date, xsd:dateTime, xsd:gYear or xsd:gYearMonth"@en ;
+    sh:or ([
+            sh:datatype xsd:dateTime;
+            sh:pattern "^[1-9][0-9]{3}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])T([01][0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])(\\.[0-9]{1,6})?(Z|[+-]((0[0-9]|1[0-3]):[0-5][0-9]|14:00))$" ;  # Pattern YYYY-MM-DDThh:mm:ssTZD
+            sh:message "The values must be data typed xsd:dateTime and must follow the format YYYY-MM-DDThh:mm:ssTZD."@en ;
+        ]
+        [
+            sh:datatype xsd:date;
+            sh:pattern "^[1-9][0-9]{3}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$" ;  # Pattern YYYY-MM-DD
+            sh:message "The values must be a valid data typed xsd:date and must follow the format YYYY-MM-DD."@en ;
+        ]
+		[
+            sh:datatype xsd:gYearMonth;
+            sh:pattern "^[1-9][0-9]{3}-(0[1-9]|1[0-2])$" ;  # Pattern YYYY-MM
+            sh:message "The values must be a valid data typed xsd:gYearMonth and must follow the format YYYY-MM."@en ;
+        ]
+		[
+            sh:datatype xsd:gYear;
+            sh:pattern "^[1-9][0-9]{3}$" ;  # Pattern YYYY
+            sh:message "The values must be a valid data typed xsd:gYear and must follow the format YYYY."@en ;
+        ]
+    );
+    sh:severity sh:Violation .
+
+:DurationRestriction
+    a sh:NodeShape ;
+    rdfs:comment "Duration Restriction"@en ;
+    rdfs:label "Duration Restriction"@en ;
+    
+    # Pattern validation: it must be an IRI following the EU vocabulary format
+    sh:pah sh:string ;
+    sh:pattern "^P(\\d+Y)?(\\d+M)?(\\d+D)?(T(\\d+H)?(\\d+M)?(\\d+(\\.\\d+)?S)?)?$" ;
+    sh:message "The duration must follow the ISO 8601 format for xsd:duration (e.g., P3Y6M4DT12H30M5S)." ;
+    sh:severity sh:Violation .
+
+:EuropeanDataThemeRestriction
+    a sh:NodeShape ;
+    rdfs:comment "European Data Theme Restriction"@en ;
+    rdfs:label "European Data Theme Restriction"@en ;
+
+    # Pattern validation: it must be an IRI following the EU vocabulary format
+    sh:nodeKind sh:IRI ;
+    sh:pattern "^http://publications\\.europa\\.eu/resource/authority/data-theme/.+$" ;
+    sh:message "The value must be an IRI from the European inspire vocabulary http://publications.europa.eu/resource/authority/data-theme."@en ;
+    sh:severity sh:Violation.
+
+:InspireDataThemeRestriction
+    a sh:NodeShape ;
+    rdfs:comment "Inspire Data Theme Restriction"@en ;
+    rdfs:label "Inspire Data Theme Restriction"@en ;
+
+    # Pattern validation: it must be an IRI following the EU vocabulary format
+    sh:nodeKind sh:IRI ;
+    sh:pattern "^http://inspire\\.ec\\.europa\\.eu/theme/.+$" ;
+    sh:message "The value must be an IRI from the European inspire vocabulary http://inspire.ec.europa.eu/theme."@en ;
+    sh:severity sh:Violation.
+
+:Kind_Shape:
+    sh:name "Kind"@en ;
+    sh:targetObjectsOf <http://www.w3.org/ns/dcat#contactPoint> ; # Apply to connect nodes with dcat:contactPoint
+    # Class validation  (vcard:Kind o subclases)
+    sh:or ( 
+        [ sh:class vcard:Kind; sh:nodeKind sh:IRI ] 
+        [ sh:class vcard:Organization; sh:nodeKind sh:IRI ]
+        [ sh:class vcard:Group; sh:nodeKind sh:IRI ]
+        [ sh:class vcard:Individual; sh:nodeKind sh:IRI ]
+        [ sh:class vcard:Location; sh:nodeKind sh:IRI ]
+    ) ;
+    sh:property[
+    # vcard:organization-name
+        sh:path vcard:organization-name ;
+        sh:nodeKind sh:Literal;
+        sh:severity sh:Violation
+    ],
+    [
+        sh:path vcard:organization-name ;
+        sh:node :NonEmptyLiteral_Shape;
+        sh:severity sh:Violation
+    ],
+    [
+        sh:path vcard:organization-name ;
+        sh:node :LiteralMultilingual_Shape;
+        sh:severity sh:Violation
+    ],
+    [
+        sh:path vcard:organization-name ;
+        sh:minCount 1;
+        sh:severity sh:Warning
+    ],
+    [
+        sh:path vcard:organization-name ;
+        sh:uniqueLang true;
+        sh:severity sh:Violation ;
+        sh:message "More than one values share the same language tag."@en
+    ],
+    [
+        sh:path vcard:organization-name ;        
+        sh:resultPath vcard:organization-name ; ;
+        sh:sparql [
+                sh:message "The organization's name value must be at least in Spanish."@en ;
+                sh:select """
+                PREFIX vcard: <http://www.w3.org/2006/vcard/ns#>
+                SELECT ?this
+                WHERE {
+                    ?this vcard:organization-name ?anyvalue .
+                    FILTER(isLiteral(?anyvalue)) 
+                    FILTER NOT EXISTS {
+                        ?this vcard:organization-name ?validValue .
+                        FILTER(isLiteral(?validValue) && LANG(?validValue) = "es")
+                    }
+                }
+                """;
+            ] ;
+        sh:severity sh:Violation ;
+        sh:message "At least in Spanish."@en
+    ],
+    # vcard:fn
+    [
+        sh:path vcard:fn ;
+        sh:nodeKind sh:Literal;
+        sh:severity sh:Violation
+    ],
+    [
+        sh:path vcard:fn ;
+        sh:node :LiteralMultilingual_Shape ;
+        sh:severity sh:Violation
+    ],
+    [
+        sh:path vcard:fn ;
+        sh:node :NonEmptyLiteral_Shape ;
+        sh:severity sh:Violation
+    ],
+    [
+        sh:path vcard:fn ;
+        sh:uniqueLang true;
+        sh:severity sh:Violation ;
+        sh:message "More than one values share the same language tag."@en
+    ],
+    [
+        sh:path vcard:fn ;
+        sh:resultPath vcard:fn ;
+        sh:sparql [
+                sh:message "The name value must be at least in Spanish."@en ;
+                sh:select """
+                PREFIX vcard: <http://www.w3.org/2006/vcard/ns#>
+                SELECT ?this
+                WHERE {
+                    ?this vcard:fn ?anyvalue .
+                    FILTER(isLiteral(?anyvalue)) 
+                    FILTER NOT EXISTS {
+                        ?this vcard:fn ?validValue .
+                        FILTER(isLiteral(?validValue) && LANG(?validValue) = "es")
+                    }
+                }
+                """;
+            ] ;
+        sh:severity sh:Violation ;
+        sh:message "At least in Spanish."@en
+    ],
+    [
+        sh:path vcard:fn ;
+        sh:minCount 1;
+        sh:severity sh:Warning
+    ] ,
+    # vcard:hasUID
+    [
+        sh:path vcard:hasUID ;
+        sh:nodeKind sh:IRI ;
+        sh:severity sh:Violation
+    ],
+    [
+        sh:path vcard:hasUID ;
+        sh:minCount 1;
+        sh:severity sh:Warning
+    ],
+    [
+        sh:path vcard:hasUID ;
+        sh:maxCount 1;
+        sh:severity sh:Violation
+    ],
+    # vcard:hasEmail (email)
+    [
+        sh:path vcard:hasEmail ;
+        sh:name "email"@en;
+        sh:nodeKind sh:IRI;
+        sh:severity sh:Violation
+    ],
+    [
+        sh:path vcard:hasEmail ;
+        sh:name "email"@en;
+        sh:minCount 1;
+        sh:severity sh:Warning
+    ],
+    [
+        sh:path vcard:hasEmail ;
+        sh:name "email"@en;
+        sh:pattern "^mailto:.+" ;
+        sh:severity sh:Violation
+    ], 
+    # vcard:hasTelephone
+    [
+        sh:path vcard:hasTelephone ;
+        sh:nodeKind sh:IRI ;
+        sh:severity sh:Violation
+    ], 
+    [
+        sh:path vcard:hasTelephone ;
+        sh:minCount 1; 
+        sh:severity sh:Warning
+    ],
+    [
+        sh:path vcard:hasTelephone ;
+        sh:pattern "^tel:.+" ;
+        sh:severity sh:Violation
+    ], 
+    # vcard:hasURL (contact page)
+    [
+        sh:path vcard:hasURL ;
+        sh:name "contact page"@en;
+        sh:nodeKind sh:IRI ;
+        sh:severity sh:Violation
+    ], 
+    [
+        sh:path vcard:hasURL ;
+        sh:name "contact page"@en;
+        sh:minCount 1; 
+        sh:severity sh:Warning
+    ].
+    #sh:targetClass vcard:Kind .
+
+:Kind_Shape2:
+    sh:name "vcard Kind"@en ;
+    sh:targetObjectsOf <http://www.w3.org/ns/dcat#contactPoint> ; # Apply to connect nodes with dcat:contactPoint
+    # Class validation  (vcard:Kind o subclases)
+    sh:or ( 
+        [ sh:class vcard:Kind ] 
+        [ sh:class vcard:Organization ]
+        [ sh:class vcard:Group ]
+        [ sh:class vcard:Individual ]
+        [ sh:class vcard:Location ]
+    ) ;
+    sh:or (
+        [
+            sh:property [
+                sh:path vcard:hasEmail ;
+                sh:minCount 1 ;
+            ]
+        ]
+        [
+            sh:property [
+                sh:path vcard:hasURL ;
+                sh:minCount 1 ;
+                
+            ]
+        ]
+    ) ;
+    sh:message "At least one of hasEmail or hasURL must be provided." ;
+    sh:severity sh:Violation .
+
+:LicenceDocument_Shape
+    a sh:NodeShape ;
+    sh:name "Licence Document"@en ;
+    sh:property 
+    # dct:type
+    [
+        sh:path dct:type ;
+        sh:minCount 1 ;
+        sh:severity sh:Warning
+    ],
+    [
+        sh:path dct:type ;
+        sh:node :LicenceTypeRestriction ;
+        #sh:class skos:Concept ;
+        sh:nodeKind sh:IRI 
+    ]  ;
+    sh:targetClass dct:LicenseDocument .
+
+:LiteralMultilingual_Shape
+    a sh:NodeShape;
+    sh:name "Literal multilingual"@en ;
+    
+    sh:nodeKind sh:Literal ;
+    sh:datatype rdf:langString ;
+    sh:message "The literal must be multilingual. It must have a language tag."@en ;
+    sh:severity sh:Violation .
+
+:Location_Shape
+    a sh:NodeShape ;
+    sh:name "Location"@en ;
+    # At least one or properties have to be
+    sh:or (
+        [ sh:property [
+            sh:path dcat:bbox ;
+            sh:minCount 1 ;
+            sh:severity sh:Violation ;  
+        ] ]
+        [ sh:property [
+            sh:path dcat:centroid ;
+            sh:minCount 1 ;
+            sh:severity sh:Violation ;  
+        ] ]
+        [ sh:property [
+            sh:path locn:geometry ;
+            sh:minCount 1 ;
+            sh:severity sh:Violation ;  
+        ] ]
+    ) ;
+    sh:message "At least one of dcat:bbox, dcat:centroid, or locn:geometry must be present. However, it is recommended to include dcat:bbox or dcat:centroid."@en ;
+    sh:property 
+    # dcat:bbox
+    [
+        sh:path dcat:bbox ;
+        sh:maxCount 1 ;
+        sh:nodeKind sh:Literal ;
+        sh:severity sh:Violation
+    ], 
+    # dcat:centroid
+    [
+        sh:path dcat:centroid ;
+        sh:maxCount 1 ;
+        sh:nodeKind sh:Literal ;
+        sh:severity sh:Violation
+    ], 
+    # locn:geometry
+    [
+        sh:path locn:geometry ;
+        sh:maxCount 1 ;
+        sh:nodeKind sh:Literal ;
+        sh:severity sh:Violation
+    ] ;
+    sh:targetClass dct:Location .
+
+:NonEmptyLiteral_Shape
+    a sh:NodeShape;
+    sh:name "Not empty Literal"@en ;
+
+    sh:nodeKind sh:Literal ;
+    sh:minLength 1 ;
+    sh:pattern "^(?s)(?=.*\\S).*$" ;
+    sh:message "The literal cannot be empty or contain only whitespace characters, tabs, or line breaks."@en ;
+    sh:severity sh:Violation .
+
+:NonLiteralMultilingual_Shape
+    a sh:NodeShape;
+    sh:name "Non-literal multilingual"@en ;
+    
+    sh:nodeKind sh:Literal ;
+    sh:datatype xsd:string ;
+    sh:message "The literal cannot be multilingual. It cannot have language tag."@en ;
+    sh:severity sh:Violation .
+
+:NonNegativeInteger_Shape:
+    a sh:NodeShape ;
+    sh:nodeKind sh:Literal ;
+    sh:or ( 
+        [ 
+            sh:datatype xsd:integer ; 
+            sh:minInclusive 0 
+        ]
+        [ 
+            sh:datatype xsd:nonNegativeInteger 
+        ]
+    ) ;
+    sh:pattern "^[0-9]+$" ; # Positive number, 0 included
+    sh:message "The value must be a non-negative integer." ;
+    sh:severity sh:Violation .
+
+:PublicSectorRestriction
+    a sh:NodeShape ;
+    rdfs:comment "Public Sector restriction"@en ;
+    rdfs:label "Public Sector restriction"@en ;
+    # Pattern validation: it must be an IRI of NTI territory vocabulary
+    #sh:nodeKind sh:IRI ;
+    sh:in (
+        <http://datos.gob.es/kos/sector-publico/sector/ciencia-tecnologia>
+        <http://datos.gob.es/kos/sector-publico/sector/comercio>
+        <http://datos.gob.es/kos/sector-publico/sector/cultura-ocio>
+        <http://datos.gob.es/kos/sector-publico/sector/demografia>
+        <http://datos.gob.es/kos/sector-publico/sector/deporte>
+        <http://datos.gob.es/kos/sector-publico/sector/economia>
+        <http://datos.gob.es/kos/sector-publico/sector/educacion>
+        <http://datos.gob.es/kos/sector-publico/sector/empleo>
+        <http://datos.gob.es/kos/sector-publico/sector/energia>
+        <http://datos.gob.es/kos/sector-publico/sector/hacienda>
+        <http://datos.gob.es/kos/sector-publico/sector/industria>
+        <http://datos.gob.es/kos/sector-publico/sector/legislacion-justicia>
+        <http://datos.gob.es/kos/sector-publico/sector/medio-ambiente>
+        <http://datos.gob.es/kos/sector-publico/sector/medio-rural-pesca>
+        <http://datos.gob.es/kos/sector-publico/sector/salud>
+        <http://datos.gob.es/kos/sector-publico/sector/sector-publico>
+        <http://datos.gob.es/kos/sector-publico/sector/seguridad>
+        <http://datos.gob.es/kos/sector-publico/sector/sociedad-bienestar>
+        <http://datos.gob.es/kos/sector-publico/sector/transporte>
+        <http://datos.gob.es/kos/sector-publico/sector/turismo>
+        <http://datos.gob.es/kos/sector-publico/sector/urbanismo-infraestructuras>
+        <http://datos.gob.es/kos/sector-publico/sector/vivienda>
+    );
+    sh:message "The value must be an IRI from the NTI-RISP sector vocabulary http://datos.gob.es/kos/sector-publico/sector."@en ;   
+    sh:severity sh:Violation .
+
+
+#Generic shape to validate that Spanish description is required
+:SpanishDescriptionRestriction
+    a sh:NodeShape ;
+    sh:name "SpanishDescriptionRestriction"@en ;
+    rdfs:comment "The description in spanish is required"@en ;
+    rdfs:label "Spanish Description Restriction"@en ;
+    sh:sparql [
+            sh:message "The description value must be at least in Spanish."@en ;
+            sh:select """
+                PREFIX dct: <http://purl.org/dc/terms/>
+                SELECT $this
+                WHERE {
+                FILTER EXISTS { $this dct:description ?value }
+                FILTER NOT EXISTS {
+                    $this dct:description ?value .
+                    FILTER(isLiteral(?value) && LANG(?value) = "es")
+                }
+            }
+            """ ;
+        ] ;
+    sh:severity sh:Violation .
+
+#Generic shape to validate that Spanish language is required
+:SpanishLanguageRestriction
+    a sh:NodeShape ;
+    sh:name "SpanishlanguageRestriction"@en ;
+    rdfs:comment "The Spanish language is required"@en ;
+    rdfs:label "Spanish language Restriction"@en ;
+    sh:sparql [
+        sh:message "The Spanish language, http://publications.europa.eu/resource/authority/language/SPA), is mandatory."@en ;
+        sh:select """
+            PREFIX dct: <http://purl.org/dc/terms/>
+            SELECT $this
+            WHERE {
+                FILTER EXISTS { $this dct:language ?value }
+                FILTER NOT EXISTS {
+                    $this dct:language <http://publications.europa.eu/resource/authority/language/SPA> .
+                }
+            }
+        """ ;
+        sh:severity sh:Violation ;
+    ] .
+
+#Generic shape to validate that Spanish title is required
+:SpanishTitleRestriction
+    a sh:NodeShape ;
+    sh:name "SpanishlanguageRestriction"@en ;
+    rdfs:comment "The title in spanish is required"@en ;
+    rdfs:label "Spanish title Restriction"@en ;
+    sh:sparql [
+            sh:message "The title value must be at least in Spanish."@en ;
+            sh:select """
+                PREFIX dct: <http://purl.org/dc/terms/>
+                SELECT $this
+                WHERE {
+                FILTER EXISTS { $this dct:title ?value }
+                FILTER NOT EXISTS {
+                    $this dct:title ?value .
+                    FILTER(isLiteral(?value) && LANG(?value) = "es")
+                }
+            }
+            """ ;
+        ] ;
+    sh:severity sh:Violation .
+
+:Spatial_Shape
+    a  sh:NodeShape ;
+    sh:or (
+        :TerritoryRestriction
+        :CountryRestriction
+        :PlaceRestriction
+        :ContinentRestriction
+        :AtuRestriction
+        :GeoNamesRestriction
+    );
+    sh:message "The value must be an IRI from the vocabularies http://datos.gob.es/recurso/sector-publico/territorio, http://publications.europa.eu/resource/authority/country, http://publications.europa.eu/resource/authority/continent, http://publications.europa.eu/resource/authority/place or http://sws.geonames.org."@en ;   
+    sh:severity sh:Violation .

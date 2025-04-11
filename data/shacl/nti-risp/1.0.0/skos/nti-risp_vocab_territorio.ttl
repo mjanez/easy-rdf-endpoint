@@ -1,0 +1,549 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix : <http://datos.gob.es/nti-risp#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix euvoc: <http://publications.europa.eu/ontology/euvoc#> .
+@prefix skosxl: <http://www.w3.org/2008/05/skos-xl#> .
+
+# Taxonomía de territorios
+<http://datos.gob.es/kos/sector-publico/territorio>
+    a skos:ConceptScheme ;
+    skos:prefLabel "Taxonomía de territorios"@es ;
+    skos:prefLabel "Territory taxonomy"@en ;
+    dct:title "Taxonomía de territorios"@es ;
+    dct:title "Territory taxonomy"@en ;
+    dct:description "Taxonomía para la cobertura geográfica según la NTI-RISP"@es ;
+    dct:description "Taxonomy for spatial coverage according to NTI-RISP"@en ;
+    dct:created "2013-03-04"^^xsd:date ;
+    dct:modified "2025-03-01"^^xsd:date ;
+    dct:issued "2013-03-04"^^xsd:date ;
+    owl:versionInfo "1.0" ;
+    dct:identifier "http://datos.gob.es/kos/sector-publico/territorio" ;
+    skos:hasTopConcept <http://datos.gob.es/recurso/sector-publico/territorio/Pais/España>,
+        <http://datos.gob.es/recurso/sector-publico/territorio/Autonomia/Andalucia>,
+        <http://datos.gob.es/recurso/sector-publico/territorio/Autonomia/Aragon>,
+        <http://datos.gob.es/recurso/sector-publico/territorio/Autonomia/Principado-Asturias>,
+        <http://datos.gob.es/recurso/sector-publico/territorio/Autonomia/Illes-Balears>,
+        <http://datos.gob.es/recurso/sector-publico/territorio/Autonomia/Canarias>,
+        <http://datos.gob.es/recurso/sector-publico/territorio/Autonomia/Cantabria>,
+        <http://datos.gob.es/recurso/sector-publico/territorio/Autonomia/Castilla-Leon>,
+        <http://datos.gob.es/recurso/sector-publico/territorio/Autonomia/Castilla-La-Mancha>,
+        <http://datos.gob.es/recurso/sector-publico/territorio/Autonomia/Cataluna>,
+        <http://datos.gob.es/recurso/sector-publico/territorio/Autonomia/Comunitat-Valenciana>,
+        <http://datos.gob.es/recurso/sector-publico/territorio/Autonomia/Extremadura>,
+        <http://datos.gob.es/recurso/sector-publico/territorio/Autonomia/Galicia>,
+        <http://datos.gob.es/recurso/sector-publico/territorio/Autonomia/Comunidad-Madrid>,
+        <http://datos.gob.es/recurso/sector-publico/territorio/Autonomia/Region-Murcia>,
+        <http://datos.gob.es/recurso/sector-publico/territorio/Autonomia/Comunidad-Foral-Navarra>,
+        <http://datos.gob.es/recurso/sector-publico/territorio/Autonomia/Pais-Vasco>,
+        <http://datos.gob.es/recurso/sector-publico/territorio/Autonomia/La-Rioja>,
+        <http://datos.gob.es/recurso/sector-publico/territorio/Autonomia/Ceuta>,
+        <http://datos.gob.es/recurso/sector-publico/territorio/Autonomia/Melilla> .
+
+# País
+<http://datos.gob.es/recurso/sector-publico/territorio/Pais/España>
+    a skos:Concept ;
+    skos:inScheme <http://datos.gob.es/kos/sector-publico/territorio> ;
+    skos:prefLabel "España"@es ;
+    skos:topConceptOf <http://datos.gob.es/kos/sector-publico/territorio> .
+
+# Comunidades Autónomas
+<http://datos.gob.es/recurso/sector-publico/territorio/Autonomia/Andalucia>
+    a skos:Concept ;
+    skos:inScheme <http://datos.gob.es/kos/sector-publico/territorio> ;
+    skos:prefLabel "Andalucía"@es ;
+    skos:topConceptOf <http://datos.gob.es/kos/sector-publico/territorio> .
+
+<http://datos.gob.es/recurso/sector-publico/territorio/Autonomia/Aragon>
+    a skos:Concept ;
+    skos:inScheme <http://datos.gob.es/kos/sector-publico/territorio> ;
+    skos:prefLabel "Aragón"@es ;
+    skos:topConceptOf <http://datos.gob.es/kos/sector-publico/territorio> .
+
+<http://datos.gob.es/recurso/sector-publico/territorio/Autonomia/Principado-Asturias>
+    a skos:Concept ;
+    skos:inScheme <http://datos.gob.es/kos/sector-publico/territorio> ;
+    skos:prefLabel "Principado de Asturias"@es ;
+    skos:topConceptOf <http://datos.gob.es/kos/sector-publico/territorio> .
+
+<http://datos.gob.es/recurso/sector-publico/territorio/Autonomia/Illes-Balears>
+    a skos:Concept ;
+    skos:inScheme <http://datos.gob.es/kos/sector-publico/territorio> ;
+    skos:prefLabel "Illes Balears"@es ;
+    skos:topConceptOf <http://datos.gob.es/kos/sector-publico/territorio> .
+
+<http://datos.gob.es/recurso/sector-publico/territorio/Autonomia/Canarias>
+    a skos:Concept ;
+    skos:inScheme <http://datos.gob.es/kos/sector-publico/territorio> ;
+    skos:prefLabel "Canarias"@es ;
+    skos:topConceptOf <http://datos.gob.es/kos/sector-publico/territorio> .
+
+<http://datos.gob.es/recurso/sector-publico/territorio/Autonomia/Cantabria>
+    a skos:Concept ;
+    skos:inScheme <http://datos.gob.es/kos/sector-publico/territorio> ;
+    skos:prefLabel "Cantabria"@es ;
+    skos:topConceptOf <http://datos.gob.es/kos/sector-publico/territorio> .
+
+<http://datos.gob.es/recurso/sector-publico/territorio/Autonomia/Castilla-Leon>
+    a skos:Concept ;
+    skos:inScheme <http://datos.gob.es/kos/sector-publico/territorio> ;
+    skos:prefLabel "Castilla y León"@es ;
+    skos:topConceptOf <http://datos.gob.es/kos/sector-publico/territorio> .
+
+<http://datos.gob.es/recurso/sector-publico/territorio/Autonomia/Castilla-La-Mancha>
+    a skos:Concept ;
+    skos:inScheme <http://datos.gob.es/kos/sector-publico/territorio> ;
+    skos:prefLabel "Castilla-La Mancha"@es ;
+    skos:topConceptOf <http://datos.gob.es/kos/sector-publico/territorio> .
+
+<http://datos.gob.es/recurso/sector-publico/territorio/Autonomia/Cataluna>
+    a skos:Concept ;
+    skos:inScheme <http://datos.gob.es/kos/sector-publico/territorio> ;
+    skos:prefLabel "Cataluña"@es ;
+    skos:topConceptOf <http://datos.gob.es/kos/sector-publico/territorio> .
+
+<http://datos.gob.es/recurso/sector-publico/territorio/Autonomia/Comunitat-Valenciana>
+    a skos:Concept ;
+    skos:inScheme <http://datos.gob.es/kos/sector-publico/territorio> ;
+    skos:prefLabel "Comunitat Valenciana"@es ;
+    skos:topConceptOf <http://datos.gob.es/kos/sector-publico/territorio> .
+
+<http://datos.gob.es/recurso/sector-publico/territorio/Autonomia/Extremadura>
+    a skos:Concept ;
+    skos:inScheme <http://datos.gob.es/kos/sector-publico/territorio> ;
+    skos:prefLabel "Extremadura"@es ;
+    skos:topConceptOf <http://datos.gob.es/kos/sector-publico/territorio> .
+
+<http://datos.gob.es/recurso/sector-publico/territorio/Autonomia/Galicia>
+    a skos:Concept ;
+    skos:inScheme <http://datos.gob.es/kos/sector-publico/territorio> ;
+    skos:prefLabel "Galicia"@es ;
+    skos:topConceptOf <http://datos.gob.es/kos/sector-publico/territorio> .
+
+<http://datos.gob.es/recurso/sector-publico/territorio/Autonomia/Comunidad-Madrid>
+    a skos:Concept ;
+    skos:inScheme <http://datos.gob.es/kos/sector-publico/territorio> ;
+    skos:prefLabel "Comunidad de Madrid"@es ;
+    skos:topConceptOf <http://datos.gob.es/kos/sector-publico/territorio> .
+
+<http://datos.gob.es/recurso/sector-publico/territorio/Autonomia/Region-Murcia>
+    a skos:Concept ;
+    skos:inScheme <http://datos.gob.es/kos/sector-publico/territorio> ;
+    skos:prefLabel "Región de Murcia"@es ;
+    skos:topConceptOf <http://datos.gob.es/kos/sector-publico/territorio> .
+
+<http://datos.gob.es/recurso/sector-publico/territorio/Autonomia/Comunidad-Foral-Navarra>
+    a skos:Concept ;
+    skos:inScheme <http://datos.gob.es/kos/sector-publico/territorio> ;
+    skos:prefLabel "Comunidad Foral de Navarra"@es ;
+    skos:topConceptOf <http://datos.gob.es/kos/sector-publico/territorio> .
+
+<http://datos.gob.es/recurso/sector-publico/territorio/Autonomia/Pais-Vasco>
+    a skos:Concept ;
+    skos:inScheme <http://datos.gob.es/kos/sector-publico/territorio> ;
+    skos:prefLabel "País Vasco"@es ;
+    skos:topConceptOf <http://datos.gob.es/kos/sector-publico/territorio> .
+
+<http://datos.gob.es/recurso/sector-publico/territorio/Autonomia/La-Rioja>
+    a skos:Concept ;
+    skos:inScheme <http://datos.gob.es/kos/sector-publico/territorio> ;
+    skos:prefLabel "La Rioja"@es ;
+    skos:topConceptOf <http://datos.gob.es/kos/sector-publico/territorio> .
+
+<http://datos.gob.es/recurso/sector-publico/territorio/Autonomia/Ceuta>
+    a skos:Concept ;
+    skos:inScheme <http://datos.gob.es/kos/sector-publico/territorio> ;
+    skos:prefLabel "Ceuta"@es ;
+    skos:topConceptOf <http://datos.gob.es/kos/sector-publico/territorio> .
+
+<http://datos.gob.es/recurso/sector-publico/territorio/Autonomia/Melilla>
+    a skos:Concept ;
+    skos:inScheme <http://datos.gob.es/kos/sector-publico/territorio> ;
+    skos:prefLabel "Melilla"@es ;
+    skos:topConceptOf <http://datos.gob.es/kos/sector-publico/territorio> .
+
+# Provincias
+# Andalucía
+<http://datos.gob.es/recurso/sector-publico/territorio/Provincia/Almeria>
+    a skos:Concept ;
+    skos:inScheme <http://datos.gob.es/kos/sector-publico/territorio> ;
+    skos:prefLabel "Almería"@es ;
+    skos:topConceptOf <http://datos.gob.es/kos/sector-publico/territorio>;
+    skos:broader <http://datos.gob.es/recurso/sector-publico/territorio/Autonomia/Andalucia> .
+
+<http://datos.gob.es/recurso/sector-publico/territorio/Provincia/Cadiz>
+    a skos:Concept ;
+    skos:inScheme <http://datos.gob.es/kos/sector-publico/territorio> ;
+    skos:prefLabel "Cádiz"@es ;
+    skos:topConceptOf <http://datos.gob.es/kos/sector-publico/territorio>;
+    skos:broader <http://datos.gob.es/recurso/sector-publico/territorio/Autonomia/Andalucia> .
+
+<http://datos.gob.es/recurso/sector-publico/territorio/Provincia/Cordoba>
+    a skos:Concept ;
+    skos:inScheme <http://datos.gob.es/kos/sector-publico/territorio> ;
+    skos:prefLabel "Córdoba"@es ;
+    skos:topConceptOf <http://datos.gob.es/kos/sector-publico/territorio>;
+    skos:broader <http://datos.gob.es/recurso/sector-publico/territorio/Autonomia/Andalucia> .
+
+<http://datos.gob.es/recurso/sector-publico/territorio/Provincia/Granada>
+    a skos:Concept ;
+    skos:inScheme <http://datos.gob.es/kos/sector-publico/territorio> ;
+    skos:prefLabel "Granada"@es ;
+    skos:topConceptOf <http://datos.gob.es/kos/sector-publico/territorio>;
+    skos:broader <http://datos.gob.es/recurso/sector-publico/territorio/Autonomia/Andalucia> .
+
+<http://datos.gob.es/recurso/sector-publico/territorio/Provincia/Huelva>
+    a skos:Concept ;
+    skos:inScheme <http://datos.gob.es/kos/sector-publico/territorio> ;
+    skos:prefLabel "Huelva"@es ;
+    skos:topConceptOf <http://datos.gob.es/kos/sector-publico/territorio>;
+    skos:broader <http://datos.gob.es/recurso/sector-publico/territorio/Autonomia/Andalucia> .
+
+<http://datos.gob.es/recurso/sector-publico/territorio/Provincia/Jaen>
+    a skos:Concept ;
+    skos:inScheme <http://datos.gob.es/kos/sector-publico/territorio> ;
+    skos:prefLabel "Jaén"@es ;
+    skos:topConceptOf <http://datos.gob.es/kos/sector-publico/territorio>;
+    skos:broader <http://datos.gob.es/recurso/sector-publico/territorio/Autonomia/Andalucia> .
+
+<http://datos.gob.es/recurso/sector-publico/territorio/Provincia/Malaga>
+    a skos:Concept ;
+    skos:inScheme <http://datos.gob.es/kos/sector-publico/territorio> ;
+    skos:prefLabel "Málaga"@es ;
+    skos:topConceptOf <http://datos.gob.es/kos/sector-publico/territorio>;
+    skos:broader <http://datos.gob.es/recurso/sector-publico/territorio/Autonomia/Andalucia> .
+
+<http://datos.gob.es/recurso/sector-publico/territorio/Provincia/Sevilla>
+    a skos:Concept ;
+    skos:inScheme <http://datos.gob.es/kos/sector-publico/territorio> ;
+    skos:prefLabel "Sevilla"@es ;
+    skos:topConceptOf <http://datos.gob.es/kos/sector-publico/territorio>;
+    skos:broader <http://datos.gob.es/recurso/sector-publico/territorio/Autonomia/Andalucia> .
+
+# Aragón
+<http://datos.gob.es/recurso/sector-publico/territorio/Provincia/Huesca>
+    a skos:Concept ;
+    skos:inScheme <http://datos.gob.es/kos/sector-publico/territorio> ;
+    skos:prefLabel "Huesca"@es ;
+    skos:topConceptOf <http://datos.gob.es/kos/sector-publico/territorio>;
+    skos:broader <http://datos.gob.es/recurso/sector-publico/territorio/Autonomia/Aragon> .
+
+<http://datos.gob.es/recurso/sector-publico/territorio/Provincia/Teruel>
+    a skos:Concept ;
+    skos:inScheme <http://datos.gob.es/kos/sector-publico/territorio> ;
+    skos:prefLabel "Teruel"@es ;
+    skos:topConceptOf <http://datos.gob.es/kos/sector-publico/territorio>;
+    skos:broader <http://datos.gob.es/recurso/sector-publico/territorio/Autonomia/Aragon> .
+
+<http://datos.gob.es/recurso/sector-publico/territorio/Provincia/Zaragoza>
+    a skos:Concept ;
+    skos:inScheme <http://datos.gob.es/kos/sector-publico/territorio> ;
+    skos:prefLabel "Zaragoza"@es ;
+    skos:topConceptOf <http://datos.gob.es/kos/sector-publico/territorio>;
+    skos:broader <http://datos.gob.es/recurso/sector-publico/territorio/Autonomia/Aragon> .
+
+# Principado de Asturias
+<http://datos.gob.es/recurso/sector-publico/territorio/Provincia/Asturias>
+    a skos:Concept ;
+    skos:inScheme <http://datos.gob.es/kos/sector-publico/territorio> ;
+    skos:prefLabel "Asturias"@es ;
+    skos:topConceptOf <http://datos.gob.es/kos/sector-publico/territorio>;
+    skos:broader <http://datos.gob.es/recurso/sector-publico/territorio/Autonomia/Principado-Asturias> .
+
+# Illes Balears
+<http://datos.gob.es/recurso/sector-publico/territorio/Provincia/Illes-Balears>
+    a skos:Concept ;
+    skos:inScheme <http://datos.gob.es/kos/sector-publico/territorio> ;
+    skos:prefLabel "Illes Balears"@es ;
+    skos:topConceptOf <http://datos.gob.es/kos/sector-publico/territorio>;
+    skos:broader <http://datos.gob.es/recurso/sector-publico/territorio/Autonomia/Illes-Balears> .
+
+# Canarias
+<http://datos.gob.es/recurso/sector-publico/territorio/Provincia/Las-Palmas>
+    a skos:Concept ;
+    skos:inScheme <http://datos.gob.es/kos/sector-publico/territorio> ;
+    skos:prefLabel "Las Palmas"@es ;
+    skos:topConceptOf <http://datos.gob.es/kos/sector-publico/territorio>;
+    skos:broader <http://datos.gob.es/recurso/sector-publico/territorio/Autonomia/Canarias> .
+
+<http://datos.gob.es/recurso/sector-publico/territorio/Provincia/Santa-Cruz-Tenerife>
+    a skos:Concept ;
+    skos:inScheme <http://datos.gob.es/kos/sector-publico/territorio> ;
+    skos:prefLabel "Santa Cruz de Tenerife"@es ;
+    skos:topConceptOf <http://datos.gob.es/kos/sector-publico/territorio>;
+    skos:broader <http://datos.gob.es/recurso/sector-publico/territorio/Autonomia/Canarias> .
+
+# Cantabria
+<http://datos.gob.es/recurso/sector-publico/territorio/Provincia/Cantabria>
+    a skos:Concept ;
+    skos:inScheme <http://datos.gob.es/kos/sector-publico/territorio> ;
+    skos:prefLabel "Cantabria"@es ;
+    skos:topConceptOf <http://datos.gob.es/kos/sector-publico/territorio>;
+    skos:broader <http://datos.gob.es/recurso/sector-publico/territorio/Autonomia/Cantabria> .
+
+# Castilla y León
+<http://datos.gob.es/recurso/sector-publico/territorio/Provincia/Avila>
+    a skos:Concept ;
+    skos:inScheme <http://datos.gob.es/kos/sector-publico/territorio> ;
+    skos:prefLabel "Ávila"@es ;
+    skos:topConceptOf <http://datos.gob.es/kos/sector-publico/territorio>;
+    skos:broader <http://datos.gob.es/recurso/sector-publico/territorio/Autonomia/Castilla-Leon> .
+
+<http://datos.gob.es/recurso/sector-publico/territorio/Provincia/Burgos>
+    a skos:Concept ;
+    skos:inScheme <http://datos.gob.es/kos/sector-publico/territorio> ;
+    skos:prefLabel "Burgos"@es ;
+    skos:topConceptOf <http://datos.gob.es/kos/sector-publico/territorio>;
+    skos:broader <http://datos.gob.es/recurso/sector-publico/territorio/Autonomia/Castilla-Leon> .
+
+<http://datos.gob.es/recurso/sector-publico/territorio/Provincia/Leon>
+    a skos:Concept ;
+    skos:inScheme <http://datos.gob.es/kos/sector-publico/territorio> ;
+    skos:prefLabel "León"@es ;
+    skos:topConceptOf <http://datos.gob.es/kos/sector-publico/territorio>;
+    skos:broader <http://datos.gob.es/recurso/sector-publico/territorio/Autonomia/Castilla-Leon> .
+
+<http://datos.gob.es/recurso/sector-publico/territorio/Provincia/Palencia>
+    a skos:Concept ;
+    skos:inScheme <http://datos.gob.es/kos/sector-publico/territorio> ;
+    skos:prefLabel "Palencia"@es ;
+    skos:topConceptOf <http://datos.gob.es/kos/sector-publico/territorio>;
+    skos:broader <http://datos.gob.es/recurso/sector-publico/territorio/Autonomia/Castilla-Leon> .
+
+<http://datos.gob.es/recurso/sector-publico/territorio/Provincia/Salamanca>
+    a skos:Concept ;
+    skos:inScheme <http://datos.gob.es/kos/sector-publico/territorio> ;
+    skos:prefLabel "Salamanca"@es ;
+    skos:topConceptOf <http://datos.gob.es/kos/sector-publico/territorio>;
+    skos:broader <http://datos.gob.es/recurso/sector-publico/territorio/Autonomia/Castilla-Leon> .
+
+<http://datos.gob.es/recurso/sector-publico/territorio/Provincia/Segovia>
+    a skos:Concept ;
+    skos:inScheme <http://datos.gob.es/kos/sector-publico/territorio> ;
+    skos:prefLabel "Segovia"@es ;
+    skos:topConceptOf <http://datos.gob.es/kos/sector-publico/territorio>;
+    skos:broader <http://datos.gob.es/recurso/sector-publico/territorio/Autonomia/Castilla-Leon> .
+
+<http://datos.gob.es/recurso/sector-publico/territorio/Provincia/Soria>
+    a skos:Concept ;
+    skos:inScheme <http://datos.gob.es/kos/sector-publico/territorio> ;
+    skos:prefLabel "Soria"@es ;
+    skos:topConceptOf <http://datos.gob.es/kos/sector-publico/territorio>;
+    skos:broader <http://datos.gob.es/recurso/sector-publico/territorio/Autonomia/Castilla-Leon> .
+
+<http://datos.gob.es/recurso/sector-publico/territorio/Provincia/Valladolid>
+    a skos:Concept ;
+    skos:inScheme <http://datos.gob.es/kos/sector-publico/territorio> ;
+    skos:prefLabel "Valladolid"@es ;
+    skos:topConceptOf <http://datos.gob.es/kos/sector-publico/territorio>;
+    skos:broader <http://datos.gob.es/recurso/sector-publico/territorio/Autonomia/Castilla-Leon> .
+
+<http://datos.gob.es/recurso/sector-publico/territorio/Provincia/Zamora>
+    a skos:Concept ;
+    skos:inScheme <http://datos.gob.es/kos/sector-publico/territorio> ;
+    skos:prefLabel "Zamora"@es ;
+    skos:topConceptOf <http://datos.gob.es/kos/sector-publico/territorio>;
+    skos:broader <http://datos.gob.es/recurso/sector-publico/territorio/Autonomia/Castilla-Leon> .
+
+# Castilla-La Mancha
+<http://datos.gob.es/recurso/sector-publico/territorio/Provincia/Albacete>
+    a skos:Concept ;
+    skos:inScheme <http://datos.gob.es/kos/sector-publico/territorio> ;
+    skos:prefLabel "Albacete"@es ;
+    skos:topConceptOf <http://datos.gob.es/kos/sector-publico/territorio>;
+    skos:broader <http://datos.gob.es/recurso/sector-publico/territorio/Autonomia/Castilla-La-Mancha> .
+
+<http://datos.gob.es/recurso/sector-publico/territorio/Provincia/Ciudad-Real>
+    a skos:Concept ;
+    skos:inScheme <http://datos.gob.es/kos/sector-publico/territorio> ;
+    skos:prefLabel "Ciudad Real"@es ;
+    skos:topConceptOf <http://datos.gob.es/kos/sector-publico/territorio>;
+    skos:broader <http://datos.gob.es/recurso/sector-publico/territorio/Autonomia/Castilla-La-Mancha> .
+
+<http://datos.gob.es/recurso/sector-publico/territorio/Provincia/Cuenca>
+    a skos:Concept ;
+    skos:inScheme <http://datos.gob.es/kos/sector-publico/territorio> ;
+    skos:prefLabel "Cuenca"@es ;
+    skos:topConceptOf <http://datos.gob.es/kos/sector-publico/territorio>;
+    skos:broader <http://datos.gob.es/recurso/sector-publico/territorio/Autonomia/Castilla-La-Mancha> .
+
+<http://datos.gob.es/recurso/sector-publico/territorio/Provincia/Guadalajara>
+    a skos:Concept ;
+    skos:inScheme <http://datos.gob.es/kos/sector-publico/territorio> ;
+    skos:prefLabel "Guadalajara"@es ;
+    skos:topConceptOf <http://datos.gob.es/kos/sector-publico/territorio>;
+    skos:broader <http://datos.gob.es/recurso/sector-publico/territorio/Autonomia/Castilla-La-Mancha> .
+
+<http://datos.gob.es/recurso/sector-publico/territorio/Provincia/Toledo>
+    a skos:Concept ;
+    skos:inScheme <http://datos.gob.es/kos/sector-publico/territorio> ;
+    skos:prefLabel "Toledo"@es ;
+    skos:topConceptOf <http://datos.gob.es/kos/sector-publico/territorio>;
+    skos:broader <http://datos.gob.es/recurso/sector-publico/territorio/Autonomia/Castilla-La-Mancha> .
+
+# Cataluña
+<http://datos.gob.es/recurso/sector-publico/territorio/Provincia/Barcelona>
+    a skos:Concept ;
+    skos:inScheme <http://datos.gob.es/kos/sector-publico/territorio> ;
+    skos:prefLabel "Barcelona"@es ;
+    skos:topConceptOf <http://datos.gob.es/kos/sector-publico/territorio>;
+    skos:broader <http://datos.gob.es/recurso/sector-publico/territorio/Autonomia/Cataluna> .
+
+<http://datos.gob.es/recurso/sector-publico/territorio/Provincia/Girona>
+    a skos:Concept ;
+    skos:inScheme <http://datos.gob.es/kos/sector-publico/territorio> ;
+    skos:prefLabel "Girona"@es ;
+    skos:topConceptOf <http://datos.gob.es/kos/sector-publico/territorio>;
+    skos:broader <http://datos.gob.es/recurso/sector-publico/territorio/Autonomia/Cataluna> .
+
+<http://datos.gob.es/recurso/sector-publico/territorio/Provincia/Lleida>
+    a skos:Concept ;
+    skos:inScheme <http://datos.gob.es/kos/sector-publico/territorio> ;
+    skos:prefLabel "Lleida"@es ;
+    skos:topConceptOf <http://datos.gob.es/kos/sector-publico/territorio>;
+    skos:broader <http://datos.gob.es/recurso/sector-publico/territorio/Autonomia/Cataluna> .
+
+<http://datos.gob.es/recurso/sector-publico/territorio/Provincia/Tarragona>
+    a skos:Concept ;
+    skos:inScheme <http://datos.gob.es/kos/sector-publico/territorio> ;
+    skos:prefLabel "Tarragona"@es ;
+    skos:topConceptOf <http://datos.gob.es/kos/sector-publico/territorio>;
+    skos:broader <http://datos.gob.es/recurso/sector-publico/territorio/Autonomia/Cataluna> .
+
+# Comunidad Valenciana
+<http://datos.gob.es/recurso/sector-publico/territorio/Provincia/Alicante>
+    a skos:Concept ;
+    skos:inScheme <http://datos.gob.es/kos/sector-publico/territorio> ;
+    skos:prefLabel "Alicante/Alacant"@es ;
+    skos:topConceptOf <http://datos.gob.es/kos/sector-publico/territorio>;
+    skos:broader <http://datos.gob.es/recurso/sector-publico/territorio/Autonomia/Comunitat-Valenciana> .
+
+<http://datos.gob.es/recurso/sector-publico/territorio/Provincia/Castellon>
+    a skos:Concept ;
+    skos:inScheme <http://datos.gob.es/kos/sector-publico/territorio> ;
+    skos:prefLabel "Castellón/Castelló"@es ;
+    skos:topConceptOf <http://datos.gob.es/kos/sector-publico/territorio>;
+    skos:broader <http://datos.gob.es/recurso/sector-publico/territorio/Autonomia/Comunitat-Valenciana> .
+
+<http://datos.gob.es/recurso/sector-publico/territorio/Provincia/Valencia>
+    a skos:Concept ;
+    skos:inScheme <http://datos.gob.es/kos/sector-publico/territorio> ;
+    skos:prefLabel "Valencia/València"@es ;
+    skos:topConceptOf <http://datos.gob.es/kos/sector-publico/territorio>;
+    skos:broader <http://datos.gob.es/recurso/sector-publico/territorio/Autonomia/Comunitat-Valenciana> .
+
+# Extremadura
+<http://datos.gob.es/recurso/sector-publico/territorio/Provincia/Badajoz>
+    a skos:Concept ;
+    skos:inScheme <http://datos.gob.es/kos/sector-publico/territorio> ;
+    skos:prefLabel "Badajoz"@es ;
+    skos:topConceptOf <http://datos.gob.es/kos/sector-publico/territorio>;
+    skos:broader <http://datos.gob.es/recurso/sector-publico/territorio/Autonomia/Extremadura> .
+
+<http://datos.gob.es/recurso/sector-publico/territorio/Provincia/Caceres>
+    a skos:Concept ;
+    skos:inScheme <http://datos.gob.es/kos/sector-publico/territorio> ;
+    skos:prefLabel "Cáceres"@es ;
+    skos:topConceptOf <http://datos.gob.es/kos/sector-publico/territorio>;
+    skos:broader <http://datos.gob.es/recurso/sector-publico/territorio/Autonomia/Extremadura> .
+
+# Galicia
+<http://datos.gob.es/recurso/sector-publico/territorio/Provincia/A-Coruna>
+    a skos:Concept ;
+    skos:inScheme <http://datos.gob.es/kos/sector-publico/territorio> ;
+    skos:prefLabel "A Coruña"@es ;
+    skos:topConceptOf <http://datos.gob.es/kos/sector-publico/territorio>;
+    skos:broader <http://datos.gob.es/recurso/sector-publico/territorio/Autonomia/Galicia> .
+
+<http://datos.gob.es/recurso/sector-publico/territorio/Provincia/Lugo>
+    a skos:Concept ;
+    skos:inScheme <http://datos.gob.es/kos/sector-publico/territorio> ;
+    skos:prefLabel "Lugo"@es ;
+    skos:topConceptOf <http://datos.gob.es/kos/sector-publico/territorio>;
+    skos:broader <http://datos.gob.es/recurso/sector-publico/territorio/Autonomia/Galicia> .
+
+<http://datos.gob.es/recurso/sector-publico/territorio/Provincia/Ourense>
+    a skos:Concept ;
+    skos:inScheme <http://datos.gob.es/kos/sector-publico/territorio> ;
+    skos:prefLabel "Ourense"@es ;
+    skos:topConceptOf <http://datos.gob.es/kos/sector-publico/territorio>;
+    skos:broader <http://datos.gob.es/recurso/sector-publico/territorio/Autonomia/Galicia> .
+
+<http://datos.gob.es/recurso/sector-publico/territorio/Provincia/Pontevedra>
+    a skos:Concept ;
+    skos:inScheme <http://datos.gob.es/kos/sector-publico/territorio> ;
+    skos:prefLabel "Pontevedra"@es ;
+    skos:topConceptOf <http://datos.gob.es/kos/sector-publico/territorio>;
+    skos:broader <http://datos.gob.es/recurso/sector-publico/territorio/Autonomia/Galicia> .
+
+# Comunidad de Madrid
+<http://datos.gob.es/recurso/sector-publico/territorio/Provincia/Madrid>
+    a skos:Concept ;
+    skos:inScheme <http://datos.gob.es/kos/sector-publico/territorio> ;
+    skos:prefLabel "Madrid"@es ;
+    skos:topConceptOf <http://datos.gob.es/kos/sector-publico/territorio>;
+    skos:broader <http://datos.gob.es/recurso/sector-publico/territorio/Autonomia/Comunidad-Madrid> .
+
+# Región de Murcia
+<http://datos.gob.es/recurso/sector-publico/territorio/Provincia/Murcia>
+    a skos:Concept ;
+    skos:inScheme <http://datos.gob.es/kos/sector-publico/territorio> ;
+    skos:prefLabel "Murcia"@es ;
+    skos:topConceptOf <http://datos.gob.es/kos/sector-publico/territorio>;
+    skos:broader <http://datos.gob.es/recurso/sector-publico/territorio/Autonomia/Region-Murcia> .
+
+# Comunidad Foral de Navarra
+<http://datos.gob.es/recurso/sector-publico/territorio/Provincia/Navarra>
+    a skos:Concept ;
+    skos:inScheme <http://datos.gob.es/kos/sector-publico/territorio> ;
+    skos:prefLabel "Navarra"@es ;
+    skos:topConceptOf <http://datos.gob.es/kos/sector-publico/territorio>;
+    skos:broader <http://datos.gob.es/recurso/sector-publico/territorio/Autonomia/Comunidad-Foral-Navarra> .
+
+# País Vasco
+<http://datos.gob.es/recurso/sector-publico/territorio/Provincia/Alava>
+    a skos:Concept ;
+    skos:inScheme <http://datos.gob.es/kos/sector-publico/territorio> ;
+    skos:prefLabel "Álava"@es ;
+    skos:topConceptOf <http://datos.gob.es/kos/sector-publico/territorio>;
+    skos:broader <http://datos.gob.es/recurso/sector-publico/territorio/Autonomia/Pais-Vasco> .
+
+<http://datos.gob.es/recurso/sector-publico/territorio/Provincia/Guipuzcoa>
+    a skos:Concept ;
+    skos:inScheme <http://datos.gob.es/kos/sector-publico/territorio> ;
+    skos:prefLabel "Guipúzcoa"@es ;
+    skos:topConceptOf <http://datos.gob.es/kos/sector-publico/territorio>;
+    skos:broader <http://datos.gob.es/recurso/sector-publico/territorio/Autonomia/Pais-Vasco> .
+
+<http://datos.gob.es/recurso/sector-publico/territorio/Provincia/Vizcaya>
+    a skos:Concept ;
+    skos:inScheme <http://datos.gob.es/kos/sector-publico/territorio> ;
+    skos:prefLabel "Vizcaya"@es ;
+    skos:topConceptOf <http://datos.gob.es/kos/sector-publico/territorio>;
+    skos:broader <http://datos.gob.es/recurso/sector-publico/territorio/Autonomia/Pais-Vasco> .
+
+# La Rioja
+<http://datos.gob.es/recurso/sector-publico/territorio/Provincia/La-Rioja>
+    a skos:Concept ;
+    skos:inScheme <http://datos.gob.es/kos/sector-publico/territorio> ;
+    skos:prefLabel "La Rioja"@es ;
+    skos:topConceptOf <http://datos.gob.es/kos/sector-publico/territorio>;
+    skos:broader <http://datos.gob.es/recurso/sector-publico/territorio/Autonomia/La-Rioja> .
+
+# Ceuta
+<http://datos.gob.es/recurso/sector-publico/territorio/Provincia/Ceuta>
+    a skos:Concept ;
+    skos:inScheme <http://datos.gob.es/kos/sector-publico/territorio> ;
+    skos:prefLabel "Ceuta"@es ;
+    skos:topConceptOf <http://datos.gob.es/kos/sector-publico/territorio>;
+    skos:broader <http://datos.gob.es/recurso/sector-publico/territorio/Autonomia/Ceuta> .
+
+# Melilla
+<http://datos.gob.es/recurso/sector-publico/territorio/Provincia/Melilla>
+    a skos:Concept ;
+    skos:inScheme <http://datos.gob.es/kos/sector-publico/territorio> ;
+    skos:prefLabel "Melilla"@es ;
+    skos:topConceptOf <http://datos.gob.es/kos/sector-publico/territorio>;
+    skos:broader <http://datos.gob.es/recurso/sector-publico/territorio/Autonomia/Melilla> .

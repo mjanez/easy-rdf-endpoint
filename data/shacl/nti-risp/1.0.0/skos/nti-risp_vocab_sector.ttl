@@ -1,0 +1,200 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix : <http://datos.gob.es/nti-risp#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix euvoc: <http://publications.europa.eu/ontology/euvoc#> .
+@prefix skosxl: <http://www.w3.org/2008/05/skos-xl#> .
+
+# Taxonomía de sectores primarios
+<http://datos.gob.es/kos/sector-publico/sector>
+    a skos:ConceptScheme ;
+    skos:prefLabel "Taxonomía de sectores primarios"@es ;
+    skos:prefLabel "Primary sectors taxonomy"@en ;
+    dct:title "Taxonomía de sectores primarios"@es ;
+    dct:title "Primary sectors taxonomy"@en ;
+    dct:description "Taxonomía para la clasificación de sectores primarios según la NTI-RISP"@es ;
+    dct:description "Taxonomy for primary sectors classification according to NTI-RISP"@en ;
+    dct:created "2013-03-04"^^xsd:date ;
+    dct:modified "2025-03-01"^^xsd:date ;
+    dct:issued "2013-03-04"^^xsd:date ;
+    owl:versionInfo "1.0" ;
+    dct:identifier "http://datos.gob.es/kos/sector-publico/sector" ;
+    skos:hasTopConcept <http://datos.gob.es/kos/sector-publico/sector/ciencia-tecnologia>,
+        <http://datos.gob.es/kos/sector-publico/sector/comercio>,
+        <http://datos.gob.es/kos/sector-publico/sector/cultura-ocio>,
+        <http://datos.gob.es/kos/sector-publico/sector/demografia>,
+        <http://datos.gob.es/kos/sector-publico/sector/deporte>,
+        <http://datos.gob.es/kos/sector-publico/sector/economia>,
+        <http://datos.gob.es/kos/sector-publico/sector/educacion>,
+        <http://datos.gob.es/kos/sector-publico/sector/empleo>,
+        <http://datos.gob.es/kos/sector-publico/sector/energia>,
+        <http://datos.gob.es/kos/sector-publico/sector/hacienda>,
+        <http://datos.gob.es/kos/sector-publico/sector/industria>,
+        <http://datos.gob.es/kos/sector-publico/sector/legislacion-justicia>,
+        <http://datos.gob.es/kos/sector-publico/sector/medio-ambiente>,
+        <http://datos.gob.es/kos/sector-publico/sector/medio-rural-pesca>,
+        <http://datos.gob.es/kos/sector-publico/sector/salud>,
+        <http://datos.gob.es/kos/sector-publico/sector/sector-publico>,
+        <http://datos.gob.es/kos/sector-publico/sector/seguridad>,
+        <http://datos.gob.es/kos/sector-publico/sector/sociedad-bienestar>,
+        <http://datos.gob.es/kos/sector-publico/sector/transporte>,
+        <http://datos.gob.es/kos/sector-publico/sector/turismo>,
+        <http://datos.gob.es/kos/sector-publico/sector/urbanismo-infraestructuras>,
+        <http://datos.gob.es/kos/sector-publico/sector/vivienda> .
+
+# Definición de los conceptos individuales para sectores primarios
+<http://datos.gob.es/kos/sector-publico/sector/ciencia-tecnologia>
+    a skos:Concept ;
+    skos:inScheme <http://datos.gob.es/kos/sector-publico/sector> ;
+    skos:prefLabel "Ciencia y tecnología"@es ;
+    skos:definition "Incluye: Innovación, Investigación, I+D+i, Telecomunicaciones, Internet y Sociedad de la Información."@es ;
+    skos:topConceptOf <http://datos.gob.es/kos/sector-publico/sector> .
+
+<http://datos.gob.es/kos/sector-publico/sector/comercio>
+    a skos:Concept ;
+    skos:inScheme <http://datos.gob.es/kos/sector-publico/sector> ;
+    skos:prefLabel "Comercio"@es ;
+    skos:definition "Incluye: Consumo."@es ;
+    skos:topConceptOf <http://datos.gob.es/kos/sector-publico/sector> .
+
+<http://datos.gob.es/kos/sector-publico/sector/cultura-ocio>
+    a skos:Concept ;
+    skos:inScheme <http://datos.gob.es/kos/sector-publico/sector> ;
+    skos:prefLabel "Cultura y ocio"@es ;
+    skos:definition "Incluye: Tiempo libre."@es ;
+    skos:topConceptOf <http://datos.gob.es/kos/sector-publico/sector> .
+
+<http://datos.gob.es/kos/sector-publico/sector/demografia>
+    a skos:Concept ;
+    skos:inScheme <http://datos.gob.es/kos/sector-publico/sector> ;
+    skos:prefLabel "Demografía"@es ;
+    skos:definition "Incluye: Inmigración y Emigración, Familia, Mujeres, Infancia, Mayores, Padrón."@es ;
+    skos:topConceptOf <http://datos.gob.es/kos/sector-publico/sector> .
+
+<http://datos.gob.es/kos/sector-publico/sector/deporte>
+    a skos:Concept ;
+    skos:inScheme <http://datos.gob.es/kos/sector-publico/sector> ;
+    skos:prefLabel "Deporte"@es ;
+    skos:definition "Incluye: Instalaciones deportivas, Federaciones, Competiciones."@es ;
+    skos:topConceptOf <http://datos.gob.es/kos/sector-publico/sector> .
+
+<http://datos.gob.es/kos/sector-publico/sector/economia>
+    a skos:Concept ;
+    skos:inScheme <http://datos.gob.es/kos/sector-publico/sector> ;
+    skos:prefLabel "Economía"@es ;
+    skos:definition "Incluye: Deuda, Moneda y Banca y finanzas."@es ;
+    skos:topConceptOf <http://datos.gob.es/kos/sector-publico/sector> .
+
+<http://datos.gob.es/kos/sector-publico/sector/educacion>
+    a skos:Concept ;
+    skos:inScheme <http://datos.gob.es/kos/sector-publico/sector> ;
+    skos:prefLabel "Educación"@es ;
+    skos:definition "Incluye: Formación."@es ;
+    skos:topConceptOf <http://datos.gob.es/kos/sector-publico/sector> .
+
+<http://datos.gob.es/kos/sector-publico/sector/empleo>
+    a skos:Concept ;
+    skos:inScheme <http://datos.gob.es/kos/sector-publico/sector> ;
+    skos:prefLabel "Empleo"@es ;
+    skos:definition "Incluye: Trabajo, Mercado laboral."@es ;
+    skos:topConceptOf <http://datos.gob.es/kos/sector-publico/sector> .
+
+<http://datos.gob.es/kos/sector-publico/sector/energia>
+    a skos:Concept ;
+    skos:inScheme <http://datos.gob.es/kos/sector-publico/sector> ;
+    skos:prefLabel "Energía"@es ;
+    skos:definition "Incluye: Fuentes renovables."@es ;
+    skos:topConceptOf <http://datos.gob.es/kos/sector-publico/sector> .
+
+<http://datos.gob.es/kos/sector-publico/sector/hacienda>
+    a skos:Concept ;
+    skos:inScheme <http://datos.gob.es/kos/sector-publico/sector> ;
+    skos:prefLabel "Hacienda"@es ;
+    skos:definition "Incluye: Impuestos."@es ;
+    skos:topConceptOf <http://datos.gob.es/kos/sector-publico/sector> .
+
+<http://datos.gob.es/kos/sector-publico/sector/industria>
+    a skos:Concept ;
+    skos:inScheme <http://datos.gob.es/kos/sector-publico/sector> ;
+    skos:prefLabel "Industria"@es ;
+    skos:definition "Incluye: Minería."@es ;
+    skos:topConceptOf <http://datos.gob.es/kos/sector-publico/sector> .
+
+<http://datos.gob.es/kos/sector-publico/sector/legislacion-justicia>
+    a skos:Concept ;
+    skos:inScheme <http://datos.gob.es/kos/sector-publico/sector> ;
+    skos:prefLabel "Legislación y justicia"@es ;
+    skos:definition "Incluye: Registros."@es ;
+    skos:topConceptOf <http://datos.gob.es/kos/sector-publico/sector> .
+
+<http://datos.gob.es/kos/sector-publico/sector/medio-ambiente>
+    a skos:Concept ;
+    skos:inScheme <http://datos.gob.es/kos/sector-publico/sector> ;
+    skos:prefLabel "Medio ambiente"@es ;
+    skos:definition "Incluye: Meteorología, Geografía, Conservación fauna y flora."@es ;
+    skos:topConceptOf <http://datos.gob.es/kos/sector-publico/sector> .
+
+<http://datos.gob.es/kos/sector-publico/sector/medio-rural-pesca>
+    a skos:Concept ;
+    skos:inScheme <http://datos.gob.es/kos/sector-publico/sector> ;
+    skos:prefLabel "Medio Rural"@es ;
+    skos:definition "Incluye: Agricultura, Ganadería, Pesca y Silvicultura."@es ;
+    skos:topConceptOf <http://datos.gob.es/kos/sector-publico/sector> .
+
+<http://datos.gob.es/kos/sector-publico/sector/salud>
+    a skos:Concept ;
+    skos:inScheme <http://datos.gob.es/kos/sector-publico/sector> ;
+    skos:prefLabel "Salud"@es ;
+    skos:definition "Incluye: Sanidad."@es ;
+    skos:topConceptOf <http://datos.gob.es/kos/sector-publico/sector> .
+
+<http://datos.gob.es/kos/sector-publico/sector/sector-publico>
+    a skos:Concept ;
+    skos:inScheme <http://datos.gob.es/kos/sector-publico/sector> ;
+    skos:prefLabel "Sector público"@es ;
+    skos:definition "Incluye: Presupuestos, Organigrama institucional, Legislación interna, Función pública."@es ;
+    skos:topConceptOf <http://datos.gob.es/kos/sector-publico/sector> .
+
+<http://datos.gob.es/kos/sector-publico/sector/seguridad>
+    a skos:Concept ;
+    skos:inScheme <http://datos.gob.es/kos/sector-publico/sector> ;
+    skos:prefLabel "Seguridad"@es ;
+    skos:definition "Incluye: Protección civil, Defensa."@es ;
+    skos:topConceptOf <http://datos.gob.es/kos/sector-publico/sector> .
+
+<http://datos.gob.es/kos/sector-publico/sector/sociedad-bienestar>
+    a skos:Concept ;
+    skos:inScheme <http://datos.gob.es/kos/sector-publico/sector> ;
+    skos:prefLabel "Sociedad y bienestar"@es ;
+    skos:definition "Incluye: Participación ciudadana, Marginación, Envejecimiento Activo, Autonomía personal y Dependencia, Invalidez, Jubilación, Seguros y Pensiones, Prestaciones y Subvenciones."@es ;
+    skos:topConceptOf <http://datos.gob.es/kos/sector-publico/sector> .
+
+<http://datos.gob.es/kos/sector-publico/sector/transporte>
+    a skos:Concept ;
+    skos:inScheme <http://datos.gob.es/kos/sector-publico/sector> ;
+    skos:prefLabel "Transporte"@es ;
+    skos:definition "Incluye: Comunicaciones y Tráfico."@es ;
+    skos:topConceptOf <http://datos.gob.es/kos/sector-publico/sector> .
+
+<http://datos.gob.es/kos/sector-publico/sector/turismo>
+    a skos:Concept ;
+    skos:inScheme <http://datos.gob.es/kos/sector-publico/sector> ;
+    skos:prefLabel "Turismo"@es ;
+    skos:definition "Incluye: Alojamientos, Hostelería, Gastronomía."@es ;
+    skos:topConceptOf <http://datos.gob.es/kos/sector-publico/sector> .
+
+<http://datos.gob.es/kos/sector-publico/sector/urbanismo-infraestructuras>
+    a skos:Concept ;
+    skos:inScheme <http://datos.gob.es/kos/sector-publico/sector> ;
+    skos:prefLabel "Urbanismo e infraestructuras"@es ;
+    skos:definition "Incluye: Saneamiento público, Construcción (infraestructuras, equipamientos públicos)."@es ;
+    skos:topConceptOf <http://datos.gob.es/kos/sector-publico/sector> .
+
+<http://datos.gob.es/kos/sector-publico/sector/vivienda>
+    a skos:Concept ;
+    skos:inScheme <http://datos.gob.es/kos/sector-publico/sector> ;
+    skos:prefLabel "Vivienda"@es ;
+    skos:definition "Incluye: Mercado inmobiliario, Construcción (viviendas)."@es ;
+    skos:topConceptOf <http://datos.gob.es/kos/sector-publico/sector> .
