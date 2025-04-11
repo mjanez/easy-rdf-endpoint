@@ -3,7 +3,10 @@
 ## Overview
 This project provides a simple **Dockerized RDF endpoint** that simplifies catalog deployment of `.rdf` files, provides an SPARQL Endpoint based on [`vemonet/rdflib-endpoint`](https://github.com/vemonet/rdflib-endpoint) and incorporates interfaces for both semantic and syntactic validation of RDF files.
 
-About
+> [!TIP]
+> **Quick deployment**: Use our pre-built container images with `docker-compose -f docker-compose.ghcr.yml up -d` to deploy a complete RDF ecosystem in under 5 minutes, without having to build images locally!
+
+# About
 This project provides a simple Dockerized RDF endpoint that simplifies catalog deployment, provides a SPARQL endpoint
 
 * **SPARQL Features**: Advanced RDF Query Capabilities
@@ -49,6 +52,7 @@ Use [Codespaces](https://github.com/features/codespaces) to test `easy-rdf-endpo
 Before starting the deployment, you'll need to set up a `.env` file. This file is crucial as it contains environment variables that the application needs to run properly.
 
 1. Clone project
+
     ```sh
     cd /path/to/my/project
     git clone https://github.com/mjanez/easy-rdf-endpoint.git & cd easy-rdf-endpoint
@@ -56,30 +60,30 @@ Before starting the deployment, you'll need to set up a `.env` file. This file i
 
 2. Place your RDF catalog file in the `./data` folder:
 
-  ```sh
-  # Copy your existing RDF catalog file
-  cp /path/to/your/my_custom_catalog.rdf ./data/
+    ```sh
+    # Copy your existing RDF catalog file
+    cp /path/to/your/my_custom_catalog.rdf ./data/
 
-  # Or create a sample RDF file if you don't have one
-  cat > ./data/my_custom_catalog.rdf << 'EOF'
-  <?xml version="1.0" encoding="utf-8"?>
-  <rdf:RDF
-    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-    xmlns:dcat="http://www.w3.org/ns/dcat#"
-    xmlns:dct="http://purl.org/dc/terms/">
-    
-    <dcat:Catalog rdf:about="http://example.org/catalog">
-     <dct:title xml:lang="en">Sample Data Catalog</dct:title>
-     <dct:description xml:lang="en">A sample RDF catalog for testing</dct:description>
-     <dct:publisher rdf:resource="http://example.org/publisher"/>
-     <dct:issued>2023-01-01</dct:issued>
-    </dcat:Catalog>
-  </rdf:RDF>
-  EOF
+    # Or create a sample RDF file if you don't have one
+    cat > ./data/my_custom_catalog.rdf << 'EOF'
+    <?xml version="1.0" encoding="utf-8"?>
+    <rdf:RDF
+      xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+      xmlns:dcat="http://www.w3.org/ns/dcat#"
+      xmlns:dct="http://purl.org/dc/terms/">
+      
+      <dcat:Catalog rdf:about="http://example.org/catalog">
+      <dct:title xml:lang="en">Sample Data Catalog</dct:title>
+      <dct:description xml:lang="en">A sample RDF catalog for testing</dct:description>
+      <dct:publisher rdf:resource="http://example.org/publisher"/>
+      <dct:issued>2023-01-01</dct:issued>
+      </dcat:Catalog>
+    </rdf:RDF>
+    EOF
 
-  # Make sure the file has proper permissions
-  chmod 644 ./data/my_custom_catalog.rdf
-  ```
+    # Make sure the file has proper permissions
+    chmod 644 ./data/my_custom_catalog.rdf
+    ```
 
 3. Copy the [`.env.example`](.env.example) template and modify the resulting `.env` to suit your needs.
 
@@ -116,6 +120,13 @@ Before starting the deployment, you'll need to set up a `.env` file. This file i
 docker compose up -d
 ```
 
+> [!TIP]  
+> **Use pre-built images**: To save time, you can use our pre-built images hosted on GitHub Container Registry:
+> ```sh
+> docker compose -f docker-compose.ghcr.yml up -d
+> ```
+> This approach is faster as it pulls ready-to-use images instead of building them locally!
+
 Then, access your RDF file an [endpoints](#endpoints).
 
 ---
@@ -146,7 +157,7 @@ The endpoints will be available at:
 > - Works with **Codespaces, Docker, Kubernetes, and any containerized environment**.
 
 ### Translation
-After updating the translation file (`messages.po`), don't forget to compile it to generate the `.mo` file, e.g english:
+After updating the translation file (`messages.po`), don't forget to compile it to generate the `.mo` file, e.g English:
 
 ```sh
 cd easy-rdf-endpoint/src/rdf-validator
@@ -154,7 +165,7 @@ cd easy-rdf-endpoint/src/rdf-validator
 # Extract i18n texts and update POT
 xgettext -d messages --from-code=UTF-8 -o locales/messages.pot app.py
 
-# Compile MO files (english)
+# Compile MO files (English)
 msgfmt -o locales/en/LC_MESSAGES/messages.mo locales/en/LC_MESSAGES/messages.po
 ``` 
 
