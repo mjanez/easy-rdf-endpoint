@@ -1,0 +1,274 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix : <http://datos.gob.es/nti-risp#> .
+@prefix adms: <http://www.w3.org/ns/adms#> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix org: <http://www.w3.org/ns/org#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix schema: <http://schema.org/> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix time: <http://www.w3.org/2006/time#> .
+@prefix vcard: <http://www.w3.org/2006/vcard/ns#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<http://datos.gob.es/nti-risp/shacl_dataset_shape>
+    dct:format <http://publications.europa.eu/resource/authority/file-type/RDF_TURTLE> ;
+    dct:conformsTo <https://www.w3.org/TR/shacl> ;
+    dct:description "Este documento especifica las restricciones en propiedades y clases expresadas por el modelo de metadatos NTI-RISP (2013) en SHACL para conjuntos de datos."@es ;
+    owl:versionInfo "1.0.0" ;
+    rdfs:comment """
+        Este archivo SHACL debe importar las siguientes dependencias adicionales para funcionar correctamente:
+            - nti-risp_common_shapes.ttl
+            - nti-risp_vocabularies_shape.ttl
+        Asegúrese de que estén disponibles e importados para una validación completa.
+    """@es .
+
+:Dataset_Shape
+    a sh:NodeShape ;
+    sh:name "Dataset"@en ;
+    sh:property 
+    # dct:title (Obligatorio, 1..1)
+    [
+        sh:path dct:title ;
+        sh:minCount 1 ;
+        sh:node :MultilingualText_Shape ;
+    ],
+
+    # dct:description (Obligatorio, 1..1)
+    [
+        sh:path dct:description ;
+        sh:minCount 1 ;
+        sh:node :MultilingualText_Shape ;
+    ],
+    
+    # dcat:theme (Recomendado, 0..n)
+    [
+        sh:path dcat:theme ;
+        sh:minCount 1 ;
+        sh:message "Se recomienda usar un tema del vocabulario http://datos.gob.es/kos/sector-publico/sector"@es ;
+        sh:severity sh:Warning ;
+    ],
+    [
+        sh:path dcat:theme ;
+        sh:nodeKind sh:IRI ;
+        sh:node :NTISectorThemeRestriction ;
+        sh:severity sh:Violation ;
+    ],
+    
+    # dcat:keyword (Recomendado, 0..n)
+    [
+        sh:path dcat:keyword ;
+        sh:minCount 1 ;
+        sh:nodeKind sh:Literal ;
+        sh:message "Se recomienda incluir una etiqueta alfanumérica compacta"@es ;
+        sh:severity sh:Warning ;
+    ],
+    [
+        sh:path dcat:keyword ;
+        sh:node :MultilingualText_Shape ;
+    ],
+    
+    # dct:identifier (Recomendado, 0..1)
+    [
+        sh:path dct:identifier ;
+        sh:minCount 1 ;
+        sh:message "Se recomienda incluir un identificador URI para el conjunto de datos"@es ;
+        sh:severity sh:Warning ;
+    ],
+    [
+        sh:path dct:identifier ;
+        sh:maxCount 1 ;
+        sh:or (
+            # Caso 1: Literal con valor URI
+            [
+                sh:nodeKind sh:Literal ;
+                sh:pattern "^https?://.*$" ;
+                sh:message "Si es un literal, debe tener forma de URL válida (http:// o https://)"@es ;
+            ]
+            # Caso 2: Referencia a un recurso URI
+            [
+                sh:nodeKind sh:IRI ;
+                sh:pattern "^https?://.*$" ;
+                sh:message "Si es un IRI, debe ser una URL válida (http:// o https://)"@es ;
+            ]
+        ) ;
+        sh:message "El valor de dct:identifier debe ser un identificador URI válido, ya sea como literal o como referencia a recurso"@es ;
+        sh:severity sh:Violation ;
+    ],
+    
+    # dct:issued (Recomendado, 0..1)
+    [
+        sh:path dct:issued ;
+        sh:minCount 1 ;
+        sh:message "Se recomienda incluir la fecha de creación del recurso con formato ISO-8601: YYYY-MM-DDThh:mm:ssTZD"@es ;
+        sh:severity sh:Warning ;
+    ],
+    [
+        sh:path dct:issued ;
+        sh:maxCount 1 ;
+        sh:nodeKind sh:Literal ;
+        sh:node :DateOrDateTimeDataType_Shape ;
+        sh:severity sh:Violation ;
+    ],
+    
+    # dct:modified (Recomendado, 0..1)
+    [
+        sh:path dct:modified ;
+        sh:minCount 1 ;
+        sh:message "Se recomienda incluir la fecha de última actualización del recurso con formato ISO-8601: YYYY-MM-DDThh:mm:ssTZD"@es ;
+        sh:severity sh:Warning ;
+    ],
+    [
+        sh:path dct:modified ;
+        sh:maxCount 1 ;
+        sh:nodeKind sh:Literal ;
+        sh:node :DateOrDateTimeDataType_Shape ;
+        sh:severity sh:Violation ;
+    ],
+    
+    # dct:accrualPeriodicity (Recomendado, 0..1)
+    [
+        sh:path dct:accrualPeriodicity ;
+        sh:minCount 1 ;
+        sh:message "Se recomienda especificar periodos normalizados con formato ISO8601 (P<date>T<time>)"@es ;
+        sh:severity sh:Warning ;
+    ],
+    [
+        sh:path dct:accrualPeriodicity ;
+        sh:maxCount 1 ;
+        sh:or (
+            [
+                # Literal con formato ISO8601
+                sh:nodeKind sh:Literal ;
+                sh:pattern "^P([0-9]+Y)?([0-9]+M)?([0-9]+D)?(T([0-9]+H)?([0-9]+M)?([0-9]+S)?)?$" ;
+                sh:message "El valor debe ser un período ISO8601 válido, ejemplo: 'P0Y3M0DT0H0M0S' para trimestral"@es ;
+            ]
+            [
+                # Estructura compleja con dct:Frequency
+                sh:nodeKind sh:BlankNodeOrIRI ;
+                sh:class dct:Frequency ;
+                sh:node :Frequency_Shape ;
+            ]
+        ) ;
+        sh:severity sh:Violation ;
+    ],
+    
+    # dc:language (Obligatorio, 1..n)
+    [
+        sh:path dc:language ;
+        sh:minCount 1 ;
+        sh:node :LanguageRestriction_Shape ;
+        sh:severity sh:Violation ;
+    ],
+    
+    # dct:publisher (Obligatorio, 1..1)
+    [
+        sh:path dct:publisher ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:severity sh:Violation ;
+    ],
+    [
+        sh:path dct:publisher ;
+        sh:node :DIR3OrganismRestriction ;
+        sh:severity sh:Violation ;
+    ],
+    
+    # dct:license (Recomendado, 0..1)
+    [
+        sh:path dct:license ;
+        sh:minCount 1 ;
+        sh:message "Se recomienda incluir una URI con la licencia para el conjunto de datos"@es ;
+        sh:severity sh:Warning ;
+    ],
+    [
+        sh:path dct:license ;
+        sh:maxCount 1 ;
+        sh:nodeKind sh:IRI ;
+        sh:severity sh:Violation ;
+    ],
+    
+    # dct:spatial (Recomendado, 0..n)
+    [
+        sh:path dct:spatial ;
+        sh:minCount 1 ;
+        sh:message "Se recomienda indicar la cobertura geográfica del conjunto de datos usando un IRI del vocabulario de territorio NTI-RISP http://datos.gob.es/recurso/sector-publico/territorio"@es ;
+        sh:severity sh:Warning ;
+    ],
+    [
+        sh:path dct:spatial ;
+        sh:nodeKind sh:IRI ;
+        sh:node :TerritoryRestriction ;
+        sh:severity sh:Violation ;
+    ],
+    
+    # dct:temporal (Recomendado, 0..n)
+    [
+        sh:path dct:temporal ;
+        sh:minCount 1 ;
+        sh:message "Se recomienda describir un periodo de tiempo que puede ser definido mediante la ontología de Tiempo del W3C (time) "@es ;
+        sh:severity sh:Warning ;
+    ],
+    [
+        sh:path dct:temporal ;
+        sh:class dct:PeriodOfTime ;
+        sh:node :PeriodOfTime_Shape ;
+        sh:severity sh:Violation ;
+        sh:message "El período temporal debe seguir las especificaciones de dct:PeriodOfTime"@es ;
+    ],
+    
+    # dct:valid (Recomendado, 0..1)
+    [
+        sh:path dct:valid ;
+        sh:minCount 1 ;
+        sh:message "Se recomienda indicar la fecha de vigencia del recurso con formato ISO8601: YYYY-MM-DD"@es ;
+        sh:severity sh:Warning ;
+    ],
+    [
+        sh:path dct:valid ;
+        sh:maxCount 1 ;
+        sh:nodeKind sh:Literal ;
+        sh:pattern "^[0-9]{4}-[0-9]{2}-[0-9]{2}$" ; # Formato YYYY-MM-DD
+        sh:severity sh:Violation ;
+    ],
+    
+    # dct:references (Recomendado, 0..n)
+    [
+        sh:path dct:valid ;
+        sh:minCount 1 ;
+        sh:message "Se recomienda indicar la(s) URI(s) que identifica(n) al recurso relacionado."@es ;
+        sh:severity sh:Warning ;
+    ],
+    [
+        sh:path dct:references ;
+        sh:nodeKind sh:IRI ;
+        sh:severity sh:Violation ;
+    ],
+    
+    # dct:conformsTo (Recomendado, 0..n)
+    [
+        sh:path dct:conformsTo ;
+        sh:minCount 1 ;
+        sh:message "Se recomienda indicar la(s) URI(s) que identifica(n) al documento legal relacionado con el recurso."@es ;
+        sh:severity sh:Warning ;
+    ],
+    [
+        sh:path dct:conformsTo ;
+        sh:nodeKind sh:IRI ;
+        sh:severity sh:Violation ;
+    ],
+    
+    # dcat:distribution (Obligatorio, 1..n)
+    [
+        sh:path dcat:distribution ;
+        sh:minCount 1 ;
+        sh:nodeKind sh:IRI ;
+        sh:message "Se debe incluir al menos una distribución para el conjunto de datos"@es ;
+        sh:severity sh:Violation ;
+    ];
+    
+    sh:targetClass dcat:Dataset .

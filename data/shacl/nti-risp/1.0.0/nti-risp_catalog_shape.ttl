@@ -1,0 +1,206 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix : <http://datos.gob.es/nti-risp#> .
+@prefix adms: <http://www.w3.org/ns/adms#> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix org: <http://www.w3.org/ns/org#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix schema: <http://schema.org/> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix time: <http://www.w3.org/2006/time#> .
+@prefix vcard: <http://www.w3.org/2006/vcard/ns#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<http://datos.gob.es/nti-risp/shacl_catalog_shape>
+    dct:format <http://publications.europa.eu/resource/authority/file-type/RDF_TURTLE> ;
+    dct:conformsTo <https://www.w3.org/TR/shacl> ;
+    dct:description "Este documento especifica las restricciones en propiedades y clases expresadas por el modelo de metadatos NTI-RISP (2013) en SHACL."@es ;
+    owl:versionInfo "1.0.0" ;
+    rdfs:comment """
+        Este archivo SHACL debe importar las siguientes dependencias adicionales para funcionar correctamente:
+            - nti-risp_common_shapes.ttl
+            - nti-risp_vocabularies_shape.ttl
+        Asegúrese de que estén disponibles e importados para una validación completa.
+    """@es .
+
+:Catalog_Shape
+    a sh:NodeShape ;
+    sh:name "Catalog"@en ;
+    sh:property 
+    # dct:title (Obligatorio, 1..1)
+    [
+        sh:path dct:title ;
+        sh:minCount 1 ;
+        sh:node :MultilingualText_Shape ;
+    ],
+
+    # dct:description (Obligatorio, 1..1)
+    [
+        sh:path dct:description ;
+        sh:minCount 1 ;
+        sh:node :MultilingualText_Shape ;
+    ],
+    
+    # dct:publisher (Obligatorio, 1..1)
+    [
+        sh:path dct:publisher ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:severity sh:Violation ;
+    ],
+    [
+        sh:path dct:publisher ;
+        sh:node :DIR3OrganismRestriction ;
+        sh:severity sh:Violation ;
+    ],
+    
+    # dct:extent (Recomendado, 0..1)
+    [
+        sh:path dct:extent ;
+        sh:maxCount 1 ;
+        sh:message "Solo puede haber un dct:extent en el catálogo"@es ;
+        sh:severity sh:Violation ;
+    ],
+    [
+        sh:path dct:extent ;
+        sh:class dct:SizeOrDuration ;
+        sh:message "El valor de dct:extent debe ser una instancia de dct:SizeOrDuration"@es ;
+        sh:severity sh:Violation ;
+    ],
+    [
+        sh:path dct:extent ;
+        sh:property [
+            sh:path rdf:value ;
+            sh:datatype xsd:nonNegativeInteger ;
+            sh:minCount 1 ;
+            sh:maxCount 1 ;
+            sh:message "dct:extent debe incluir un valor numérico no negativo mediante la propiedad rdf:value"@es ;
+            sh:severity sh:Violation ;
+        ] ;
+    ],
+    [
+        sh:path dct:extent ;
+        sh:property [
+            sh:path rdfs:label ;
+            sh:datatype rdf:langString ;
+            sh:minCount 1 ;
+            sh:message "Si se proporciona dct:extent, se recomienda incluir una representación textual mediante la propiedad rdfs:label"@es ;
+            sh:severity sh:Warning ;
+        ] ;
+    ],
+
+    # dct:identifier (Recomendado, 0..1)
+    [
+        sh:path dct:identifier ;
+        sh:minCount 1 ;
+        sh:message "Se recomienda incluir un identificador URI para el catálogo de datos"@es ;
+        sh:severity sh:Warning ;
+    ],
+    [
+        sh:path dct:identifier ;
+        sh:maxCount 1 ;
+        sh:or (
+            # Caso 1: Literal con valor URI
+            [
+                sh:nodeKind sh:Literal ;
+                sh:pattern "^https?://.*$" ;
+                sh:message "Si es un literal, debe tener forma de URL válida (http:// o https://)"@es ;
+            ]
+            # Caso 2: Referencia a un recurso URI
+            [
+                sh:nodeKind sh:IRI ;
+                sh:pattern "^https?://.*$" ;
+                sh:message "Si es un IRI, debe ser una URL válida (http:// o https://)"@es ;
+            ]
+        ) ;
+        sh:message "El valor de dct:identifier debe ser un identificador URI válido, ya sea como literal o como referencia a recurso"@es ;
+        sh:severity sh:Violation ;
+    ],
+    
+    # dct:issued (Obligatorio, 1..1)
+    [
+        sh:path dct:issued ;
+        sh:maxCount 1 ;
+        sh:minCount 1 ;
+        sh:nodeKind sh:Literal ;
+        sh:node :DateOrDateTimeDataType_Shape ;
+        sh:severity sh:Violation
+    ], 
+    
+    # dct:modified (Obligatorio, 1..1)
+    [
+        sh:path dct:modified ;
+        sh:maxCount 1 ;
+        sh:minCount 1 ;
+        sh:nodeKind sh:Literal ;
+        sh:node :DateOrDateTimeDataType_Shape ;
+        sh:severity sh:Violation
+    ], 
+    
+    # dc:language (Obligatorio, 1..n)
+    [
+        sh:path dc:language ;
+        sh:minCount 1 ;
+        sh:node :LanguageRestriction_Shape ;
+        sh:severity sh:Violation ;
+    ],
+    
+    # dct:spatial (Recomendado, 0..n)
+    [
+        sh:path dct:spatial ;
+        sh:minCount 1 ;
+        sh:message "Se recomienda indicar la cobertura geográfica del catálogo de datos usando un IRI del vocabulario de territorio NTI-RISP http://datos.gob.es/recurso/sector-publico/territorio"@es ;
+        sh:severity sh:Warning ;
+    ],
+    [
+        sh:path dct:spatial ;
+        sh:nodeKind sh:IRI ;
+        sh:node :TerritoryRestriction ;
+        sh:severity sh:Violation ;
+    ],
+    
+    # dcat:themeTaxonomy (Obligatorio, 1..1)
+    [
+        sh:path dcat:themeTaxonomy ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:hasValue <http://datos.gob.es/kos/sector-publico/sector> ;
+        sh:nodeKind sh:IRI ;
+        sh:message "Se debe indicar la taxonomía: http://datos.gob.es/kos/sector-publico/sector"@es ;
+        sh:severity sh:Violation ;
+    ],
+    
+    # foaf:homepage (Obligatorio, 1..1)
+    [
+        sh:path foaf:homepage ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:nodeKind sh:IRI ;
+        sh:message "Se debe indicar la URL que referencia la portada del catálogo"@es ;
+        sh:severity sh:Violation ;
+    ],
+    
+    # dct:license (Obligatorio, 1..1)
+    [
+        sh:path dct:license ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:nodeKind sh:IRI ;
+        sh:message "Se debe indicar la URL qué referencia al recurso que describe los términos de uso"@es ;
+        sh:severity sh:Violation ;
+    ],
+    
+    # dcat:dataset (Recomendado, 1..n)
+    [
+        sh:path dcat:dataset ;
+        sh:nodeKind sh:IRI ;
+        sh:minCount 1 ;
+        sh:message "Se debe describir al menos un conjunto de datos"@es ;
+        sh:severity sh:Violation ;
+    ];
+    
+    sh:targetClass dcat:Catalog .

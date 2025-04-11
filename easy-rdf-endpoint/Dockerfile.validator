@@ -6,44 +6,58 @@ LABEL description="RDF Validator with Streamlit UI"
 
 WORKDIR /app
 
-# Instalar Java y Apache Jena para riot
+# Install Java and other dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
     openjdk-17-jre-headless \
     wget \
     unzip \
-    && rm -rf /var/lib/apt/lists/*
-
-# Descargar e instalar Apache Jena
-RUN wget https://dlcdn.apache.org/jena/binaries/apache-jena-5.3.0.tar.gz \
+    git \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/* \
+    # Install Apache Jena
+    && wget -q --show-progress --progress=dot:giga https://dlcdn.apache.org/jena/binaries/apache-jena-5.3.0.tar.gz \
     && tar -xf apache-jena-5.3.0.tar.gz \
     && mv apache-jena-5.3.0 /opt/jena \
-    && rm apache-jena-5.3.0.tar.gz
+    && rm apache-jena-5.3.0.tar.gz \
+    # Install TopBraid SHACL
+    && wget -q --show-progress --progress=dot:giga -O shacl.zip https://repo1.maven.org/maven2/org/topbraid/shacl/1.4.4/shacl-1.4.4-bin.zip \
+    && unzip shacl.zip \
+    && mv shacl-1.4.4 /opt/shacl \
+    && rm shacl.zip
 
-ENV PATH="/opt/jena/bin:${PATH}"
+ENV PATH="/opt/jena/bin:/opt/shacl/bin:${PATH}"
 
-# Crear usuario no-root
+# Create a non-root user
 RUN groupadd -r appuser && useradd -r -g appuser appuser
 
-# Instalar dependencias de Python
+# Install Python dependencies
 COPY ./src/rdf-validator/requirements.txt /app/
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copiar la aplicación Streamlit
-COPY ./src/rdf-validator/app.py /app/
+# Copy application code
+COPY ./src/rdf-validator/ /app/
 
-# Crear directorios para datos y logs con permisos adecuados
-RUN mkdir -p /app/logs /app/data \
+# Create necessary directories and set permissions
+RUN mkdir -p /app/logs /app/data /app/temp /app/ontologies \
     && chown -R appuser:appuser /app \
-    && chmod -R 755 /app
+    && chmod -R 755 /app \
+    && chmod -R 755 /opt/shacl/bin
 
-# Añadir un script de inicio para verificar permisos
-COPY easy-rdf-endpoint/docker-entrypoint.d/validator-entrypoint.sh /app/
-RUN chmod +x /app/validator-entrypoint.sh
+# Add scripts for downloading ontologies and entrypoint
+COPY easy-rdf-endpoint/docker-entrypoint.d/rdf-validator/download-ontologies.sh \
+     easy-rdf-endpoint/docker-entrypoint.d/rdf-validator/entrypoint.sh \
+     /app/
 
-# Cambiar a usuario no-root
+# Add ontology policy file
+COPY easy-rdf-endpoint/docker-entrypoint.d/rdf-validator/ont-policy.ttl /app/ontologies/
+
+RUN chmod +x /app/entrypoint.sh \
+    && chmod +x /app/download-ontologies.sh
+
+# Switch to non-root user
 USER appuser
 
 EXPOSE 8501
 
-# Iniciar script
-CMD ["/app/validator-entrypoint.sh"]
+ENTRYPOINT ["/app/entrypoint.sh"]
+CMD ["streamlit", "run", "/app/app.py", "--server.port=8501", "--server.address=0.0.0.0", "--server.baseUrlPath=/validator"]

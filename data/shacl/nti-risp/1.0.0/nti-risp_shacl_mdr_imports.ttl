@@ -1,0 +1,14 @@
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# 
+# Este archivo proporciona las importaciones de las taxonomías NTI-RISP.
+# Importa directamente el archivo local que contiene las definiciones de vocabularios en lugar de URL externas.
+
+<http://datos.gob.es/nti-risp/codelist_imports>
+  rdf:type owl:Ontology ;
+  rdfs:comment "Este archivo importa las definiciones de vocabularios locales para NTI-RISP"@es ;
+  owl:imports <http://datos.gob.es/nti-risp/mdr-vocabularies.shape.ttl> ; 
+  owl:imports <https://github.com/SEMICeu/ADMS-AP/raw/master/purl.org/ADMS_SKOS_v1.00.rdf> .

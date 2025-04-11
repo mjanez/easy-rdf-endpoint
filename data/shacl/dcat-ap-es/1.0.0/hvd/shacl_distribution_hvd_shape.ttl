@@ -1,0 +1,75 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix : <http://datos.gob.es/dcat-ap-es#> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix vcard: <http://www.w3.org/2006/vcard/ns#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix dcatap: <http://data.europa.eu/r5r/> .
+
+<http://datos.gob.es/dcat-ap-es/shacl_dataset_hvd_shape>
+    rdfs:comment """
+        This SHACL file must import the following additional dependencies to work properly:
+            - shacl_common_hvd_shape.ttl
+        Make sure they are available and imported for full validation." 
+    """
+    .
+
+
+#-------------------------------------------------------------------------
+# The shapes in this file cover distribution class in DCAT-AP-ES 1.0.0. - HVD
+# It covers all constraints that must be satisfied.
+# 
+# https://semiceu.github.io//DCAT-AP/releases/2.2.0-hvd#Distribution
+#-------------------------------------------------------------------------
+
+
+:Distribution_HVD_Shape
+    a sh:NodeShape;
+    sh:closed false;
+    sh:property [
+        # dcatap:applicableLegislation
+        sh:path dcatap:applicableLegislation;
+        sh:name "applicable legislation"@en;
+        sh:description "The legislation that mandates the creation or management of the Distribution"@en;
+        sh:nodeKind sh:IRI;
+        # sh:class <http://data.europa.eu/eli/ontology#LegalResource>;
+        sh:message "The expected value for applicable legislation is a rdfs:Resource (URI)"@en  ;
+    ], 
+    [
+        sh:path dcatap:applicableLegislation;
+        sh:name "applicable legislation"@en;
+        sh:description "The legislation that mandates the creation or management of the Distribution"@en;
+        sh:minCount 1;
+        sh:message "Minimally 1 values are expected for applicable legislation"@en  ;
+    ], 
+    [
+        sh:path dcatap:applicableLegislation;
+        sh:name "applicable legislation"@en;
+        sh:description "The applicable legislation must be set to the HVD IR ELI."@en;
+        sh:hasValue <http://data.europa.eu/eli/reg_impl/2023/138/oj>;
+        sh:message "The applicable legislation must be set to the HVD IR ELI."@en  ;
+    ];
+    sh:targetClass dcat:Distribution .
+
+
+:Distribution_HVD_Shape_legalInformation
+    sh:description """It is mandatory to provide legal information."""@en;
+    sh:or (
+		[
+  			sh:path dct:license;
+			sh:minCount 1 ;
+		]
+		[
+  			sh:path dct:rights;
+			sh:minCount 1 ;
+		]
+	) ; 
+    a sh:NodeShape ;
+    sh:targetClass dcat:Distribution;
+    sh:message "It is mandatory to provide legal information."@en  .

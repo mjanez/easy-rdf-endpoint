@@ -1,0 +1,138 @@
+@prefix :      <http://jena.hpl.hp.com/schemas/2003/03/ont-manager#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix dc:    <http://purl.org/dc/elements/1.1/> .
+@prefix ja:    <http://jena.hpl.hp.com/2005/11/Assembler#> .
+
+# Config to redirect ontologies to local files
+
+# DCAT 2.0
+<#dcat>
+    a :OntologySpec ;
+    :publicURI <https://www.w3.org/ns/dcat2.ttl> ;
+    :altURL <file:///app/ontologies/dcat2.ttl> ;
+    :prefix "dcat" .
+
+# Dublin Core Terms
+<#dcterms>
+    a :OntologySpec ;
+    :publicURI <http://purl.org/dc/terms/> ;
+    :altURL <file:///app/ontologies/dc-terms.ttl> ;
+    :prefix "dct" .
+
+<#dublincore>
+    a :OntologySpec ;
+    :publicURI <http://dublincore.org/2020/01/20/dublin_core_terms.ttl> ;
+    :altURL <file:///app/ontologies/dublin_core_terms.ttl> ;
+    :prefix "dc" .
+
+# FOAF
+<#foaf>
+    a :OntologySpec ;
+    :publicURI <http://xmlns.com/foaf/0.1/> ;
+    :altURL <file:///app/ontologies/foaf.rdf> ;
+    :prefix "foaf" .
+
+<#foaf-spec>
+    a :OntologySpec ;
+    :publicURI <http://xmlns.com/foaf/spec/index.rdf> ;
+    :altURL <file:///app/ontologies/foaf.rdf> ;
+    :prefix "foaf" .
+
+# LOCN
+<#locn>
+    a :OntologySpec ;
+    :publicURI <https://www.w3.org/ns/locn#> ;
+    :altURL <file:///app/ontologies/locn.ttl> ;
+    :prefix "locn" .
+
+<#locn-ttl>
+    a :OntologySpec ;
+    :publicURI <https://www.w3.org/ns/locn.ttl> ;
+    :altURL <file:///app/ontologies/locn.ttl> ;
+    :prefix "locn" .
+
+# Schema.org
+<#schema>
+    a :OntologySpec ;
+    :publicURI <https://schema.org/version/latest/schema.ttl> ;
+    :altURL <file:///app/ontologies/schema.org.ttl> ;
+    :prefix "schema" .
+
+<#schema-all>
+    a :OntologySpec ;
+    :publicURI <https://schema.org/version/latest/schemaorg-current-https.ttl> ;
+    :altURL <file:///app/ontologies/schema.org.ttl> ;
+    :prefix "schema" .
+
+# SPDX
+<#spdx>
+    a :OntologySpec ;
+    :publicURI <https://spdx.org/rdf/terms/spdx-ontology.owl.xml> ;
+    :altURL <file:///app/ontologies/spdx-ontology.owl.xml> ;
+    :prefix "spdx" .
+
+# PROV-O
+<#prov-o>
+    a :OntologySpec ;
+    :publicURI <http://www.w3.org/ns/prov-o.ttl> ;
+    :altURL <file:///app/ontologies/prov-o.ttl> ;
+    :prefix "prov" .
+
+<#prov>
+    a :OntologySpec ;
+    :publicURI <http://www.w3.org/ns/prov#> ;
+    :altURL <file:///app/ontologies/prov-o.ttl> ;
+    :prefix "prov" .
+
+# Time
+<#time>
+    a :OntologySpec ;
+    :publicURI <http://www.w3.org/2006/time.ttl> ;
+    :altURL <file:///app/ontologies/time.ttl> ;
+    :prefix "time" .
+
+<#time-ns>
+    a :OntologySpec ;
+    :publicURI <http://www.w3.org/2006/time#> ;
+    :altURL <file:///app/ontologies/time.ttl> ;
+    :prefix "time" .
+
+# vCard
+<#vcard>
+    a :OntologySpec ;
+    :publicURI <http://www.w3.org/2006/vcard/ns.ttl> ;
+    :altURL <file:///app/ontologies/vcard.ttl> ;
+    :prefix "vcard" .
+
+<#vcard-ns>
+    a :OntologySpec ;
+    :publicURI <http://www.w3.org/2006/vcard/ns#> ;
+    :altURL <file:///app/ontologies/vcard.ttl> ;
+    :prefix "vcard" .
+
+# ADMS
+<#adms>
+    a :OntologySpec ;
+    :publicURI <http://www.w3.org/ns/adms.ttl> ;
+    :altURL <file:///app/ontologies/adms.ttl> ;
+    :prefix "adms" .
+
+<#adms-ns>
+    a :OntologySpec ;
+    :publicURI <http://www.w3.org/ns/adms#> ;
+    :altURL <file:///app/ontologies/adms.ttl> ;
+    :prefix "adms" .
+
+# SKOS
+<#skos>
+    a :OntologySpec ;
+    :publicURI <http://www.w3.org/2004/02/skos/core#> ;
+    :altURL <file:///app/ontologies/skos.rdf> ;
+    :prefix "skos" .
+
+<#skos-rdf>
+    a :OntologySpec ;
+    :publicURI <https://www.w3.org/2009/08/skos-reference/skos.rdf> ;
+    :altURL <file:///app/ontologies/skos.rdf> ;
+    :prefix "skos" .

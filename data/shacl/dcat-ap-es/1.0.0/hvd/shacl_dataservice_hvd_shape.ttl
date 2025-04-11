@@ -1,0 +1,128 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix : <http://datos.gob.es/dcat-ap-es#> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix vcard: <http://www.w3.org/2006/vcard/ns#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix dcatap: <http://data.europa.eu/r5r/> .
+
+<http://datos.gob.es/dcat-ap-es/shacl_dataservice_hvd_shape>
+    rdfs:comment """
+        This SHACL file must import the following additional dependencies to work properly:
+            - shacl_common_hvd_shape.ttl
+        Make sure they are available and imported for full validation." 
+    """
+    .
+
+#-------------------------------------------------------------------------
+# The shapes in this file cover dataservice class in DCAT-AP-ES hvd 1.0.0.
+# It covers all constraints that must be satisfied.
+# https://semiceu.github.io/DCAT-AP/releases/2.2.0-hvd/#DataService
+#-------------------------------------------------------------------------
+
+:DataService_HVD_Shape
+    a sh:NodeShape;
+    sh:closed false;
+    # dcatap:applicableLegislation
+    sh:property [ 
+        sh:path dcatap:applicableLegislation;
+        sh:name "applicable legislation"@en;
+        sh:description "The legislation that mandates the creation or management of the Data Service."@en;
+        #sh:class <http://data.europa.eu/eli/ontology#LegalResource>;
+        sh:nodeKind sh:IRI;
+        sh:severity sh:Violation;
+        sh:message "The expected value for applicable legislation is a rdfs:Resource (URI)"@en ;
+    ], 
+    [
+        sh:path dcatap:applicableLegislation;
+        sh:name "applicable legislation"@en;
+        sh:description "The legislation that mandates the creation or management of the Data Service."@en;
+        sh:minCount 1;
+        sh:severity sh:Violation;
+        sh:message "Minimally 1 values are expected for applicable legislation"@en ;
+    ],
+    [
+        sh:path dcatap:applicableLegislation;
+        sh:name "applicable legislation"@en;
+        sh:description "The applicable legislation must be set to the HVD IR ELI."@en;
+        sh:hasValue <http://data.europa.eu/eli/reg_impl/2023/138/oj> ;
+        sh:severity sh:Violation;
+        sh:message "The applicable legislation must be set to the HVD IR ELI."@en ;
+    ],
+    # dcatap:hvdCategory
+    [
+        sh:path dcatap:hvdCategory;
+        sh:name "HVD category"@en;
+        sh:description "The HVD category to which this Data Service belongs."@en;
+        sh:nodeKind sh:IRI;
+        sh:severity sh:Violation;
+        sh:message "The expected value for HVD category is a rdf:Resource (URI)"@en; 
+    ], 
+    [
+        sh:path dcatap:hvdCategory;
+        sh:name "HVD category"@en;
+        sh:description "The HVD category to which this Data Service belongs."@en;
+        sh:minCount 1;
+        sh:severity sh:Violation;
+        sh:message "Minimally 1 values are expected for HVD category"@en ;
+    ],  
+    [
+        sh:path dcatap:hvdCategory;
+        sh:name "HVD category"@en;
+        sh:description "The HVD category to which this Data Service belongs."@en;
+        sh:severity sh:Violation;
+        sh:node :HVDCategoryRestriction ;
+        # shacl:class skos:Concept;
+    ],
+    # dcat:contactPoint
+    [
+        sh:path dcat:contactPoint;
+        sh:name "contact point"@en;
+        sh:description "Contact information that can be used for sending comments about the Data Service."@en;
+        sh:minCount 1;
+        sh:severity sh:Violation;
+        sh:message "Minimally 1 values are expected for contact point"@en ;
+    ],
+    # foaf:page 
+    [
+        sh:path foaf:page;
+        sh:name "documentation"@en;
+        sh:description "A page that provides additional information about the Data Service."@en;
+        #sh:class foaf:Document;
+        sh:minCount 1;
+        sh:severity sh:Violation;
+        sh:message "Minimally 1 values are expected for documentation"@en ;
+    ], 
+    # dcat:servesDataset
+    [
+        sh:path dcat:servesDataset;
+        sh:name "serves dataset"@en;
+        sh:description "This property refers to a collection of data that this data service can distribute."@en;
+        sh:minCount 1;
+        sh:severity sh:Violation;
+        sh:message "Minimally 1 values are expected for serves dataset"@en ;
+    ];
+    sh:targetClass dcat:DataService .
+
+:DataService_HVD_Shape_legalInformation
+    rdfs:seeAlso "https://semiceu.github.io/uri.semic.eu-generated/DCAT-AP/releases/2.2.0-hvd/#c3";
+    sh:description """It is mandatory to provide legal information."""@en;
+    sh:or (
+		[
+  			sh:path dct:license;
+			sh:minCount 1 ;
+		]
+		[
+  			sh:path dct:accessRights;
+			sh:minCount 1 ;
+		]
+	) ; 
+    a sh:NodeShape ;
+    sh:targetClass dcat:DataService;
+    sh:message "It is mandatory to provide legal information."@en .

@@ -1,0 +1,535 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix : <http://datos.gob.es/dcat-ap-es#> .
+@prefix adms: <http://www.w3.org/ns/adms#> .
+@prefix cc: <http://creativecommons.org/ns#> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix lcon: <http://www.w3.org/ns/locn#> .
+@prefix org: <http://www.w3.org/ns/org#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix schema: <http://schema.org/> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix spdx: <http://spdx.org/rdf/terms#> .
+@prefix time: <http://www.w3.org/2006/time#> .
+@prefix vcard: <http://www.w3.org/2006/vcard/ns#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix dcatapes: <http://datos.gob.es/dcat-ap-es/> .
+@prefix dcatap: <http://data.europa.eu/r5r/> .
+
+<http://datos.gob.es/dcat-ap-es/shacl_distribution_shape>
+    #dcat:accessURL <>;
+    #dcat:downloadURL <> ;
+    #dcatap:availability <http://data.europa.eu/r5r/stable> ;
+    dct:format <http://publications.europa.eu/resource/authority/file-type/RDF_TURTLE> ;
+    dct:conformsTo <https://www.w3.org/TR/shacl> ;
+    #dct:creator [
+    #    rdfs:seeAlso <> ;
+    #    org:memberOf <> ;
+    #    foaf:homepage <> ;
+    #    foaf:name ""
+    #], [
+    #    rdfs:seeAlso <> ;
+    #    org:memberOf <> ;
+    #    foaf:homepage <> ;
+    #    foaf:name ""
+    #] ;
+    #dct:license <https://creativecommons.org/licenses/by/4.0> ;
+    #cc:attributionURL <> ;
+    #dct:modified "2021-12-01"^^xsd:date ;
+    #dct:publisher <> ;
+    #dct:relation <h> ;
+    dct:description "This document specifies the constraints on properties and classes expressed by DCAT-AP-ES in SHACL."@en ;
+    #dct:title "The constraints of DCAT Application Profile for Data Portals in Spain"@en ;
+    owl:versionInfo "1.0.0" ;
+    #foaf:homepage <> ;
+    #foaf:maker [
+    #    foaf:mbox <> ;
+    #    foaf:name "DCAT-AP Working Group" ;
+    #    foaf:page <>
+    #] ;
+    #owl:imports <shacl_common_shapes.ttl> ; # Requires shacl_common_shapes.ttl file to work well.
+    #owl:imports <shacl_mdr-vocabularies.shape.ttl> ;  # Requires shacl_common_shapes.ttl file to work well
+    rdfs:comment """
+        This SHACL file must import the following additional dependencies to work properly:
+            - shacl_common_shapes, 
+            - shacl_mdr-vocabularies.shape.ttl. 
+        Make sure they are available and imported for full validation." 
+    """
+
+    .
+
+#-------------------------------------------------------------------------
+# The shapes in this file cover distribution class in DCAT-AP-ES 1.0.0.
+# It covers all constraints that must be satisfied.
+#
+# The constraints for dcat:mediaType, dcat:compressFormat, dcat:packageFormat which are limited to the IANA codelist 
+# cannot be expressed in SHACL unless a copy in RDF for the IANA codelist is being created
+# ------------------------------------------------------------------------------------------------------------------
+
+:Distribution_Shape
+    a sh:NodeShape ;
+    sh:name "Distribution"@en ;
+    sh:property 
+    # dcat:accessURL 
+    [
+        sh:path dcat:accessURL ;
+        sh:nodeKind sh:IRI;
+        sh:severity sh:Violation
+    ], 
+    [
+        sh:path dcat:accessURL ;
+        sh:minCount 1 ;
+        sh:severity sh:Violation
+    ], 
+    # dct: description
+    [
+        sh:path dct:description ;
+        sh:nodeKind sh:Literal ;
+        sh:severity sh:Violation
+    ], 
+    [
+        sh:path dct:description ;
+        sh:minCount 1 ;
+        sh:severity sh:Warning
+    ], 
+    [
+        sh:path dct:description ;
+        sh:node :LiteralMultilingual_Shape ;
+        sh:severity sh:Violation ;
+    ],
+    [
+        sh:path dct:description ;
+        sh:node :NonEmptyLiteral_Shape ;
+        sh:severity sh:Violation ;
+    ],
+    [
+        sh:path dct:description ;
+        sh:uniqueLang true;
+        sh:severity sh:Violation ;
+        sh:message "More than one values share the same language tag."@en
+    ],
+    # dcatap:availability
+    [
+        sh:path dcatap:availability ;
+        sh:nodeKind sh:IRI ;
+        #sh:class skos:Concept ;
+        sh:severity sh:Violation
+    ],
+    [
+        sh:path dcatap:availability ;
+        sh:maxCount 1 ;
+        sh:severity sh:Violation
+    ],
+    [
+        sh:path dcatap:availability ;
+        sh:minCount 1 ;
+        sh:severity sh:Warning
+    ],  
+    [
+        sh:path dcatap:availability ;
+        sh:node :AvailabilityRestriction ; 
+        sh:description "A non EU managed concept is used to indicate the availability of the distribution. If no corresponding can be found inform the maintainer of the DCAT-AP availability codelist."@en ; 
+        sh:severity sh:Violation
+    ], 
+    # dct:format
+    [
+        sh:path dct:format ;
+        sh:maxCount 1 ;
+        sh:severity sh:Violation
+    ], 
+    [
+        sh:path dct:format ;
+        sh:minCount 1 ;
+        sh:severity sh:Warning
+    ],  
+    [
+        sh:path dct:format ;
+        #sh:class dct:MediaType ;
+        sh:or (
+            [ 
+                sh:node :FileTypeRestriction ;
+                sh:nodeKind sh:IRI ;
+            ]
+            #[ sh:class dct:MediaTypeOrExtent ;]
+            [
+                # Literal of dct:IMT type (inheritance of legacy NTI) 
+                sh:class dct:IMT ;
+            ]
+        );
+        sh:severity sh:Violation
+    ], 
+    # dct:license
+    [
+        sh:path dct:license ;
+        sh:maxCount 1 ;
+        sh:severity sh:Violation
+    ], 
+    [
+        sh:path dct:license;
+        sh:minCount 1 ;
+        sh:severity sh:Warning
+    ],
+    [
+        sh:path dct:license ;
+        #sh:class dct:LicenseDocument ;
+        sh:or (
+            [ sh:node :LicenceDocument_Shape ;]
+            [ sh:node :LicenceRestriction ;]
+            [ sh:nodeKind sh:IRI ;]
+        );
+        sh:severity sh:Violation
+    ], 
+    # dcat:accessService
+    [
+        sh:path dcat:accessService ;
+        #sh:class dcat:DataService ;        
+        sh:nodeKind sh:IRI ;
+        sh:severity sh:Violation
+    ], 
+    # dct:title
+    [
+        sh:path dct:title ;
+        sh:nodeKind sh:Literal ;
+        sh:severity sh:Violation
+    ], 
+    [
+        sh:path dct:title ;
+        sh:node :LiteralMultilingual_Shape ; 
+        sh:severity sh:Violation ;
+    ],
+    [
+        sh:path dct:title ;
+        sh:node :NonEmptyLiteral_Shape ; 
+        sh:severity sh:Violation ;
+    ],
+    [
+        sh:path dct:title ;
+        sh:uniqueLang true;
+        sh:severity sh:Violation ;
+        sh:message "More than one values share the same language tag."@en
+    ],
+    # foaf:page
+    [
+        sh:path foaf:page ;
+        #sh:class foaf:Document ;
+        sh:nodeKind sh:IRI; 
+        sh:severity sh:Violation
+    ], 
+    # dcat:mediaType
+    [
+        sh:path dcat:mediaType ;
+        #sh:class dct:MediaType ;
+        sh:nodeKind sh:IRI ;
+        sh:node :IanaFormatRestriction;
+        sh:severity sh:Violation
+    ], 
+    [
+        sh:path dcat:mediaType ;
+        sh:maxCount 1 ;
+        sh:severity sh:Violation
+    ], 
+    # dcat:downloadURL
+    [
+        sh:path dcat:downloadURL ;
+        sh:nodeKind sh:IRI;
+        sh:severity sh:Violation
+    ], 
+    # dct:conformsTo 
+    [
+        sh:path dct:conformsTo ;
+        sh:nodeKind sh:IRI; 
+        #sh:class dct:Standard;
+        sh:severity sh:Violation
+    ],
+    # dct:issued
+    [
+        sh:path dct:issued ;
+        sh:maxCount 1 ;
+        sh:nodeKind sh:Literal ;
+        sh:node :DateOrDateTimeDataType_Shape ;
+        sh:severity sh:Violation
+    ],
+    # dct:modified 
+    [
+        sh:path dct:modified ;
+        sh:maxCount 1 ;
+        sh:nodeKind sh:Literal ;
+        sh:node :DateOrDateTimeDataType_Shape ;
+        sh:severity sh:Violation
+    ], 
+    # adms:status
+    [
+        sh:path adms:status ;
+        sh:maxCount 1 ;
+        sh:severity sh:Violation
+    ], 
+    [
+        sh:path adms:status ;
+        #sh:class skos:Concept ;
+        sh:node :StatusRestriction ;
+        sh:nodeKind sh:IRI ;
+        sh:description "A non EU managed concept is used to indicate the status of the distribution. If no corresponding can be found inform the maintainer of the adms:status codelist."@en ; 
+        sh:severity sh:Violation
+    ], 
+    # dct:language
+    [
+        sh:path dct:language ;
+        #sh:class dct:LinguisticSystem ;
+        sh:node :LanguageRestriction ;
+        sh:description "A non EU managed concept is used to indicate a language. If no corresponding can be found inform the maintainer of the EU language NAL"@en ; 
+        sh:severity sh:Violation
+    ], 
+    # dcat:compressFormat
+    [
+        sh:path dcat:compressFormat ;
+        sh:maxCount 1 ;
+        sh:severity sh:Violation
+    ], 
+    [
+        sh:path dcat:compressFormat ;
+        #sh:class dct:MediaType ;
+        sh:nodeKind sh:IRI ;
+        sh:node :IanaFormatRestriction;
+        sh:severity sh:Violation
+    ], 
+    # dcat:packageFormat 
+    [
+        sh:path dcat:packageFormat ;
+        sh:maxCount 1 ;
+        sh:severity sh:Violation
+    ], 
+    [
+        sh:path dcat:packageFormat ;
+        #sh:class dct:MediaType ;
+        sh:nodeKind sh:IRI ;
+        sh:node :IanaFormatRestriction;
+        sh:severity sh:Violation
+    ], 
+    # dcat:byteSize
+    [
+        sh:path dcat:byteSize ;
+        sh:nodeKind sh:Literal;
+        sh:or(
+            [
+                sh:none :NonNegativeInteger_Shape ;
+            ]
+            [
+                sh:node :NonLiteralMultilingual_Shape;
+                sh:node :NonEmptyLiteral_Shape
+            ]
+        );
+        sh:severity sh:Violation
+    ],
+    [
+        sh:path dcat:byteSize ;
+        sh:maxCount 1 ;
+        sh:severity sh:Violation
+    ], 
+    # dcat:spatialResolutionInMeters
+    [
+        sh:path dcat:spatialResolutionInMeters ;
+        sh:nodeKind sh:Literal;
+        sh:or (
+            [ sh:datatype xsd:decimal ]
+            [ sh:datatype xsd:double ]
+        ) ;
+        sh:minInclusive 0;
+		sh:message "The value must be a positive number of type xsd:decimal or xsd:double."@en ;
+        sh:severity sh:Violation
+    ],
+    [
+        sh:path dcat:spatialResolutionInMeters ;
+        sh:maxCount 1 ;
+        sh:severity sh:Violation
+    ],
+    # dcat:temporalResolution
+    [
+        sh:path dcat:temporalResolution ;
+        sh:nodeKind sh:Literal;
+        sh:datatype xsd:duration ;
+        sh:node :DurationRestriction;
+        sh:severity sh:Violation ;
+    ],
+    [
+        sh:path dcat:temporalResolution ;
+        sh:maxCount 1 ;
+        sh:severity sh:Violation
+    ], 
+    # spdx:checksum
+    [
+        sh:path spdx:checksum ;
+        sh:maxCount 1 ;
+        sh:severity sh:Violation
+    ], 
+    [
+        sh:path spdx:checksum ;
+        sh:class spdx:Checksum ;
+        sh:severity sh:Violation
+    ],
+    # odrl:hasPolicy
+    [
+        sh:path odrl:hasPolicy ;
+        sh:maxCount 1 ;
+        sh:severity sh:Violation
+    ], 
+    [
+        sh:path odrl:hasPolicy ;
+        #sh:class odrl:Policy ;
+        sh:nodeKind sh:IRI ;
+        sh:severity sh:Violation
+    ],
+    # dct:rights
+    [
+        sh:path dct:rights ;
+        sh:maxCount 1 ;
+        sh:severity sh:Violation
+    ], 
+    [
+        sh:path dct:rights ;
+        sh:nodeKind sh:IRI ;
+        #sh:class dct:RightsStatement ;
+        sh:severity sh:Violation
+    ];
+    sh:targetClass dcat:Distribution .
+
+:Distribution_Shape2
+    a sh:NodeShape ;
+    sh:name "Distribution"@en ;
+    #sh:node :SpanishLanguageRestriction ;
+    sh:node :SpanishTitleRestriction ;	
+    sh:node :SpanishDescriptionRestriction ;
+    sh:targetClass dcat:Distribution .
+
+
+#---------------------------
+# Other shapes restrictions
+#---------------------------
+
+:Checksum_Shape
+    a sh:NodeShape ;
+    sh:name "Checksum"@en ;
+    sh:property 
+    # spdx:algorithm
+    [
+        sh:path spdx:algorithm ;
+        sh:maxCount 1 ;
+        sh:minCount 1 ;
+        sh:severity sh:Violation
+    ], 
+    [
+        sh:path spdx:algorithm ;
+        sh:hasValue <http://spdx.org/rdf/terms#checksumAlgorithm_sha1> ;
+        #sh:node :ChecksumAlgorithmSha1Restriction ;
+        #sh:class spdx:checksumAlgorithm_sha1
+        sh:nodeKind sh:IRI
+    ], 
+    # spdx:checksumValue 
+    [
+        sh:path spdx:checksumValue ;
+        sh:node :NonEmptyLiteral_Shape;
+        sh:datatype xsd:hexBinary ;
+        sh:maxCount 1 ;
+        sh:minCount 1 ;
+        sh:severity sh:Violation
+    ] ;
+    sh:targetClass spdx:Checksum .
+
+:IMT_Shape
+    a sh:NodeShape ;
+    sh:name "IMT"@en ;
+    sh:property 
+    # rdf:value
+    [
+        sh:path rdf:value ;
+        sh:nodeKind sh:Literal ;
+        sh:node :NonLiteralMultilingual_Shape ;
+    ],
+    [
+        sh:path rdf:value  ;
+        sh:node :NonEmptyLiteral_Shape;
+    ],
+    [
+        sh:path rdf:value ;
+        sh:minCount 1 ;
+        sh:severity sh:Violation
+    ],
+    [
+        sh:path rdf:value ;
+        sh:maxCount 1 ;
+        sh:severity sh:Violation
+    ],
+    # rdfs:label
+    [
+        sh:path rdfs:label ;
+        sh:nodeKind sh:Literal ;
+        sh:node :NonLiteralMultilingual_Shape ;
+    ],
+    [
+        sh:path rdfs:label  ;
+        sh:node :NonEmptyLiteral_Shape;
+    ],
+    [
+        sh:path rdfs:label ;
+        sh:minCount 1 ;
+        sh:severity sh:Violation
+    ],
+    [
+        sh:path rdfs:label ;
+        sh:maxCount 1 ;
+        sh:severity sh:Violation
+    ] ;
+    sh:targetClass dct:IMT .
+
+#--------------------------
+# Vocabulary restrictions
+#--------------------------
+
+:AvailabilityRestriction
+    a sh:NodeShape ;
+    rdfs:comment "Availability restriction"@en ;
+    rdfs:label "Availability restriction"@en ;
+
+    # Pattern validation: it must be an IRI following the EU vocabulary format
+    sh:nodeKind sh:IRI ;
+    sh:pattern "^http://publications\\.europa\\.eu/resource/authority/planned-availability/.+$" ;
+    sh:message "The value must be an IRI from the European planned availability vocabulary http://publications.europa.eu/resource/authority/planned-availability."@en ;
+    sh:severity sh:Violation .
+
+:FileTypeRestriction
+    a sh:NodeShape ;
+    rdfs:comment "File Type Restriction"@en ;
+    rdfs:label "File Type Restriction"@en ;
+
+    # Pattern validation: it must be an IRI following the EU vocabulary format
+    sh:nodeKind sh:IRI ;
+    sh:pattern "^http://publications\\.europa\\.eu/resource/authority/file-type/.+$" ;
+    sh:message "The value must be an IRI from the European file type vocabulary http://publications.europa.eu/resource/authority/file-type."@en ;
+    sh:severity sh:Violation .
+
+:IanaFormatRestriction
+    a sh:NodeShape ;
+    rdfs:comment "Iana Format Restriction"@en ;
+    rdfs:label "Iana Format Restriction"@en ;
+
+    # Pattern validation: it must be an IRI following the iana format https://www.iana.org/assignments/media-types/<type>/<subtype>
+    sh:nodeKind sh:IRI ;
+    sh:pattern "^https?://www\\.iana\\.org/assignments/media-types/[a-z0-9!#$&^_.+-]+/[a-z0-9!#$&^_.+-]+$" ;
+    sh:message "The value must be an IRI from IANA https://www.iana.org/assignments/media-types/media-types.xhtml."@en ;
+    sh:severity sh:Violation .
+
+:StatusRestriction
+    a sh:NodeShape ;
+    rdfs:comment "Status restriction"@en ;
+    rdfs:label "Status restriction"@en ;
+
+    # Pattern validation: it must be an IRI following the EU vocabulary format
+    sh:nodeKind sh:IRI ;
+    sh:pattern "^http://publications\\.europa\\.eu/resource/authority/distribution-status/.+$" ;
+    sh:message "The value must be an IRI from the European distribution status vocabulary http://publications.europa.eu/resource/authority/distribution-status."@en ;
+    sh:severity sh:Violation .

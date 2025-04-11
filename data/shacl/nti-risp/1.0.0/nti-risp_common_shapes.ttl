@@ -1,0 +1,334 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix : <http://datos.gob.es/nti-risp#> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix schema: <http://schema.org/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix time: <http://www.w3.org/2006/time#> .
+
+<http://datos.gob.es/nti-risp/common_shapes>
+    dct:format <http://publications.europa.eu/resource/authority/file-type/RDF_TURTLE> ;
+    dct:conformsTo <https://www.w3.org/TR/shacl> ;
+    dct:description "Este documento especifica restricciones comunes utilizadas en varios shapes del modelo de metadatos NTI-RISP (2013)."@es ;
+    owl:versionInfo "1.0.0" .
+
+:DateOrDateTimeDataType_Shape
+    a sh:NodeShape ;
+    rdfs:comment "Restricción para formatos de fecha ISO-8601"@es ;
+    sh:or (
+        [
+            sh:datatype xsd:date ;
+        ]
+        [
+            sh:datatype xsd:dateTime ;
+        ]
+        [
+            # Permitir literales en formato ISO sin tipado explícito
+            sh:pattern "^[0-9]{4}-[0-9]{2}-[0-9]{2}(T[0-9]{2}:[0-9]{2}:[0-9]{2}(Z|[+-][0-9]{2}:[0-9]{2})?)?$" ;
+        ]
+    ) ;
+    sh:message "El valor debe ser una fecha válida en formato ISO-8601: YYYY-MM-DDThh:mm:ssTZD"@es .
+
+# Shape modular para texto multilingüe
+:MultilingualText_Shape
+    a sh:NodeShape ;
+    rdfs:comment "Restricción modular para literales de texto con etiquetas de idiomas"@es ;
+    sh:nodeKind sh:Literal ;
+    sh:node :LiteralMultilingual_Shape ;
+    sh:node :NonEmptyLiteral_Shape ;
+    sh:node :RecommendedMultilingualLiteral_Shape ;
+    sh:uniqueLang true ;
+    sh:message "Literal de texto multilingüe con al menos español, no vacío y preferiblemente en varios idiomas sin duplicar etiquetas de idioma."@es .
+
+:NonEmptyLiteral_Shape
+    a sh:NodeShape ;
+    rdfs:comment "Restricción para literales no vacíos"@es ;
+    sh:pattern "^.+$" ;
+    sh:message "El valor no puede estar vacío"@es .
+
+:LiteralMultilingual_Shape
+    a sh:NodeShape ;
+    rdfs:comment "Restricción para literales multilingües"@es ;
+    sh:or (
+        [
+            sh:datatype rdf:langString ;
+            # Exige al menos un valor en español
+            sh:qualifiedMinCount 1 ; 
+            sh:qualifiedValueShape [
+                sh:languageIn ("es") ;
+            ] ;
+        ]
+        [
+            sh:datatype xsd:string ;
+            sh:message "Se dede proporcionar un valor con etiqueta de idioma 'es'"@es ;
+        ]
+    ) ;
+    sh:message "El valor debe ser un literal, con al menos una versión en español ('es')"@es .
+
+:RecommendedMultilingualLiteral_Shape
+    a sh:NodeShape ;
+    rdfs:comment "Recomendación para literales en múltiples idiomas"@es ;
+    sh:or (
+        [
+            sh:languageIn ("ca") ;
+            sh:minCount 1 ;
+        ]
+        [
+            sh:languageIn ("eu") ;
+            sh:minCount 1 ;
+        ]
+        [
+            sh:languageIn ("ga") ;
+            sh:minCount 1 ;
+        ]
+        [
+            sh:languageIn ("en") ;
+            sh:minCount 1 ;
+        ]
+        [
+            sh:languageIn ("fr") ;
+            sh:minCount 1 ;
+        ]
+    ) ;
+    sh:message "Se recomienda proporcionar valores en otros idiomas además del español"@es .
+
+:NonLiteralMultilingual_Shape
+    a sh:NodeShape ;
+    rdfs:comment "Restricción para literales sin etiqueta de idioma"@es ;
+    sh:not [
+        sh:datatype rdf:langString ;
+    ] ;
+    sh:message "El valor no debe incluir etiqueta de idioma"@es .
+
+:LanguageRestriction_Shape
+    a sh:NodeShape ;
+    rdfs:comment "Restricción para valores de idioma permitidos en dc:language"@es ;
+    sh:property [
+        sh:path rdf:value ;
+        sh:in ("es" "ga" "ca" "eu" "en" "fr") ;
+        sh:message "El valor de dc:language debe ser uno de los idiomas permitidos: 'es', 'ga', 'ca', 'eu', 'en', 'fr'"@es ;
+    ] ;
+    sh:message "El valor de dc:language debe ser un literal con un idioma permitido"@es .
+
+:Frequency_Shape
+    a sh:NodeShape ;
+    rdfs:comment "Validación para estructuras dct:Frequency usadas en dct:accrualPeriodicity"@es ;
+    sh:property [
+        sh:path rdf:value ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:nodeKind sh:BlankNodeOrIRI ;
+        sh:node :TimeDurationDescription_Shape ;
+        sh:message "dct:Frequency debe contener exactamente un rdf:value con una estructura time:DurationDescription válida"@es ;
+    ] ;
+    sh:message "La estructura dct:Frequency no cumple con los requisitos"@es .
+
+:TimeDurationDescription_Shape
+    a sh:NodeShape ;
+    rdfs:comment "Validación para estructuras time:DurationDescription usadas en dct:accrualPeriodicity"@es ;
+    sh:property [
+        sh:path time:years ;
+        sh:datatype xsd:decimal ;
+        sh:minInclusive 0 ;
+        sh:message "El valor de 'time:years' debe ser un número decimal mayor o igual a 0"@es ;
+    ] ;
+    sh:property [
+        sh:path time:months ;
+        sh:datatype xsd:decimal ;
+        sh:minInclusive 0 ;
+        sh:message "El valor de 'time:months' debe ser un número decimal mayor o igual a 0"@es ;
+    ] ;
+    sh:property [
+        sh:path time:days ;
+        sh:datatype xsd:decimal ;
+        sh:minInclusive 0 ;
+        sh:message "El valor de 'time:days' debe ser un número decimal mayor o igual a 0"@es ;
+    ] ;
+    sh:property [
+        sh:path time:hours ;
+        sh:datatype xsd:decimal ;
+        sh:minInclusive 0 ;
+        sh:message "El valor de 'time:hours' debe ser un número decimal mayor o igual a 0"@es ;
+    ] ;
+    sh:property [
+        sh:path time:minutes ;
+        sh:datatype xsd:decimal ;
+        sh:minInclusive 0 ;
+        sh:message "El valor de 'time:minutes' debe ser un número decimal mayor o igual a 0"@es ;
+    ] ;
+    sh:property [
+        sh:path time:seconds ;
+        sh:datatype xsd:decimal ;
+        sh:minInclusive 0 ;
+        sh:message "El valor de 'time:seconds' debe ser un número decimal mayor o igual a 0"@es ;
+    ] ;
+    sh:property [
+        sh:path rdfs:label ;
+        sh:minCount 1 ;
+        sh:nodeKind sh:Literal ;
+        sh:severity sh:Warning ;
+    ] ;
+    sh:property [
+        sh:path rdfs:label ;
+        sh:node :LiteralMultilingual_Shape ;
+        sh:severity sh:Violation ;
+    ] ;
+    sh:property [
+        sh:path rdfs:label ;
+        sh:node :NonEmptyLiteral_Shape ;
+        sh:severity sh:Violation ;
+    ] ;
+    sh:property [
+        sh:path rdfs:label ;
+        sh:node :RecommendedMultilingualLiteral_Shape ;
+        sh:severity sh:Info ;
+    ] ;
+    # Validación de que al menos una propiedad de tiempo está presente
+    sh:or (
+        [ sh:path time:years ; sh:minCount 1 ]
+        [ sh:path time:months ; sh:minCount 1 ]
+        [ sh:path time:days ; sh:minCount 1 ]
+        [ sh:path time:hours ; sh:minCount 1 ]
+        [ sh:path time:minutes ; sh:minCount 1 ]
+        [ sh:path time:seconds ; sh:minCount 1 ]
+    ) ;
+    sh:message "Una estructura time:DurationDescription debe incluir al menos una propiedad de tiempo (years, months, days, etc.)"@es .
+
+# Shape para el período de tiempo con soporte para múltiples sintaxis
+:PeriodOfTime_Shape
+    a sh:NodeShape ;
+    rdfs:comment "Validación para estructuras dct:PeriodOfTime que definen un intervalo temporal"@es ;
+    
+    # Validación para dcat:startDate (preferido)
+    sh:property [
+        sh:path dcat:startDate ;
+        sh:nodeKind sh:Literal ;
+        sh:maxCount 1 ;
+        sh:or (
+            [ sh:datatype xsd:date ]
+            [ sh:datatype xsd:dateTime ]
+        ) ;
+        sh:severity sh:Violation ;
+        sh:message "El valor de dcat:startDate debe ser una fecha o fecha-hora válida"@es ;
+    ] ;
+    
+    # Validación para schema:startDate (compatible)
+    sh:property [
+        sh:path schema:startDate ;
+        sh:nodeKind sh:Literal ;
+        sh:maxCount 1 ;
+        sh:or (
+            [ sh:datatype xsd:date ]
+            [ sh:datatype xsd:dateTime ]
+        ) ;
+        sh:severity sh:Violation ;
+        sh:message "El valor de schema:startDate debe ser una fecha o fecha-hora válida"@es ;
+    ] ;
+    
+    # Validación para dcat:endDate (preferido)
+    sh:property [
+        sh:path dcat:endDate ;
+        sh:nodeKind sh:Literal ;
+        sh:maxCount 1 ;
+        sh:or (
+            [ sh:datatype xsd:date ]
+            [ sh:datatype xsd:dateTime ]
+        ) ;
+        sh:severity sh:Violation ;
+        sh:message "El valor de dcat:endDate debe ser una fecha o fecha-hora válida"@es ;
+    ] ;
+    
+    # Validación para schema:endDate (compatible)
+    sh:property [
+        sh:path schema:endDate ;
+        sh:nodeKind sh:Literal ;
+        sh:maxCount 1 ;
+        sh:or (
+            [ sh:datatype xsd:date ]
+            [ sh:datatype xsd:dateTime ]
+        ) ;
+        sh:severity sh:Violation ;
+        sh:message "El valor de schema:endDate debe ser una fecha o fecha-hora válida"@es ;
+    ] ;
+    
+    # Validación para time:hasBeginning (ontología W3C Time)
+    sh:property [
+        sh:path time:hasBeginning ;
+        sh:maxCount 1 ;
+        sh:class time:Instant ;
+        sh:severity sh:Violation ;
+        sh:message "El valor de time:hasBeginning debe ser un time:Instant válido"@es ;
+    ] ;
+    
+    # Validación para time:hasEnd (ontología W3C Time)
+    sh:property [
+        sh:path time:hasEnd ;
+        sh:maxCount 1 ;
+        sh:class time:Instant ;
+        sh:severity sh:Violation ;
+        sh:message "El valor de time:hasEnd debe ser un time:Instant válido"@es ;
+    ] ;
+    
+    # Validar que al menos hay una fecha de inicio usando cualquiera de las sintaxis
+    sh:xone (
+        [
+            sh:property [
+                sh:path dcat:startDate ;
+                sh:minCount 1 ;
+            ]
+        ]
+        [
+            sh:property [
+                sh:path schema:startDate ;
+                sh:minCount 1 ;
+            ]
+        ]
+        [
+            sh:property [
+                sh:path time:hasBeginning ;
+                sh:minCount 1 ;
+            ]
+        ]
+    ) ;
+    
+    # Advertencia para uso de propiedades schema:* versus dcat:*
+    sh:property [
+        sh:path schema:startDate ;
+        sh:minCount 1 ;
+        sh:severity sh:Info ;
+        sh:message "Se recomienda usar dcat:startDate en lugar de schema:startDate para mejor interoperabilidad"@es ;
+    ] ;
+    sh:property [
+        sh:path schema:endDate ;
+        sh:minCount 1 ;
+        sh:severity sh:Info ;
+        sh:message "Se recomienda usar dcat:endDate en lugar de schema:endDate para mejor interoperabilidad"@es ;
+    ] ;
+    
+    sh:targetClass dct:PeriodOfTime .
+
+:MediaType_Shape
+    a sh:NodeShape ;
+    rdfs:comment "Validación para estructuras IANA media type"@es ;
+    sh:property 
+    [
+        sh:path dcat:mediaType ;
+        sh:pattern "^[a-z0-9]+/[a-z0-9.+-]+$" ;
+        sh:message "El formato debe seguir la estructura estandarizada de tipos MIME: tipo/subtipo"@es ;
+        sh:severity sh:Violation ;
+    ] ;
+    sh:targetClass dcat:Distribution .
+
+:DIR3OrganismRestriction
+    a sh:NodeShape ;
+    rdfs:comment "Restricción de organismo del sector público según codificación DIR3"@es ;
+    rdfs:label "Restricción de organismo del sector público"@es ;
+    
+    # Validación: debe ser un IRI del directorio de organismos siguiendo la codificación DIR3
+    sh:nodeKind sh:IRI ;
+    sh:pattern "^http://datos\\.gob\\.es/recurso/sector-publico/org/Organismo/[A-Z][A-Z0-9]{8}$" ;
+    sh:message "El valor debe ser un IRI del directorio de organismos DIR3 con formato http://datos.gob.es/recurso/sector-publico/org/Organismo/{ID}, donde ID es un código alfanumérico de 9 caracteres que puede comenzar con E (Administración General del Estado), A (Administración Autonómica), L (Administración Local), P (Entidades privadas), U (Universidades), etc."@es ;

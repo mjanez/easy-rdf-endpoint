@@ -1,0 +1,313 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix : <http://datos.gob.es/dcat-ap-es#> .
+@prefix adms: <http://www.w3.org/ns/adms#> .
+@prefix cc: <http://creativecommons.org/ns#> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix lcon: <http://www.w3.org/ns/locn#> .
+@prefix org: <http://www.w3.org/ns/org#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix schema: <http://schema.org/> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix spdx: <http://spdx.org/rdf/terms#> .
+@prefix time: <http://www.w3.org/2006/time#> .
+@prefix vcard: <http://www.w3.org/2006/vcard/ns#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix dcatap: <http://data.europa.eu/r5r/> .
+
+<http://datos.gob.es/dcat-ap-es/shacl_dataservice_shape>
+    #dcat:accessURL <>;
+    #dcat:downloadURL <> ;
+    #dcatap:availability <http://data.europa.eu/r5r/stable> ;
+    dct:format <http://publications.europa.eu/resource/authority/file-type/RDF_TURTLE> ;
+    dct:conformsTo <https://www.w3.org/TR/shacl> ;
+    #dct:creator [
+    #    rdfs:seeAlso <> ;
+    #    org:memberOf <> ;
+    #    foaf:homepage <> ;
+    #    foaf:name ""
+    #], [
+    #    rdfs:seeAlso <> ;
+    #    org:memberOf <> ;
+    #    foaf:homepage <> ;
+    #    foaf:name ""
+    #] ;
+    #dct:license <https://creativecommons.org/licenses/by/4.0> ;
+    #cc:attributionURL <> ;
+    #dct:modified "2021-12-01"^^xsd:date ;
+    #dct:publisher <> ;
+    #dct:relation <h> ;
+    dct:description "This document specifies the constraints on properties and classes expressed by DCAT-AP-ES in SHACL."@en ;
+    #dct:title "The constraints of DCAT Application Profile for Data Portals in Spain"@en ;
+    owl:versionInfo "1.0.0" ;
+    #foaf:homepage <> ;
+    #foaf:maker [
+    #    foaf:mbox <> ;
+    #    foaf:name "DCAT-AP Working Group" ;
+    #    foaf:page <>
+    #] ;
+    #owl:imports <shacl_common_shapes.ttl> ; # Requires shacl_common_shapes.ttl file to work well.
+    #owl:imports <shacl_mdr-vocabularies.shape.ttl> ;  # Requires shacl_common_shapes.ttl file to work well
+    rdfs:comment """
+        This SHACL file must import the following additional dependencies to work properly:
+            - shacl_common_shapes, 
+            - shacl_mdr-vocabularies.shape.ttl. 
+        Make sure they are available and imported for full validation." 
+    """
+    .
+#-------------------------------------------------------------------------
+# The shapes in this file cover dataservice class in DCAT-AP-ES 1.0.0.
+# It covers all constraints that must be satisfied.
+# 
+#-------------------------------------------------------------------------
+
+:DataService_Shape
+    a sh:NodeShape ;
+    sh:name "Data Service"@en ;
+    sh:property 
+    # dct:title
+    [
+        sh:path dct:title ;
+        sh:minCount 1 ;
+        sh:nodeKind sh:Literal ;
+        sh:severity sh:Violation
+    ],
+    [
+        sh:path dct:title ;
+        sh:node :LiteralMultilingual_Shape ; 
+        sh:severity sh:Violation ;
+    ],
+    [
+        sh:path dct:title ;
+        sh:node :NonEmptyLiteral_Shape ; 
+        sh:severity sh:Violation ;
+    ],
+    [
+        sh:path dct:title ;
+        sh:uniqueLang true;
+        sh:severity sh:Violation ;
+        sh:message "More than one values share the same language tag."@en
+    ],
+    # dcat:contactPoint
+    [
+        sh:path dcat:contactPoint ;
+        sh:not :PublicSectorOrganismRestriction ;
+        sh:message "The value can not be an IRI from http://datos.gob.es/recurso/sector-publico/org/Organismo";
+        sh:severity sh:Violation
+    ],
+    [
+        sh:path dcat:contactPoint ;
+        sh:node :Kind_Shape ;
+        sh:severity sh:Violation
+    ],
+    [
+        sh:path dcat:contactPoint ;
+        sh:node :Kind_Shape2 ;
+        sh:severity sh:Violation
+    ],
+    [
+        sh:path dcat:contactPoint ;
+        sh:minCount 1 ;
+        sh:severity sh:Warning
+    ], 
+    # foaf:page
+    [
+        sh:path foaf:page ;
+        sh:nodeKind sh:IRI;
+        #sh:class foaf:Document ;
+        sh:severity sh:Violation
+    ],
+    # dct:publisher
+    [
+        sh:path dct:publisher ;
+        sh:minCount 1 ;
+        sh:severity sh:Violation ;
+    ],
+    [
+        sh:path dct:publisher ;
+        sh:maxCount 1 ;
+        sh:severity sh:Violation
+    ], 
+    [
+        sh:path dct:publisher ;
+        sh:node :PublicSectorOrganismRestriction;
+        sh:or(
+            [
+                sh:nodeKind sh:IRI; 
+                sh:closed true
+            ]
+            [
+                sh:nodeKind sh:BlankNodeOrIRI;
+                sh:node :Agent_Shape;
+                sh:node :PublisherAgent_Shape;
+                sh:message "The node type must be foaf:Agent or foaf:Organization.";
+            ]
+        );
+    ],
+    [
+        sh:path dct:publisher ;
+        sh:or(
+            [ 
+                sh:nodeKind sh:IRI;
+                sh:closed true
+            ]
+            [
+                sh:nodeKind sh:BlankNodeOrIRI;
+                sh:node :Agent_Shape2
+            ]
+        );
+        sh:severity sh:Warning;
+        sh:message "An identifier and a type are recommended"
+    ],
+    # dcat:theme
+    [
+        sh:path dcat:theme ;
+        sh:minCount 1 ;
+        sh:severity sh:Violation ;
+    ],
+    [
+		sh:path dcat:theme ;
+	    sh:qualifiedValueShape [
+			sh:node :PublicSectorRestriction ;
+		];	
+        sh:qualifiedMinCount 1;
+        sh:message "Multiple themes from http://datos.gob.es/kos/sector-publico/sector, http://publications.europa.eu/resource/authority/data-theme or http://inspire.ec.europa.eu/theme can be used but at least one concept of http://datos.gob.es/kos/sector-publico/sector must be present."@en ;
+        sh:severity sh:Violation
+    ],
+    [
+        sh:path dcat:theme ;
+        sh:nodeKind sh:IRI ;
+        sh:or(
+            [   
+                sh:node :PublicSectorRestriction ;
+            ]
+            [   
+                sh:node :EuropeanDataThemeRestriction ;
+            ]
+            [
+                sh:node :InspireDataThemeRestriction ;
+            ]
+        );
+        sh:message "Only themes from http://datos.gob.es/kos/sector-publico/sector, http://publications.europa.eu/resource/authority/data-theme or http://inspire.ec.europa.eu/theme can be used."@en ;
+        sh:severity sh:Violation
+    ],
+    # dcat:endpointURL
+    [
+        sh:path dcat:endpointURL ;
+        sh:nodeKind sh:IRI ;
+        sh:severity sh:Violation
+    ], 
+    [
+        sh:path dcat:endpointURL ;
+        sh:minCount 1 ;
+        sh:severity sh:Violation
+    ], 
+    # dcat:endpointDescription
+    [
+        sh:path dcat:endpointDescription ;
+        sh:nodeKind sh:IRI ;
+        sh:severity sh:Violation
+    ], 
+    [
+        sh:path dcat:endpointDescription ;
+        sh:minCount 1 ;
+        sh:severity sh:Warning
+    ], 
+    # dcat:servesDataset
+    [
+        sh:path dcat:servesDataset ;
+        sh:nodeKind sh:IRI ;
+        #sh:class dcat:Dataset ;
+        sh:severity sh:Violation
+    ], 
+    [
+        sh:path dcat:servesDataset ;
+        sh:minCount 1 ;
+        sh:severity sh:Warning
+    ], 
+    # dct:description
+    [
+        sh:path dct:description ;
+        sh:nodeKind sh:Literal ;
+        sh:severity sh:Violation
+    ],
+    [
+        sh:path dct:description ;
+        sh:node :LiteralMultilingual_Shape ; 
+        sh:severity sh:Violation ;
+    ],
+    [
+        sh:path dct:description ;
+        sh:node :NonEmptyLiteral_Shape ; 
+        sh:severity sh:Violation ;
+    ],
+    [
+        sh:path dct:description ;
+        sh:uniqueLang true;
+        sh:severity sh:Violation ;
+        sh:message "More than one values share the same language tag."@en
+    ],
+    # dct:accessRights
+    [
+        sh:path dct:accessRights ;
+        sh:maxCount 1 ;
+        sh:severity sh:Violation
+    ],   
+    [
+        sh:path dct:accessRights ;
+        #sh:class dct:RightStatement
+		sh:node :AccessRightRestriction ;
+        sh:nodeKind sh:IRI ;
+        sh:description "A non EU managed concept is used to indicate the access right. If no corresponding can be found inform the maintainer of the EU language NAL"@en ;
+        sh:severity sh:Violation
+	],
+    # dct:license
+    [
+        sh:path dct:license ;
+        sh:maxCount 1 ;
+        sh:severity sh:Violation
+    ], 
+    [
+        sh:path dct:license ;
+        #sh:class dct:LicenseDocument
+        sh:or (
+            [ sh:node :LicenceDocument_Shape ;]
+            [ sh:node :LicenceRestriction ;]
+            [ sh:nodeKind sh:IRI ;]
+        );
+        sh:severity sh:Violation
+    ], 
+    # dcat:keyword
+    [
+        sh:path dcat:keyword ;
+        sh:nodeKind sh:Literal ;
+        sh:severity sh:Violation
+    ], [
+        sh:path dcat:keyword ;
+        sh:minCount 1 ;
+        sh:severity sh:Warning
+    ], 
+    [
+        sh:path dcat:keyword ;
+        sh:node :LiteralMultilingual_Shape ; 
+        sh:severity sh:Violation ;
+    ],
+    [
+        sh:path dcat:keyword ;
+        sh:node :NonEmptyLiteral_Shape ;
+        sh:severity sh:Violation
+    ];
+    sh:targetClass dcat:DataService .
+
+:DataService_Shape2
+    a sh:NodeShape ;
+    sh:name "DataService"@en ;
+    sh:node :SpanishTitleRestriction ;
+    sh:node :SpanishDescriptionRestriction ;
+    sh:targetClass dcat:DataService .

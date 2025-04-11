@@ -15,22 +15,19 @@ ENV CATALOG_FILE=catalog.rdf \
 
 RUN mkdir -p /app/data
 
-# Instalar dependencias
+# Install deps and copy files
 RUN pip install --no-cache-dir "rdflib-endpoint[web,cli,oxigraph]>=0.5.1"
-
-# Copiar archivos de override
 COPY ./easy-rdf-endpoint/setup/rdflib-endpoint/yasgui.html /usr/local/lib/python3.11/site-packages/rdflib_endpoint/
 
-# Copiar archivos de la aplicación
+# Copy APP files
 COPY ./data/${CATALOG_FILE} /app/data/
 COPY ./easy-rdf-endpoint/setup/rdflib-endpoint/sparql_override.py /app/sparql_override.py
 
-# Configurar usuario
+# Create non-root user
 RUN groupadd -r appuser && useradd -r -g appuser appuser \
     && chown -R appuser:appuser /app
 USER appuser
 
 EXPOSE 8000
 
-# Usar Python para ejecutar nuestro script personalizado
 CMD ["python", "/app/sparql_override.py"]
