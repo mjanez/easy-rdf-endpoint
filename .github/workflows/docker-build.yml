@@ -9,7 +9,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  REPOSITORY: ${{ github.repository }}
+  REPOSITORY_BASE: ${{ github.repository_owner }}
 
 jobs:
   build-sparql-endpoint:
@@ -41,16 +41,13 @@ jobs:
         id: meta-sparql
         uses: docker/metadata-action@v5
         with:
-          images: ${{ env.REGISTRY }}/${{ env.REPOSITORY }}
-          flavor: |
-            latest=true
-            prefix=sparql-
-            suffix=
+          images: ${{ env.REGISTRY }}/${{ env.REPOSITORY_BASE }}/easy-rdf-sparql
           tags: |
             type=ref,event=branch
             type=ref,event=pr
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
+            type=raw,value=latest,enable={{is_default_branch}}
           labels: |
             org.opencontainers.image.title=Easy RDF SPARQL Endpoint
             org.opencontainers.image.description=SPARQL Endpoint based on rdflib-endpoint to query RDF data
@@ -100,16 +97,13 @@ jobs:
         id: meta-validator
         uses: docker/metadata-action@v5
         with:
-          images: ${{ env.REGISTRY }}/${{ env.REPOSITORY }}
-          flavor: |
-            latest=true
-            prefix=validator-
-            suffix=
+          images: ${{ env.REGISTRY }}/${{ env.REPOSITORY_BASE }}/easy-rdf-validator
           tags: |
             type=ref,event=branch
             type=ref,event=pr
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
+            type=raw,value=latest,enable={{is_default_branch}}
           labels: |
             org.opencontainers.image.title=RDF Validator
             org.opencontainers.image.description=RDF Validator with RIOT and SHACL validation for DCAT-AP and DCAT-AP-ES
@@ -159,16 +153,13 @@ jobs:
         id: meta-nginx
         uses: docker/metadata-action@v5
         with:
-          images: ${{ env.REGISTRY }}/${{ env.REPOSITORY }}
-          flavor: |
-            latest=true
-            prefix=nginx-
-            suffix=
+          images: ${{ env.REGISTRY }}/${{ env.REPOSITORY_BASE }}/easy-rdf-nginx
           tags: |
             type=ref,event=branch
             type=ref,event=pr
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
+            type=raw,value=latest,enable={{is_default_branch}}
           labels: |
             org.opencontainers.image.title=Easy RDF NGINX Frontend
             org.opencontainers.image.description=NGINX frontend for serving RDF and proxying SPARQL and Validator services

@@ -1,6 +1,6 @@
 services:
   nginx:
-    image: ghcr.io/mjanez/easy-rdf-endpoint:nginx-main
+    image: ghcr.io/mjanez/easy-rdf-nginx:latest
     env_file:
       - .env
     logging:
@@ -18,7 +18,7 @@ services:
     restart: on-failure:3
 
   sparql-endpoint:
-    image: ghcr.io/mjanez/easy-rdf-endpoint:sparql-main
+    image: ghcr.io/mjanez/easy-rdf-sparql:latest
     env_file:
       - .env
     logging:
@@ -31,7 +31,7 @@ services:
     restart: on-failure:3
 
   rdf-validator:
-    image: ghcr.io/mjanez/easy-rdf-endpoint:validator-main
+    image: ghcr.io/mjanez/easy-rdf-validator:latest
     logging:
       driver: "json-file"
       options:
