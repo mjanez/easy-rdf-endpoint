@@ -1,7 +1,10 @@
 # `easy-rdf-endpoint` - Use Docker to deploy and use a RDF Catalog
 
 ## Overview
-This project provides a simple **Dockerized RDF endpoint** that serves an `.rdf` file, provides an SPARQL Endpoint based on [`vemonet/rdflib-endpoint`](https://github.com/vemonet/rdflib-endpoint) and incorporates interfaces for both semantic and syntactic validation of RDF files.
+This project provides a simple **Dockerized RDF endpoint** that simplifies catalog deployment of `.rdf` files, provides an SPARQL Endpoint based on [`vemonet/rdflib-endpoint`](https://github.com/vemonet/rdflib-endpoint) and incorporates interfaces for both semantic and syntactic validation of RDF files.
+
+About
+This project provides a simple Dockerized RDF endpoint that simplifies catalog deployment, provides a SPARQL endpoint
 
 * **SPARQL Features**: Advanced RDF Query Capabilities
   - Integrated YASGUI editor with multi-tab support
@@ -32,7 +35,7 @@ This project provides a simple **Dockerized RDF endpoint** that serves an `.rdf`
 ![SPARQL Editor](doc/img/easy-rdf-endpoint_sparql-editor.png)
 ![Semantic Validator](doc/img/easy-rdf-endpoint_rdf-validator-shacl.png)
 ![Semantic Validator 2](doc/img/easy-rdf-endpoint_rdf-validator-shacl-2.png)
-![Sinctatic Validator](doc/img/easy-rdf-endpoint_rdf-validator-riot.png)
+![Syntactic Validator](doc/img/easy-rdf-endpoint_rdf-validator-riot.png)
 
 ## Quick Start
 Use [Codespaces](https://github.com/features/codespaces) to test `easy-rdf-endpoint` in your browser
@@ -51,7 +54,32 @@ Before starting the deployment, you'll need to set up a `.env` file. This file i
     git clone https://github.com/mjanez/easy-rdf-endpoint.git & cd easy-rdf-endpoint
     ```
 
-2. Push your RDF catalog in folder: ./data 
+2. Place your RDF catalog file in the `./data` folder:
+
+  ```sh
+  # Copy your existing RDF catalog file
+  cp /path/to/your/my_custom_catalog.rdf ./data/
+
+  # Or create a sample RDF file if you don't have one
+  cat > ./data/my_custom_catalog.rdf << 'EOF'
+  <?xml version="1.0" encoding="utf-8"?>
+  <rdf:RDF
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:dcat="http://www.w3.org/ns/dcat#"
+    xmlns:dct="http://purl.org/dc/terms/">
+    
+    <dcat:Catalog rdf:about="http://example.org/catalog">
+     <dct:title xml:lang="en">Sample Data Catalog</dct:title>
+     <dct:description xml:lang="en">A sample RDF catalog for testing</dct:description>
+     <dct:publisher rdf:resource="http://example.org/publisher"/>
+     <dct:issued>2023-01-01</dct:issued>
+    </dcat:Catalog>
+  </rdf:RDF>
+  EOF
+
+  # Make sure the file has proper permissions
+  chmod 644 ./data/my_custom_catalog.rdf
+  ```
 
 3. Copy the [`.env.example`](.env.example) template and modify the resulting `.env` to suit your needs.
 
@@ -66,7 +94,7 @@ Before starting the deployment, you'll need to set up a `.env` file. This file i
 
     # RDF Catalog File Configuration
     # RDF filename in ./data to be served at localhost/catalog.rdf and loaded to Virtuoso
-    CATALOG_FILE=my-custom-catalog.rdf
+    CATALOG_FILE=my_custom_catalog.rdf
 
     # Edit your custom SPARQL queries that load as tabs at startup
     EXAMPLE_SPARQL_QUERIES='{
