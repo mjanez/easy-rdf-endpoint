@@ -1,12 +1,23 @@
 # `easy-rdf-endpoint` - Use Docker to deploy and use a RDF Catalog
 
 ## Overview
-This project provides a simple **Dockerized RDF endpoint** that serves an `.rdf` file an provides an SPARQL Endpoint based on [`vemonet/rdflib-endpoint`](https://github.com/vemonet/rdflib-endpoint)
+This project provides a simple **Dockerized RDF endpoint** that serves an `.rdf` file, provides an SPARQL Endpoint based on [`vemonet/rdflib-endpoint`](https://github.com/vemonet/rdflib-endpoint) and incorporates interfaces for both semantic and syntactic validation of RDF files.
 
-* **SPARQL Features**: 
+* **SPARQL Features**: Advanced RDF Query Capabilities
   - Integrated YASGUI editor with multi-tab support
   - Pre-configured example queries
   - Machine-readable SPARQL endpoint
+
+* **Validator**: RDF Catalog Validation
+  - Semantic validation using SHACL
+  - Syntactic validation using RIOT
+  - Interactive validator interface
+  - Downloadable validation errors and warnings reports
+  - At-a-glance SHACL validation statistics
+
+* **Public RDF catalog**: RDF Catalog Serving:
+  - Serves Catalog `.rdf` files with proper `Content-Type: application/rdf+xml`
+  - Compatible with DCAT-AP federators and RDF parsers
 
 * **Easy Deployment**:
   - Docker and Kubernetes ready
@@ -16,10 +27,6 @@ This project provides a simple **Dockerized RDF endpoint** that serves an `.rdf`
   - NGINX reverse proxy
   - SSL/TLS support
   - Configurable CORS
-
-* **RDF Catalog Serving**:
-  - Serves Catalog `.rdf` files with proper `Content-Type: application/rdf+xml`
-  - Compatible with DCAT-AP federators and RDF parsers
 
 ![Landing Page](doc/img/easy-rdf-endpoint_landing-page.png)
 ![SPARQL Editor](doc/img/easy-rdf-endpoint_sparql-editor.png)
@@ -57,7 +64,8 @@ Before starting the deployment, you'll need to set up a `.env` file. This file i
     # Server Configuration
     PROXY_SERVER_NAME=my-example-sparql-server.org
 
-    # RDF of filename in folder ./data 
+    # RDF Catalog File Configuration
+    # RDF filename in ./data to be served at localhost/catalog.rdf and loaded to Virtuoso
     CATALOG_FILE=my-custom-catalog.rdf
 
     # Edit your custom SPARQL queries that load as tabs at startup
@@ -90,6 +98,7 @@ The endpoints will be available at:
     * Access your RDF file at: [`http://localhost:5000/catalog`](http://localhost:5000/catalog)
     * Default query editor (Yasgui): [`http://localhost:5000/sparql-editor`](http://localhost:5000/sparql-editor)
     * SPARQL endpoint: [`http://localhost:5000/sparql`](http://localhost5000/sparql)
+    * RDF syntactic/semantic validator: [`http://localhost:5000/validator`](http://localhost5000/validator)
 
 ## Project Structure
 ```sh
