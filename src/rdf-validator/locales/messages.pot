@@ -1,0 +1,114 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-04-11 09:03+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: app.py:86
+msgid "RDF Validator"
+msgstr ""
+
+#: app.py:87
+msgid ""
+"Valida archivos RDF utilizando [Apache Jena RIOT](https://jena.apache.org/"
+"documentation/io/) y [SHACL](https://www.w3.org/TR/shacl/)."
+msgstr ""
+
+#: app.py:152
+msgid "Opciones de Validación"
+msgstr ""
+
+#: app.py:157 app.py:163
+msgid "Archivo local"
+msgstr ""
+
+#: app.py:157
+msgid "URL externa"
+msgstr ""
+
+#: app.py:167
+msgid "No se encontraron archivos RDF en el directorio de datos."
+msgstr ""
+
+#: app.py:177
+msgid "URL del RDF"
+msgstr ""
+
+#: app.py:179
+msgid "Descargar RDF"
+msgstr ""
+
+#: app.py:180
+msgid "Descargando RDF desde URL..."
+msgstr ""
+
+#: app.py:184
+msgid "✅ RDF descargado correctamente"
+msgstr ""
+
+#: app.py:200 app.py:208
+msgid "Sintaxis (RIOT)"
+msgstr ""
+
+#: app.py:200
+msgid "Semántica (SHACL)"
+msgstr ""
+
+#: app.py:202
+msgid ""
+"Sintaxis: Valida la estructura RDF con Apache Jena RIOT. Semántica: Valida "
+"el contenido según reglas SHACL."
+msgstr ""
+
+#: app.py:212
+msgid "Formato de sintaxis"
+msgstr ""
+
+#: app.py:215
+msgid "Validar RDF"
+msgstr ""
+
+#: app.py:216
+msgid "Validando sintaxis RDF..."
+msgstr ""
+
+#: app.py:225
+msgid "Archivo"
+msgstr ""
+
+#: app.py:226
+msgid "Sintaxis"
+msgstr ""
+
+#: app.py:227
+msgid "Base URI"
+msgstr ""
+
+#: app.py:228
+msgid "Resultado"
+msgstr ""
+
+#: app.py:228
+msgid "Exitoso"
+msgstr ""
+
+#: app.py:228
+msgid "Fallido"
+msgstr ""
+
+#: app.py:229
+msgid "Tiempo"
+msgstr ""

@@ -1,0 +1,118 @@
+# English translations for PACKAGE package.
+# Copyright (C) 2025 THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+#  <codespace@codespaces-7d5204>, 2025.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-04-11 09:03+0000\n"
+"PO-Revision-Date: 2025-04-11 09:04+0000\n"
+"Last-Translator:  <codespace@codespaces-7d5204>\n"
+"Language-Team: English\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: app.py:86
+msgid "RDF Validator"
+msgstr "RDF Validator"
+
+#: app.py:87
+msgid ""
+"Valida archivos RDF utilizando [Apache Jena RIOT](https://jena.apache.org/"
+"documentation/io/) y [SHACL](https://www.w3.org/TR/shacl/)."
+msgstr ""
+"Validate RDF files using [Apache Jena RIOT](https://jena.apache.org/"
+"documentation/io/) and [SHACL](https://www.w3.org/TR/shacl/)."
+
+#: app.py:152
+msgid "Opciones de Validación"
+msgstr "Validation Options"
+
+#: app.py:157 app.py:163
+msgid "Archivo local"
+msgstr "Local file"
+
+#: app.py:157
+msgid "URL externa"
+msgstr "External URL"
+
+#: app.py:167
+msgid "No se encontraron archivos RDF en el directorio de datos."
+msgstr "No RDF files found in the data directory."
+
+#: app.py:177
+msgid "URL del RDF"
+msgstr "RDF URL"
+
+#: app.py:179
+msgid "Descargar RDF"
+msgstr "Download RDF"
+
+#: app.py:180
+msgid "Descargando RDF desde URL..."
+msgstr "Downloading RDF from URL..."
+
+#: app.py:184
+msgid "✅ RDF descargado correctamente"
+msgstr "✅ RDF downloaded successfully"
+
+#: app.py:200 app.py:208
+msgid "Sintaxis (RIOT)"
+msgstr "Syntax (RIOT)"
+
+#: app.py:200
+msgid "Semántica (SHACL)"
+msgstr "Semantics (SHACL)"
+
+#: app.py:202
+msgid ""
+"Sintaxis: Valida la estructura RDF con Apache Jena RIOT. Semántica: Valida "
+"el contenido según reglas SHACL."
+msgstr ""
+"Syntax: Validates the RDF structure with Apache Jena RIOT. Semantics: Validates "
+"the content according to SHACL rules."
+
+#: app.py:212
+msgid "Formato de sintaxis"
+msgstr "Syntax format"
+
+#: app.py:215
+msgid "Validar RDF"
+msgstr "Validate RDF"
+
+#: app.py:216
+msgid "Validando sintaxis RDF..."
+msgstr "Validating RDF syntax..."
+
+#: app.py:225
+msgid "Archivo"
+msgstr "File"
+
+#: app.py:226
+msgid "Sintaxis"
+msgstr "Syntax"
+
+#: app.py:227
+msgid "Base URI"
+msgstr "Base URI"
+
+#: app.py:228
+msgid "Resultado"
+msgstr "Result"
+
+#: app.py:228
+msgid "Exitoso"
+msgstr "Successful"
+
+#: app.py:228
+msgid "Fallido"
+msgstr "Failed"
+
+#: app.py:229
+msgid "Tiempo"
+msgstr "Time"

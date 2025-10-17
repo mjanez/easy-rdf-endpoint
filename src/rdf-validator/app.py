@@ -6,6 +6,7 @@ import time
 import requests
 from datetime import datetime
 from urllib.parse import urlparse
+import webbrowser
 
 # Importar módulos de validación
 from app_shacl_results_viewer import display_shacl_results
@@ -30,7 +31,16 @@ from config import (
     APP_DIR,
     SHACL_DIR,
     LOGS_DIR,
-    TEMP_DIR
+    TEMP_DIR,
+    HOME_URL
+)
+from i18n import _, language_selector
+
+# Initialize Streamlit app
+st.set_page_config(
+    page_title="RDF/XML Validator",
+    page_icon="✅",
+    layout="wide"
 )
 
 # Inicializar las claves de estado de sesión que necesitamos
@@ -73,16 +83,7 @@ def update_warnings_entity_filter():
 def update_warnings_property_filter():
     st.session_state.warnings_property_filter = st.session_state.get('warnings_property_filter_widget', [])
 
-# Inicialización después de configuración de página
-st.set_page_config(
-    page_title="RDF/XML Validator",
-    page_icon="✅",
-    layout="wide"
-)
-
-st.title("RDF Validator")
-st.write("Valida archivos RDF utilizando [Apache Jena RIOT](https://jena.apache.org/documentation/io/) y [SHACL](https://www.w3.org/TR/shacl/).")
-
+st.title(_("RDF Validator"))
 
 st.markdown(
     """
@@ -146,39 +147,42 @@ def download_rdf_from_url(url):
         }
 
 # UI principal
-st.sidebar.header("Opciones de Validación")
+st.sidebar.header(_("Opciones de Validación"))
+
+# Selector de idioma
+language_selector()
 
 # Selector de fuente de datos
 data_source = st.sidebar.radio(
         "Fuente de datos RDF",
-        options=["Archivo local", "URL externa"],
+        options=[_("Archivo local"), _("URL externa")],
         horizontal=True
 )
 
 # Variable para almacenar la ruta del archivo a validar
 
-if data_source == "Archivo local":
+if data_source == _("Archivo local"):
     # Lista de archivos RDF disponibles
     files = list_rdf_files()
     if not files:
-        st.warning("No se encontraron archivos RDF en el directorio de datos.")
+        st.warning(_("No se encontraron archivos RDF en el directorio de datos."))
     else:
         # Actualizar file_name y file_path en session_state
-        selected_file = st.sidebar.selectbox("Seleccionar archivo RDF", files)
+        selected_file = st.sidebar.selectbox(_("Seleccionar archivo RDF"), files)
         if selected_file != st.session_state.file_name:
             st.session_state.file_name = selected_file
             st.session_state.file_path = os.path.join(APP_DIR, selected_file)
             # Limpiar cualquier archivo descargado previo
             st.session_state.downloaded_file = None
 else:  # URL externa
-    rdf_url = st.sidebar.text_input("URL del RDF", "https://example.org/data.ttl")
+    rdf_url = st.sidebar.text_input(_("URL del RDF"), "https://example.org/data.ttl")
     
-    if st.sidebar.button("Descargar RDF"):
-        with st.spinner('Descargando RDF desde URL...'):
+    if st.sidebar.button(_("Descargar RDF")):
+        with st.spinner(_("Descargando RDF desde URL...")):
             download_result = download_rdf_from_url(rdf_url)
             
         if download_result["success"]:
-            st.sidebar.success("✅ RDF descargado correctamente")
+            st.sidebar.success(_("✅ RDF descargado correctamente"))
             # Guardar en session_state
             st.session_state.downloaded_file = download_result["file_path"]
             st.session_state.file_path = download_result["file_path"]
@@ -189,28 +193,28 @@ else:  # URL externa
 # Solo permitir validación si tenemos un archivo (ahora usando session_state)
 if st.session_state.file_path:
     # Mostrar el archivo actualmente seleccionado para mayor claridad
-    st.sidebar.info(f"📄 Archivo actual: **{os.path.basename(st.session_state.file_path)}**")
+    st.sidebar.info(f"📄 `dcat:Catalog`: **{os.path.basename(st.session_state.file_path)}**")
     
     # Radio para elegir tipo de validación
     validation_type = st.sidebar.radio(
         "Tipo de validación",
-        options=["Sintaxis (RIOT)", "Semántica (SHACL)"],
+        options=[_("Sintaxis (RIOT)"), _("Semántica (SHACL)")],
         horizontal=True,
-        help="Sintaxis: Valida la estructura RDF con Apache Jena RIOT. Semántica: Valida el contenido según reglas SHACL."
+        help=_("Sintaxis: Valida la estructura RDF con Apache Jena RIOT. Semántica: Valida el contenido según reglas SHACL.")
     )
 
     # Siempre usar None para logs_dir
     logs_dir_to_use = None
     
-    if validation_type == "Sintaxis (RIOT)":
+    if validation_type == _("Sintaxis (RIOT)"):
         # Opciones de validación RIOT
         base_uri = st.sidebar.text_input("Base URI", value="http://datos.gob.es/catalogo")
         syntax_options = ["RDF/XML", "Turtle", "N-Triples", "TriG", "N-Quads", "JSON-LD"]
-        syntax = st.sidebar.selectbox("Formato de sintaxis", syntax_options)
+        syntax = st.sidebar.selectbox(_("Formato de sintaxis"), syntax_options)
         
         # Botón para ejecutar validación
-        if st.sidebar.button("Validar RDF"):
-            with st.spinner('Validando sintaxis RDF...'):
+        if st.sidebar.button(_("Validar RDF")):
+            with st.spinner(_("Validando sintaxis RDF...")):
                 start_time = time.time()
                 # Usar la configuración de logs y st.session_state.file_path
                 result = validate_riot(st.session_state.file_path, base_uri, syntax, logs_dir=logs_dir_to_use)
@@ -219,11 +223,11 @@ if st.session_state.file_path:
                 if "log_content" in result:
                     # Crear metadatos para el log
                     metadata = {
-                        "Archivo": os.path.basename(st.session_state.file_path),
-                        "Sintaxis": syntax,
-                        "Base URI": base_uri,
-                        "Resultado": "Exitoso" if result["success"] else "Fallido",
-                        "Tiempo": f"{elapsed_time:.2f} segundos"
+                        _("Archivo"): os.path.basename(st.session_state.file_path),
+                        _("Sintaxis"): syntax,
+                        _("Base URI"): base_uri,
+                        _("Resultado"): _("Exitoso") if result["success"] else _("Fallido"),
+                        _("Tiempo"): f"{elapsed_time:.2f} segundos"
                     }
                     
                     # Guardar en la sesión del navegador

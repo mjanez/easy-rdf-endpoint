@@ -5,6 +5,8 @@ Define los perfiles disponibles, sus versiones, y los casos de validación.
 import os
 from rdflib import Namespace
 
+HOME_URL = os.environ.get("HOME_URL", "/")
+
 # Ruta base para los archivos SHACL (ajusta según tu entorno)
 APP_DIR = "/app/data"
 SHACL_DIR = f"{APP_DIR}/shacl"
